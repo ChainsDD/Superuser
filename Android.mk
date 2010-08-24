@@ -4,7 +4,7 @@ include $(CLEAR_VARS)
 LOCAL_PACKAGE_NAME := Superuser
 LOCAL_SRC_FILES := $(call all-java-files-under,src)
 
-LOCAL_CERTIFICATE := platform
+LOCAL_CERTIFICATE := superuser
 
 include $(BUILD_PACKAGE)
 
