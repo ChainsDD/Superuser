@@ -7,6 +7,7 @@
     <string name="permdesc_respond">Erlaubt den Anwendungen auf su-Anfragen zu reagieren.</string>
 
     <string name="new_su">Neue Version von su</string>
+    <string name="new_su_msg">Eine neue Version der su-Binärdatei ist verfügbar. Drücke \'Ok\', um zu versuchen, dieses automatisch zu installieren.</string>
     <string name="su_updated">su-Binary erfolgreich aktualisiert</string>
     <string name="su_not_updated_title">Automatisches Update fehlgeschlagen</string>
     <string name="su_not_updated">Ein Fehler ist aufgetreten. su wurde nicht aktualisiert. Eine ZIP-Datei wurde auf der SD-Karte abgelegt. Bitte ins Recovery booten und die Datei flashen, um su zu aktualisieren.</string>
@@ -64,6 +65,7 @@
     <string name="pref_notification_summary">Art der Benachrichtigung, wenn einer App su-Rechte gewährt wurden</string>
     <string name="pref_category_info_title">Superuser Information</string>
     <string name="pref_version_summary">Datenbank-Version %s</string>
+    <string name="pref_bin_version_summary">Drücken, um auf Updates zu prüfen</string>
 
     <string name="notification_text">%s wurden su-Rechte gewährt</string>
 </resources>
