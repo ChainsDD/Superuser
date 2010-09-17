@@ -62,6 +62,8 @@
     <string name="pref_category_info_title">Informazioni Superuser</string>
     <string name="pref_version_title">Superuser v%s</string>
     <string name="pref_version_summary">Versione Database %s</string>
+    <string name="pref_bin_version_title">Binario su v%s</string>
+    <string name="pref_bin_version_summary">Clicca per controllare se ci sono aggiornamenti</string>
 
     <string name="notification_text">%s ha ottenuto i permessi di root</string>
 </resources>
