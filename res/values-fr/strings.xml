@@ -36,7 +36,6 @@
     <string name="no_log_data">Aucun journal</string>
     <string name="last_allowed">Dernière autorisation :</string>
     <string name="last_denied">Dernier refus :</string>
-    <string name="empty">Aucune application dans la liste</string>
 
     <string name="detail_package">Paquet :</string>
     <string name="detail_request">IDU demandé :</string>

@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Superuser</string>
-    <string name="app_name_perms">Superuser</string>
     <string name="permlab_respond">reaguj na żądania SU</string>
     <string name="permdesc_respond">Zezwala aplikacji reagować na zapytania o dostęp SU</string>
     <string name="tab_apps">Aplikacje</string>
