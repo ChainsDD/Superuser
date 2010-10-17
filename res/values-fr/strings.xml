@@ -15,6 +15,19 @@
     <string name="checking">Vérification...</string>
     <string name="no_connection">Pas de connexion réseau. Impossible de chercher les mises à jour</string>
 
+    <string name="manifest_download_failed">Impossible de chercher les mises à jour</string>
+    <string name="su_original">original</string>
+
+    <string name="warning">Attention</string>
+    <string name="malicious_app_found">Le paquet %s demande la permission de répondre aux requêtes super-utilisateur. Il s\'agit probablement d\'une application malveillante qui essaye de s\'approprier les droits super-utilisateur sans votre consentement. Il est recommandé de la désinstaller maintenant.</string>
+    <string name="malicious_app_notification_ticker">Application malveillante détectée</string>
+    <string name="malicious_app_notification_text">%s est certainement malveillant.</string>
+    <string name="uninstall">Désinstaller</string>
+    <string name="uninstall_successful">Désinstallation terminée</string>
+    <string name="report_msg">Voulez-vous soumettre ce paquet au développeur de Super-utilisateur pour analyse ?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+
     <string name="tab_apps">Applis</string>
     <string name="tab_log">Journal</string>
     <string name="tab_settings">Paramètres</string>
@@ -36,6 +49,8 @@
     <string name="no_log_data">Aucun journal</string>
     <string name="last_allowed">Dernière autorisation :</string>
     <string name="last_denied">Dernier refus :</string>
+    <string name="empty_apps">Aucune appli dans la liste</string>
+    <string name="empty_logs">Aucun journal</string>
 
     <string name="detail_package">Paquet :</string>
     <string name="detail_request">IDU demandé :</string>
@@ -60,6 +75,7 @@
     <string name="pref_date_format_title">Format de date</string>
     <string name="pref_24_hour_title">Utiliser le format 24H</string>
     <string name="pref_show_seconds_title">Afficher les secondes</string>
+    <string name="pref_clear_log">Vider le journal</string>
     <string name="pref_category_notification_title">Notifications</string>
     <string name="pref_notifications_title">Notifications</string>
     <string name="pref_notifications_summary_on">Afficher un message lorsqu\'une application a accès aux droits super-utilisateur</string>
