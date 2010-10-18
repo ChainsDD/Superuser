@@ -2,6 +2,28 @@
 <resources>
     <string name="app_name_request">Superuser リクエスト</string>
     <string name="tab_apps">アプリ</string>
+
+    <string name="new_su">新しいバージョンのsu</string>
+    <string name="new_su_msg">新しいバージョンのsuバイナリが利用できます。\'Ok\'を押すとインストールが自動的に開始されます。</string>
+    <string name="su_updated">suバイナリの更新は成功しました</string>
+    <string name="su_not_updated_title">自動更新は失敗しました</string>
+    <string name="su_not_updated">エラーが発生し、suの更新は行われませんでした。zipファイル(su-2.3.1-bin-signed.zip)は、SDカードに保存されています。リカバリモードに再起動し、フラッシュしてsuバイナリの更新を行なってください。</string>
+    <string name="su_up_to_date">suは最新です</string>
+    <string name="checking">チェック中...</string>
+    <string name="no_connection">ネットワーク接続がありません。更新のチェックはできませんでした。</string>
+    <string name="manifest_download_failed">利用できるバージョンのチェックができませんでした。</string>
+    <string name="su_original">オリジナル</string>
+
+    <string name="warning">注意</string>
+    <string name="malicious_app_found">%sパッケージは、スーパーユーザ要求に対して応じるように設定されています。このアプリは悪意を持ってあなたの知らないうちにスーパーユーザアクセスの許諾をしているかもしれません。今すぐこのアプリをアンインストールすることをおすすめします。</string>
+    <string name="malicious_app_notification_ticker">危険なアプリを検出しました</string>
+    <string name="malicious_app_notification_text">%s は危険です</string>
+    <string name="uninstall">アンインストール</string>
+    <string name="uninstall_successful">アンインストール完了</string>
+    <string name="report_msg">調査のためにSuperuserの開発者にこのパッケージについて知らせますか？</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+
     <string name="tab_log">ログ</string>
     <string name="tab_settings">設定</string>
     <string name="allow">許可</string>
@@ -39,6 +61,8 @@
     <string name="last_allowed">最終許可:</string>
     <string name="last_denied">最終拒否:</string>
     <string name="empty_apps">リストは空です</string>
+    <string name="empty_logs">ログ情報はありません</string>
+
     <string name="pref_show_status_icons_title">ステータスアイコンを表示</string>
     <string name="pref_show_status_icons_summary_on">アプリごとにステータスアイコンを表示する</string>
     <string name="pref_show_status_icons_summary_off">アプリごとのステータスアイコンを表示しない</string>
@@ -48,8 +72,14 @@
     <string name="pref_date_format_title">日付の書式を選択</string>
     <string name="pref_24_hour_title">24時間表示を使用する</string>
     <string name="pref_show_seconds_title">秒を表示する</string>
+    <string name="pref_clear_log">Clear log</string>
     <string name="pref_notifications_title">通知</string>
     <string name="pref_notifications_summary_on">アプリケーションがSU権限を取得したときに通知する</string>
     <string name="pref_notifications_summary_off">アプリケーションがSU権限を取得しても通知しない</string>
     <string name="pref_category_info_title">Superuser 情報</string>
+    <string name="pref_version_title">Superuser v%s</string>
+    <string name="pref_version_summary">データベースバージョン %s</string>
+    <string name="pref_bin_version_title">Suバイナリ v%s</string>
+    <string name="pref_bin_version_summary">タップして更新をチェック</string>
+
 </resources>
