@@ -8,7 +8,7 @@
     <string name="deny">Zakázat</string>
     <string name="remember">Zapamatovat</string>
     <string name="uid">(uid: %d)</string>
-    <string name="request">%s jako %s (uid: %d)</string>
+    <string name="request">%1$s jako %2$s (uid: %3$d)</string>
     <string name="detail_package">Balík:</string>
     <string name="detail_request">Požadované UID:</string>
     <string name="detail_command">Příkaz:</string>

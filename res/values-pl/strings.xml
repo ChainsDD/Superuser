@@ -14,7 +14,7 @@
     <string name="deny">Odmów</string>
     <string name="remember">Zapamiętaj</string>
     <string name="uid">(uid: %d)</string>
-    <string name="request">%s jako %s (uid: %d)</string>
+    <string name="request">%1$s jako %2$s (uid: %3$d)</string>
     <string name="unknown">Nieznana nazwa</string>
     <string name="allowed">Zezwolony</string>
     <string name="denied">Odmowa</string>

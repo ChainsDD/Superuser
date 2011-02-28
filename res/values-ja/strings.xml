@@ -10,7 +10,7 @@
     <string name="deny">拒否</string>
     <string name="remember">記憶する</string>
     <string name="uid">(uid: %d)</string>
-    <string name="request">%s as %s (uid: %d)</string>
+    <string name="request">%1$s as %2$s (uid: %3$d)</string>
     <string name="detail_package">パッケージ:</string>
     <string name="detail_request">要求 UID:</string>
     <string name="detail_command">コマンド:</string>

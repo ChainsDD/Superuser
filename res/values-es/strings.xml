@@ -8,7 +8,7 @@
     <string name="deny">Denegar</string>
     <string name="remember">Recordar</string>
     <string name="uid">(uid: %d)</string>
-    <string name="request">%s es %s (uid: %d)</string>
+    <string name="request">%1$s es %2$s (uid: %3$d)</string>
     <string name="detail_package">Paquete:</string>
     <string name="detail_request">UID solicitado:</string>
     <string name="detail_command">Comando:</string>
