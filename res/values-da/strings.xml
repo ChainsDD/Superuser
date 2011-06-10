@@ -12,7 +12,7 @@
     <string name="deny">Afvis</string>
     <string name="remember">Husk</string>
     <string name="uid">(uid: %d)</string>
-    <string name="request">%s som %s (uid: %d)</string>
+    <string name="request">%1$s som %2$s (uid: %3$d)</string>
     <string name="unknown">Ukendt navn</string>
 
     <string name="allowed">Godkendt</string>

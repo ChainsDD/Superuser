@@ -34,7 +34,7 @@
     <string name="deny">拒绝</string>
     <string name="remember">记住</string>
     <string name="uid">(uid: %d)</string>
-    <string name="request">%s 作为 %s (uid: %d)</string>
+    <string name="request">%1$s 作为 %2$s (uid: %3$d)</string>
     <string name="unknown">未知名称</string>
     <string name="allowed">被允许</string>
     <string name="denied">被拒绝</string>

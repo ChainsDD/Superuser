@@ -12,7 +12,7 @@
     <string name="deny">Negar</string>
     <string name="remember">Lembrar</string>
     <string name="uid">(uid: %d)</string>
-    <string name="request">%s como %s (uid: %d)</string>
+    <string name="request">%1$s como %2$s (uid: %3$d)</string>
     <string name="unknown">Nome desconhecido</string>
 
     <string name="allowed">Permitido</string>

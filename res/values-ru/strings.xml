@@ -16,7 +16,7 @@
     <string name="deny">Запретить</string>
     <string name="remember">Запомнить</string>
     <string name="uid">(uid: %d)</string>
-    <string name="request">%s как %s (uid: %d)</string>
+    <string name="request">%1$s как %2$s (uid: %3$d)</string>
     <string name="unknown">Unknown name</string>
 
     <string name="allowed">Разрешено</string>

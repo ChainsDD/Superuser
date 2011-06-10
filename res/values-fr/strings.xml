@@ -25,7 +25,7 @@
     <string name="deny">Refuser</string>
     <string name="remember">Se souvenir</string>
     <string name="uid">(idu: %d)</string>
-    <string name="request">%s en tant que %s (idu : %d)</string>
+    <string name="request">%1$s en tant que %2$s (idu : %3$d)</string>
     <string name="unknown">Nom inconnu</string>
 
     <string name="allowed">Autorisé</string>

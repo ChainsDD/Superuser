@@ -37,7 +37,7 @@
     <string name="deny">Deny</string>
     <string name="remember">Remember</string>
     <string name="uid">(uid: %d)</string>
-    <string name="request">%s as %s (uid: %d)</string>
+    <string name="request">%1$s as %2$s (uid: %3$d)</string>
     <string name="unknown">Unknown name</string>
 
     <string name="allowed">Allowed</string>

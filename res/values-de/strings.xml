@@ -21,7 +21,7 @@
     <string name="deny">Verweigern</string>
     <string name="remember">Merken</string>
     <string name="uid">(uid: %d)</string>
-    <string name="request">%s als %s (uid: %d)</string>
+    <string name="request">%1$s als %2$s (uid: %3$d)</string>
     <string name="unknown">Unbekannter Name</string>
 
     <string name="allowed">Erlaubt</string>

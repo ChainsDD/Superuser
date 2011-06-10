@@ -8,7 +8,7 @@
     <string name="deny">Άκυρο</string>
     <string name="remember">Αποθήκευση</string>
     <string name="uid">(uid: %d)</string>
-    <string name="request">%s as %s (uid: %d)</string>
+    <string name="request">%1$s as %2$s (uid: %3$d)</string>
     <string name="detail_package">Πακέτο:</string>
     <string name="detail_request">Αίτηση από UID:</string>
     <string name="detail_command">Εντολή:</string>
