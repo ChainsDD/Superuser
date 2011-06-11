@@ -62,8 +62,8 @@ public class Updater {
                 expectedSuVersion += "-cd";
                 mBinaries = mManifest.getJSONObject("cd");
             } else {
-                expectedSuVersion += "-ef";
-                mBinaries = mManifest.getJSONObject("ef");
+                expectedSuVersion += "-efg";
+                mBinaries = mManifest.getJSONObject("efg");
             }
             if (mSuVersion == null || !mSuVersion.equals(expectedSuVersion)) {
                 Log.d(TAG, "System has outdated su, attempting to copy new version");
