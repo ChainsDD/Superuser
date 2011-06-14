@@ -12,9 +12,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -190,16 +190,19 @@ public class Su extends TabActivity {
         @Override
         protected String doInBackground(String... params) {
             PackageManager pm = mContext.getPackageManager();
-            List<ApplicationInfo> apps = pm.getInstalledApplications(0);
-            for (int i = 0; i < apps.size(); i++) {
-                ApplicationInfo app = apps.get(i);
-                if (!app.packageName.equals(mContext.getPackageName()) &&
-                        pm.checkPermission("com.noshufou.android.su.RESPOND", app.packageName) ==
-                            PackageManager.PERMISSION_GRANTED && 
-                            !mMaliciousAppPackage.equals(app.packageName)) {
-                    mMaliciousAppPackage = app.packageName;
-                    return app.packageName;
+            try {
+                String[] packages = pm.getPackagesForUid(
+                        pm.getApplicationInfo(mContext.getPackageName(), 0).uid);
+                for (String pkg : packages) {
+                    if (!pkg.equals("com.noshufou.android.su") &&
+                            !pkg.equals("com.noshufou.android.su.elite")) {
+                        mMaliciousAppPackage = pkg;
+                        return pkg;
+                    }
                 }
+            } catch (NameNotFoundException e) {
+                // This won't happen
+                Log.e(TAG, "You divided by zero...", e);
             }
             return null;
         }

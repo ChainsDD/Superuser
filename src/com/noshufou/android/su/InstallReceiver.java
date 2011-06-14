@@ -11,15 +11,25 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 
 public class InstallReceiver extends BroadcastReceiver {
+    private static final String TAG = "InstallReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         PackageManager pm = context.getPackageManager();
         String packageName = intent.getDataString().split(":")[1];
         Log.d("InstallReceiver", packageName);
+        int newAppUid = 0;
+        int superuserUid = 0;
         
-        if (pm.checkPermission("com.noshufou.android.su.RESPOND", packageName) ==
-                PackageManager.PERMISSION_GRANTED) {
+        try {
+            newAppUid = pm.getApplicationInfo(packageName, 0).uid;
+            superuserUid = pm.getApplicationInfo(context.getPackageName(), 0).uid;
+        } catch (NameNotFoundException e) {
+            // This can't happen
+            Log.e(TAG, "You divided by zero...", e);
+        }
+        
+        if (newAppUid == superuserUid && !packageName.equals("com.noshufou.android.su.elite")) {
             CharSequence appName = "";
             try {
                 appName = pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0));
