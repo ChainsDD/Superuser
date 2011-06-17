@@ -29,7 +29,9 @@ public class InstallReceiver extends BroadcastReceiver {
             Log.e(TAG, "You divided by zero...", e);
         }
         
-        if (newAppUid == superuserUid && !packageName.equals("com.noshufou.android.su.elite")) {
+        if (newAppUid == superuserUid ||
+                pm.checkPermission("com.noshufou.android.su.RESPOND", packageName) ==
+                    PackageManager.PERMISSION_GRANTED) {
             CharSequence appName = "";
             try {
                 appName = pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0));

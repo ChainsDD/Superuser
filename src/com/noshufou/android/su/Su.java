@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.TabActivity;
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
@@ -20,6 +22,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 public class Su extends TabActivity {
     private static final String TAG = "Su";
@@ -223,13 +226,31 @@ public class Su extends TabActivity {
         protected String doInBackground(String... params) {
             PackageManager pm = mContext.getPackageManager();
             try {
-                String[] packages = pm.getPackagesForUid(
+                // Check for packages implicitly granted respond permissions
+                // No app shall be allowed to share a UID with Superuser
+                String[] pkgsWithSuUID = pm.getPackagesForUid(
                         pm.getApplicationInfo(mContext.getPackageName(), 0).uid);
-                for (String pkg : packages) {
-                    if (!pkg.equals("com.noshufou.android.su") &&
-                            !pkg.equals("com.noshufou.android.su.elite")) {
+                for (String pkg : pkgsWithSuUID) {
+                    if (!pkg.equals(getPackageName()) && !pkg.equals(mMaliciousAppPackage)) {
                         mMaliciousAppPackage = pkg;
                         return pkg;
+                    }
+                }
+
+                // Check for packages explicitly granted respond permissions
+                List<PackageInfo> pkgs = pm.getInstalledPackages(PackageManager.GET_PERMISSIONS);
+                for (PackageInfo pkg : pkgs) {
+                    if (pkg.requestedPermissions != null) {
+                        for (String s : pkg.requestedPermissions) {
+                            if (!pkg.applicationInfo.packageName.equals(getPackageName()) &&
+                                    s.equals("com.noshufou.android.su.RESPOND") &&
+                                    pm.checkPermission("com.noshufou.android.su.RESPOND",
+                                            pkg.applicationInfo.packageName) ==
+                                                PackageManager.PERMISSION_GRANTED) {
+                                mMaliciousAppPackage = pkg.applicationInfo.packageName;
+                                return pkg.applicationInfo.packageName;
+                            }
+                        }
                     }
                 }
             } catch (NameNotFoundException e) {
