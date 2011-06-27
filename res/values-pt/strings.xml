@@ -87,7 +87,7 @@
     <string name="pref_bin_version_title">Binário do Su v%s</string>
     <string name="pref_bin_version_summary">Pressione para verificar se existem actualizações</string>
 
-    <string name="notification_text">Foi permitido permissões de SuperUser a %s </string>
+    <string name="notification_text">Foi adicionado permissões de SuperUser a %s </string>
 
     <!-- Do not translate -->
     <string name="report_subject">Possibly malicious app found</string>
