@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_tap_action_entries">
+        <item>App-detaljer</item>
+        <item>Gröm</item>
+        <item>Växla tillstånd</item>
+    </string-array>
+
+    <string-array name="pref_status_icon_type_entries">
+    	<item>Punkt</item>
+    	<item>Emotikon</item>
+    </string-array>
+
+    <string-array name="pref_date_format_entries">
+    	<item>System-standard</item>
+    	<item>12/31/2010</item>
+    	<item>31/12/2010</item>
+    	<item>2010/12/31</item>
+    </string-array>
+
+    <string-array name="pref_notification_entries">
+        <item>Toast</item>
+        <item>Avisering</item>
+    </string-array>
+</resources>
