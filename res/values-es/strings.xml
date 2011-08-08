@@ -18,10 +18,10 @@
     <string name="request_message">La siguiente aplicación ha solicitado acceso de superusuario:</string>
     <string name="request_app_name">App:</string>
     <string name="preferences">Preferencias</string>
-    <string name="pref_category_whitelist_title">Prefere ncias lista blanca</string>
+    <string name="pref_category_whitelist_title">Preferencias de la lista blanca</string>
     <string name="pref_tap_action_title">Pulse acción</string>
     <string name="pref_tap_action_summary">Acción a ejecutar al pulsar una entrada</string>
-    <string name="pref_category_notification_title">Noti ficaciones</string>
+    <string name="pref_category_notification_title">Notificaciones</string>
     <string name="pref_notification_title">Notificación</string>
-    <string name="pref_notification_summary">Mostrar una notificación cuando una aplicación obtenga permisos de superusuario</string>
+    <string name="pref_notification_summary">Mostrar una notificación cuando una aplicación obtenga permisos de SuperUser.</string>
 </resources>
