@@ -2,7 +2,7 @@
 <resources>
     <string-array name="pref_tap_action_entries">
         <item>App-detaljer</item>
-        <item>Gröm</item>
+        <item>Glöm</item>
         <item>Växla tillstånd</item>
     </string-array>
 
