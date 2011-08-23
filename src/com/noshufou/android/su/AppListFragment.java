@@ -42,8 +42,6 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
     private String mStatusIconType = null;
     private int mPinnedHeaderBackgroundColor;
     private AppListAdapter mAdapter;
-    private boolean mDualPane;
-    private int mCurCheckPosition = -1;
     private LinearLayout mLoadingLayout = null;
     
     @Override
@@ -62,19 +60,6 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
         
         setupListView();
         getLoaderManager().initLoader(0, null, this);
-        
-        // Check for second pane
-        View detailsFrame = getActivity().findViewById(R.id.fragment_container);
-        mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
-        
-        if (mDualPane) {
-            getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            if (savedInstanceState != null) {
-                Log.d(TAG, "AppListFragment, Restoring savedInstanceState");
-                mCurCheckPosition = savedInstanceState.getInt("curChoice", -1);
-            } 
-        }
-        
     }
     
     @Override
@@ -109,20 +94,10 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
             getLoaderManager().restartLoader(0, null, this);
         }
     }
-
+    
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         ((HomeActivity)getActivity()).showDetails(id);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d(TAG, "Saving instance state");
-        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (fragment instanceof AppDetailsFragment) {
-            outState.putInt("curChoice", mCurCheckPosition);
-        }
     }
 
     private void setupListView() {

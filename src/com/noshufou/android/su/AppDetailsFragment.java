@@ -220,7 +220,7 @@ public class AppDetailsFragment extends ListFragment
             popup.show();
             break;
         case R.id.close_button:
-            ((HomeActivity)getActivity()).showLog();
+            ((HomeActivity)getActivity()).closeDetails();
             break;
         }
     }

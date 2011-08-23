@@ -10,12 +10,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
 import com.noshufou.android.su.util.Util;
@@ -28,6 +30,8 @@ public class HomeActivity extends FragmentActivity {
     private static final int MENU_EXTRAS = 0;
     private static final int MENU_CLEAR_LOG = 1;
     private static final int MENU_PREFERENCES = 2;
+    
+    private static final String STATE_SHOW_DETAILS = "show_details";
     
     private boolean mDualPane = false;
     
@@ -42,7 +46,11 @@ public class HomeActivity extends FragmentActivity {
         
         if (findViewById(R.id.fragment_container) != null) {
             mDualPane = true;
-            showLog();
+            ((AppListFragment)getSupportFragmentManager().findFragmentById(R.id.app_list))
+                    .getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            if (savedInstanceState == null) {
+                showLog();
+            }
         } else {
             mPager = (ViewPager)findViewById(R.id.pager);
             PagerAdapter pagerAdapter = new PagerAdapter(this,
@@ -97,18 +105,32 @@ public class HomeActivity extends FragmentActivity {
     
     public void showDetails(long id) {
         if (mDualPane) {
-            Bundle bundle = new Bundle();
-            bundle.putLong("index", id);
-            Fragment detailsFragment = 
-                    Fragment.instantiate(this, AppDetailsFragment.class.getName(), bundle);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            transaction.replace(R.id.fragment_container, detailsFragment);
-            transaction.commit();
+            Fragment fragment = getSupportFragmentManager()
+                    .findFragmentById(R.id.fragment_container);
+            if (fragment instanceof AppDetailsFragment) {
+                ((AppDetailsFragment)fragment).setShownIndex(id);
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putLong("index", id);
+                Fragment detailsFragment = 
+                        Fragment.instantiate(this, AppDetailsFragment.class.getName(), bundle);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                transaction.replace(R.id.fragment_container, detailsFragment);
+                transaction.addToBackStack(STATE_SHOW_DETAILS);
+                transaction.commit();
+            }
         } else {
             Intent intent = new Intent(this, AppDetailsActivity.class);
             intent.putExtra("index", id);
             startActivity(intent);
+        }
+    }
+    
+    public void closeDetails() {
+        if (mDualPane) {
+            getSupportFragmentManager()
+                    .popBackStack(STATE_SHOW_DETAILS, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
     }
     
