@@ -20,30 +20,10 @@
     android:orientation="vertical">
 
     <LinearLayout style="@style/TitleBar">
-        <ImageView style="@style/TitleBarLogo"
+        <ImageView android:id="@android:id/home"
+            style="@style/TitleBarLogo"
             android:src="@drawable/title_logo" />
         
-        <View style="@style/TitleBarSpring" />
-        
-        <ImageView style="@style/TitleBarSeparator" />
-        <ImageButton style="@style/TitleBarAction"
-            android:id="@+id/extras_button"
-            android:contentDescription="@string/description_extras"
-            android:src="@drawable/ic_title_star" />
-            
-        <ImageView style="@style/TitleBarSeparator" />
-        <ImageButton style="@style/TitleBarAction"
-            android:id="@+id/clear_log_button"
-            android:contentDescription="@string/description_log"
-            android:src="@drawable/ic_title_clear_log"
-            android:onClick="clearLog" />
-        
-        <ImageView style="@style/TitleBarSeparator" />
-        <ImageButton style="@style/TitleBarAction"
-            android:id="@+id/preferences_button"
-            android:contentDescription="@string/description_preferences"
-            android:src="@drawable/ic_title_preferences"
-            android:onClick="gotoPrefs" />
     </LinearLayout>
 
     <LinearLayout
