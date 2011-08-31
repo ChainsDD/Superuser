@@ -7,7 +7,7 @@
     </string-array>
 
     <!-- Do not translate. -->
-    <string-array name="pref_tap_action_values">
+    <string-array name="pref_tap_action_values" translatable="false">
         <item>detail</item>
         <item>forget</item>
         <item>toggle</item>
@@ -19,7 +19,7 @@
     </string-array>
     
     <!-- Do not translate. -->
-    <string-array name="pref_status_icon_type_values">
+    <string-array name="pref_status_icon_type_values" translatable="false">
     	<item>dot</item>
     	<item>emote</item>
     </string-array>
@@ -32,7 +32,7 @@
     </string-array>
     
     <!-- Do not translate. -->
-    <string-array name="pref_date_format_values">
+    <string-array name="pref_date_format_values" translatable="false">
     	<item>default</item>
     	<item>MM/dd/yyyy</item>
     	<item>dd/MM/yyyy</item>
@@ -45,7 +45,7 @@
     </string-array>
 
     <!-- Do not translate. -->
-    <string-array name="pref_notification_values">
+    <string-array name="pref_notification_values" translatable="false">
         <item>toast</item>
         <item>notification</item>
     </string-array>

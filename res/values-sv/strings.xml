@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Superuser</string>
+    <string name="app_name_request">Superuser-förfrågan</string>
+    
+    <string name="permlab_respond">svara på superuser-förfrågningar</string>
+    <string name="permdesc_respond">Tillåter applikationen att svara på förfrågningar om superuser-åtkomst.</string>
+    
+    <string name="new_su">Ny version av su</string>
+    <string name="new_su_msg">Det finns en ny version av su-binären tillgänglig. Tryck \'Ok\' för att försöka att installera den automatiskt.</string>
+    <string name="su_updated">lyckad uppdatering av su-binär</string>
+    <string name="su_not_updated_title">Automatisk uppdatering misslyckades</string>
+    <string name="su_not_updated">Ett fel inträffade och su uppdaterades inte. En zip-fil (su-2.3.1-bin-signed.zip) har lagts på ditt SD-kort. Starta om i Recovery-läge och flasha denna för att uppdatera din su-binär.</string>
+    <string name="su_up_to_date">su är aktuell</string>
+    <string name="checking">Söker...</string>
+    <string name="no_connection">Ingen nätverksanslutning. Kunde inte söka efter uppdateringar</string>
+    <string name="manifest_download_failed">Misslyckades att söka efter tillgänglig version</string>
+    <string name="su_original">original</string>
+    
+    <string name="warning">Varning</string>
+    <string name="malicious_app_found">Paket %s begärde rättighet att få svara på Superuser-förfrågningar. Sannolikt är detta en skadlig app som försöker tillåta superuser-åtkomst utan din vetskap. Du rekommenderas avinstallera denna nu.</string>
+    <string name="malicious_app_notification_ticker">Potentiellt skadlig app hittad</string>
+    <string name="malicious_app_notification_text">%s kan vara skadlig.</string>
+    <string name="uninstall">Avinstallera</string>
+    <string name="uninstall_successful">Avinstallation klar</string>
+    <string name="report_msg">Vill du rapportera detta paket till Superuser-utvecklaren för utredning?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nej</string>
+    
+    <string name="tab_apps">Appar</string>
+    <string name="tab_log">Logg</string>
+    <string name="tab_settings">Inställningar</string>
+
+    <string name="allow">Tillåt</string>
+    <string name="forget">Glöm</string>
+    <string name="cancel">Avbryt</string>
+    <string name="deny">Neka</string>
+    <string name="remember">Kom ihåg</string>
+    <string name="uid">(uid: %d)</string>
+    <string name="request">%1$s som %2$s (uid: %3$d)</string>
+    <string name="unknown">Okänt namn</string>
+
+    <string name="allowed">Tillåten</string>
+    <string name="denied">Nekad</string>
+    <string name="created">Skapad</string>
+    <string name="toggled">Växlad</string>
+
+    <string name="no_log_data">Ingen loggdata</string>
+    <string name="last_allowed">Senast tillåten:</string>
+    <string name="last_denied">Senast nekad:</string>
+    <string name="empty_apps">Inga appar i listan</string>
+    <string name="empty_logs">Ingen logginformation</string>
+
+    <string name="detail_package">Paket:</string>
+    <string name="detail_request">Begärd UID:</string>
+    <string name="detail_command">Kommando:</string>
+    <string name="detail_status">Status:</string>
+    <string name="detail_created">Skapad:</string>
+    <string name="detail_last_accessed">Senast använd:</string>
+
+    <string name="request_message">Följande app efterfrågar superuser-åtkomst:</string>
+    <string name="request_app_name">App:</string>
+
+    <string name="preferences">Inställningar</string>
+    <string name="pref_category_whitelist_title">App-lista</string>
+    <string name="pref_tap_action_title">Tryckåtgärd</string>
+    <string name="pref_tap_action_summary">Åtgärd att utföra vid tryck på en post</string>
+    <string name="pref_show_status_icons_title">Visa statusikoner</string>
+    <string name="pref_show_status_icons_summary_on">Visa ikoner för var apps status</string>
+    <string name="pref_show_status_icons_summary_off">Visa inte ikoner för var apps status</string>
+    <string name="pref_status_icon_type_title">Typ av statusikon</string>
+    <string name="pref_status_icon_type_summary">Stil för visning av statusikon</string>
+    <string name="pref_category_log_title">Logg</string>
+    <string name="pref_date_format_title">Välj datumformat</string>
+    <string name="pref_24_hour_title">Använd 24-timmars format</string>
+    <string name="pref_show_seconds_title">Visa sekunder</string>
+    <string name="pref_clear_log">Rensa logg</string>
+    <string name="pref_category_notification_title">Aviseringar</string>
+    <string name="pref_notifications_title">Aviseringar</string>
+    <string name="pref_notifications_summary_on">Visa aviseringar när en app beviljas su-rättigheter</string>
+    <string name="pref_notifications_summary_off">Visa inte aviseringar när en app beviljas su-rättigheter</string>
+    <string name="pref_notification_title">Aviseringstyp</string>
+    <string name="pref_notification_summary">Typ av avisering att visa när en app beviljas su-rättigheter</string>
+    <string name="pref_category_info_title">Superuser information</string>
+    <string name="pref_version_title">Superuser v%s</string>
+    <string name="pref_version_summary">Databasversion %s</string>
+    <string name="pref_bin_version_title">Su binär v%s</string>
+    <string name="pref_bin_version_summary">Tryck för att söka efter uppdateringar</string>
+
+    <string name="notification_text">%s har beviljats Superuser-rättigheter</string>
+</resources>
