@@ -22,12 +22,14 @@
     <style name="Theme.Superuser" parent="android:style/Theme.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
-<!--        <item name="android:windowBackground">@color/title_background</item>-->
+       <item name="android:windowBackground">@color/title_background</item>
     </style>
     
     <style name="Theme.Superuser.Preferences" parent="style/Theme.Superuser">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+    
+    <style name="Dialog" parent="android:style/Theme.Dialog" />
     
     <style name="Theme.Dialog.Alert" parent="android:Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>

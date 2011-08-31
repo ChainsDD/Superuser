@@ -41,8 +41,8 @@
   <string name="log_last_accessed">Laatst geraadpleegd op %1$s om %2$s</string>
   <string name="log_last_allowed">Laatst toegestaan op %1$s om %2$s</string>
   <string name="log_last_denied">Laatst geweigerd op %1$s om %2$s</string>
-  <string name="log_last_toggled">Laatst gewisseld op% 1 $ s om% 2 $ s</string>
-  <string name="log_created_on">Gemaakt op% 1 $ s om% 2 $ s</string>
+  <string name="log_last_toggled">Laatst gewisseld op %1$s om %2$s</string>
+  <string name="log_created_on">Gemaakt op %1$s om %2$s</string>
   <string name="detail_package">Pakket</string>
   <string name="detail_app_uid">App UID</string>
   <string name="detail_request">Gevraagde UID</string>
@@ -57,7 +57,7 @@
   <string name="pref_pin_summary_off">Verzoek scherm zal geen PIN-code vereisen</string>
   <string name="pref_change_pin_title">Verander PIN</string>
   <string name="pref_timeout_title">Toegang timeout</string>
-  <string name="pref_timeout_summary">Apps die niet onthouden worden, hebben voor %1$ d seconden na  het verzoek toegang</string>
+  <string name="pref_timeout_summary">Apps die niet onthouden worden, hebben voor %1$d seconden na  het verzoek toegang</string>
   <string name="pref_automatic_action_title">Automatische reactie</string>
   <string name="pref_automatic_action_summary">Stel de manier in waarop Superuser nieuwe aanvragen verwerkt</string>
   <string name="pref_ghost_mode_title">Ghost modus</string>
@@ -66,7 +66,7 @@
   <string name="pref_ghost_mode_message">Ghost-modus verbergt de Superuser icoon uit de launcher. De pictogram zal worden verborgen de volgende keer dat de launcher opnieuw wordt opgestart. Zodra het pictogram niet zichtbaar is, kun je toegang krijgen tot de superuser applicatie door de geheime code in de telefoon kiezer in te voeren. De standaard geheime code is * # * # 787378737 # * # * (*#*# superuser #*#*), maar de cijfers kunnen gewijzigd worden.\n\n Merk op dat indien uw telefoon niet over een kiezer beschikt het niet aan te raden is om ghost-modus te activeren.\n\n Ghost modus nu activeren?</string>
   <string name="pref_ghost_mode_enabled_message">Ghost modus ingeschakeld. Herstart de launcher uw telefoon om de verandering door te voeren</string>
   <string name="pref_secret_code_title">Geheime code</string>
-  <string name="pref_secret_code_summary">Geheime code is *#*#% 1 $ s # * # *</string>
+  <string name="pref_secret_code_summary">Geheime code is *#*#%1$s#*#*</string>
   <string name="pref_category_applist_title">Apps lijst</string>
   <string name="pref_show_status_icons_title">Toon status pictogrammen</string>
   <string name="pref_show_status_icons_summary_on">Toon pictogramman voor destatus van elke applicatie</string>
@@ -84,7 +84,7 @@
   <string name="pref_delete_old_logs_summary_on">Verwijder oude logboekvermeldingen als limiet is bereikt</string>
   <string name="pref_delete_old_logs_summary_off">Verwijder oude logboekvermeldingen niet als limiet bereikt is</string>
   <string name="pref_log_entry_limit_title">Logboek limiet</string>
-  <string name="pref_log_entry_limit_summary">% 1 $ d logboekvermeldingen</string>
+  <string name="pref_log_entry_limit_summary">%1$d logboekvermeldingen</string>
   <string name="pref_log_entries_to_save">Stel het aantal logboekvermeldingen in om op te slaan</string>
   <string name="pref_24_hour_title">Gebruik 24-uur formaat</string>
   <string name="pref_24_hour_summary_on">Log tijden zullen in 24-uur formaat weergeven worden</string>
@@ -112,10 +112,10 @@
   <string name="pref_write_allow_tag_title">Schrijven nieuwe toegang tag</string>
   <string name="pref_write_allow_tag_summary">Schrijf een nieuwe tag om gebruikt te worden bij het toestemmen</string>
   <string name="pref_category_info_title">Superuser informatie</string>
-  <string name="pref_version_title">Superuser v% 1 $ s (% 2 $ d)</string>
+  <string name="pref_version_title">Superuser v%1$s (%2$d)</string>
   <string name="pref_version_summary">Databaseversie %s</string>
   <string name="pref_bin_version_title_loading">Su applicatie versie wordt geladen</string>
-  <string name="pref_bin_version_title">Su binaire v% s</string>
+  <string name="pref_bin_version_title">Su binaire v%s</string>
   <string name="pref_bin_version_summary">Tik om te controleren op updates</string>
   <string name="pref_changelog_title">Wijzigingen</string>
   <string name="pref_changelog_summary">De wijzigingen weergeven</string>
@@ -176,7 +176,7 @@
   <string name="changelog_title">Wat is er nieuw</string>
   <plurals name="pref_logs_deleted">
     <item quantity="one">Een log verwijderd</item>
-    <item quantity="other">% 1 $ d logs verwijderd</item>
+    <item quantity="other">%1$d logs verwijderd</item>
   </plurals>
   <plurals name="pin_incorrect_try">
     <item quantity="one">Laatste kans</item>

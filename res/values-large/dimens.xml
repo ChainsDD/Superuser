@@ -16,4 +16,5 @@
 -->
 <resources>
     <dimen name="list_item_padding_right">20dp</dimen>
+    <dimen name="home_activity_horiz_padding">80dp</dimen>
 </resources>

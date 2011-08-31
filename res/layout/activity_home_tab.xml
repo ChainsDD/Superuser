@@ -30,18 +30,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:paddingLeft="80dp"
-        android:paddingRight="80dp">
+        android:paddingLeft="@dimen/home_activity_horiz_padding"
+        android:paddingRight="@dimen/home_activity_horiz_padding">
         <FrameLayout android:id="@+id/app_list_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.75"
             android:paddingTop="24dp"
             android:background="@drawable/left_panel_background">
-        <fragment class="com.noshufou.android.su.AppListFragment"
-            android:id="@+id/app_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <fragment class="com.noshufou.android.su.AppListFragment"
+                android:id="@+id/app_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </FrameLayout>
         <FrameLayout android:id="@+id/fragment_container"
             android:layout_width="0dp"

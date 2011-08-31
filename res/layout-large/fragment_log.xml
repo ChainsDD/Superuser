@@ -48,11 +48,7 @@
         android:background="@drawable/right_panel_background">
         <ImageButton android:id="@+id/clear_log_button"
             style="@style/OptionsButton"
-            android:src="@drawable/ic_title_clear_log" />
-<!--        <ImageButton android:id="@+id/extras_button"-->
-<!--            style="@style/OptionsButton"-->
-<!--            android:src="@drawable/ic_menu_star"-->
-<!--            android:onClick="onOptionClick" />-->
+            android:src="@drawable/ic_btn_clear_log" />
         <ImageView style="@style/OptionsDivider" />
     </LinearLayout>
 </LinearLayout>

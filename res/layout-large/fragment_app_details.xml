@@ -117,20 +117,20 @@
         android:background="@drawable/right_panel_background">
         <ImageButton android:id="@+id/close_button"
             style="@style/OptionsButton"
-            android:src="@drawable/ic_menu_close" />
+            android:src="@drawable/ic_btn_close" />
         <ImageButton android:id="@+id/toggle_button"
             style="@style/OptionsButton"
-            android:src="@drawable/ic_menu_toggle" />
+            android:src="@drawable/ic_btn_toggle" />
         <ImageButton android:id="@+id/forget_button"
             style="@style/OptionsButton"
-            android:src="@drawable/ic_menu_delete" />
+            android:src="@drawable/ic_btn_delete" />
         <ImageButton android:id="@+id/clear_log_button"
             style="@style/OptionsButton"
-            android:src="@drawable/ic_title_clear_log" />
+            android:src="@drawable/ic_btn_clear_log" />
         <ImageButton android:id="@+id/more_button"
             style="@style/OptionsButton"
             android:visibility="gone"
-            android:src="@drawable/ic_menu_more" />
+            android:src="@drawable/ic_btn_more" />
         <ImageView style="@style/OptionsDivider" />
     </LinearLayout>
 </LinearLayout>

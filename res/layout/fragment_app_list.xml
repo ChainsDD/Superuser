@@ -40,6 +40,7 @@
     <com.noshufou.android.su.widget.PinnedHeaderListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:listSelector="@drawable/list_selector" />
+        android:layout_height="wrap_content"
+        android:listSelector="@drawable/app_list_selector"
+        android:background="@drawable/app_list_background" />
 </LinearLayout>

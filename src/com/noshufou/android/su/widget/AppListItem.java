@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.noshufou.android.su.R;
 
 public class AppListItem extends ViewGroup implements Checkable {
+//    private static final String TAG = "Su.AppListItem";
 
     private final Context mContext;
 
@@ -242,7 +243,7 @@ public class AppListItem extends ViewGroup implements Checkable {
             mHeaderBackgroundHeight = mHeaderBackgroundDrawable.getIntrinsicHeight();
         }
     }
-
+    
     @Override
     public void dispatchDraw(Canvas canvas) {
         if (mHeaderVisible) {
@@ -379,11 +380,12 @@ public class AppListItem extends ViewGroup implements Checkable {
     @Override
     public void setChecked(boolean checked) {
         mChecked = checked;
-        setBackgroundResource(checked?R.drawable.list_activated:R.drawable.list_normal);
+        setBackgroundResource(checked?R.drawable.list_activated:android.R.color.transparent);
     }
 
     @Override
     public void toggle() {
         setChecked(!mChecked);
     }
+
 }

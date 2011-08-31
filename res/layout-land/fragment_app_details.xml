@@ -38,23 +38,23 @@
         <ImageView style="@style/TitleBarSeparator" />
         <ImageButton style="@style/TitleBarAction"
             android:id="@+id/toggle_button"
-            android:src="@drawable/ic_title_toggle" />
+            android:src="@drawable/ic_btn_toggle" />
             
         <ImageView style="@style/TitleBarSeparator" />
         <ImageButton style="@style/TitleBarAction"
             android:id="@+id/forget_button"
-            android:src="@drawable/ic_title_delete" />
+            android:src="@drawable/ic_btn_delete" />
             
         <ImageView style="@style/TitleBarSeparator" />
         <ImageButton style="@style/TitleBarAction"
             android:id="@+id/clear_log_button"
-            android:src="@drawable/ic_title_clear_log" />
+            android:src="@drawable/ic_btn_clear_log" />
             
         <ImageView style="@style/TitleBarSeparator" />
         <ImageButton style="@style/TitleBarAction"
             android:id="@+id/more_button"
             android:visibility="gone"
-            android:src="@drawable/ic_title_more" />
+            android:src="@drawable/ic_btn_more" />
 
     </LinearLayout>
 

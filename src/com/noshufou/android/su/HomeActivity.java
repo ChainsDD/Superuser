@@ -25,9 +25,9 @@ import com.noshufou.android.su.widget.ChangeLog;
 import com.noshufou.android.su.widget.PagerHeader;
 
 public class HomeActivity extends FragmentActivity {
-    private static final String TAG = "Su.HomeActivity";
+//    private static final String TAG = "Su.HomeActivity";
     
-    private static final int MENU_EXTRAS = 0;
+    private static final int MENU_ELITE = 0;
     private static final int MENU_CLEAR_LOG = 1;
     private static final int MENU_PREFERENCES = 2;
     
@@ -72,20 +72,34 @@ public class HomeActivity extends FragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.noshufou.android.su.elite",
-                "com.noshufou.android.su.elite.FeaturedAppsActivity"));
-        intent.addCategory(Intent.CATEGORY_ALTERNATIVE);
-        menu.addIntentOptions(Menu.NONE, MENU_EXTRAS, MENU_EXTRAS,
-                this.getComponentName(), null, intent, 0, null);
+        if (Util.elitePresent(this, false, 0)) {
+            MenuItem item = menu.add(Menu.NONE, MENU_ELITE,
+                    MENU_ELITE, R.string.menu_extras);
+            item.setIcon(R.drawable.ic_menu_star);
+            try {
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            } catch (NoSuchMethodError e) {
+                // Don't care, this just means we're not on Honeycomb
+            }
+        }
 
         MenuItem item = menu.add(Menu.NONE, MENU_CLEAR_LOG,
                 MENU_CLEAR_LOG, R.string.menu_clear_log);
-        item.setIcon(android.R.drawable.ic_menu_delete);
+        item.setIcon(R.drawable.ic_menu_clear_log);
+        try {
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        } catch (NoSuchMethodError e) {
+            // Don't care, this just means we're not on Honeycomb
+        }
 
         item = menu.add(Menu.NONE, MENU_PREFERENCES,
                 MENU_PREFERENCES, R.string.menu_preferences);
-        item.setIcon(android.R.drawable.ic_menu_preferences);
+        item.setIcon(R.drawable.ic_menu_preferences);
+        try {
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        } catch (NoSuchMethodError e) {
+            // Don't care, this just means we're not on Honeycomb
+        }
 
         return true;
     }
@@ -93,6 +107,12 @@ public class HomeActivity extends FragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+        case MENU_ELITE:
+            Intent intent = new Intent();
+            intent.setComponent(new ComponentName("com.noshufou.android.su.elite",
+                    "com.noshufou.android.su.elite.FeaturedAppsActivity"));
+            startActivity(intent);
+            break;
         case MENU_CLEAR_LOG:
             getContentResolver().delete(Logs.CONTENT_URI, null, null);
             break;
