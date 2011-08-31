@@ -33,7 +33,6 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -58,7 +57,7 @@ import com.noshufou.android.su.widget.PinnedHeaderListView;
 
 public class AppDetailsFragment extends ListFragment
     implements LoaderManager.LoaderCallbacks<Cursor>, FragmentWithLog, OnClickListener {
-    private static final String TAG = "Su.AppDetailsFragment";
+//    private static final String TAG = "Su.AppDetailsFragment";
 
     private TextView mAppName = null;
     private ImageView mAppIcon = null;
@@ -88,7 +87,6 @@ public class AppDetailsFragment extends ListFragment
     LogAdapter mAdapter = null;
     
     public static AppDetailsFragment newInstance(long index) {
-        Log.d(TAG, "AppDetailsFragment, newInstance()");
         AppDetailsFragment fragment = new AppDetailsFragment();
         
         Bundle args = new Bundle();
@@ -99,12 +97,10 @@ public class AppDetailsFragment extends ListFragment
     }
     
     public long getShownIndex() {
-        Log.d(TAG, "AppDetailsFragment, getShownIndex()");
         return mShownIndex;
     }
     
     public void setShownIndex(long index) {
-        Log.d(TAG, "AppDetailsFragment, setShownIndex()");
         mShownIndex = index;
         getLoaderManager().restartLoader(DETAILS_LOADER, null, this);
         getLoaderManager().restartLoader(LOG_LOADER, null, this);
@@ -113,8 +109,6 @@ public class AppDetailsFragment extends ListFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        Log.d(TAG, "AppDetailsFragment, onCreateView()");
-        Log.d(TAG, "AppDetailsFragment, mShownIndex = " + mShownIndex);
         if (container == null) {
             return null;
         }
@@ -147,8 +141,6 @@ public class AppDetailsFragment extends ListFragment
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Log.d(TAG, "AppDetailsFragment, onActivityCreated()");
-        Log.d(TAG, "AppDetailsFragment, mShownIndex = " + mShownIndex);
         super.onActivityCreated(savedInstanceState);
 
         FrameLayout fragmentContainer = (FrameLayout) getActivity()
@@ -159,8 +151,6 @@ public class AppDetailsFragment extends ListFragment
         
         if (savedInstanceState != null && 
                 savedInstanceState.containsKey("mShownIndex")) {
-            Log.d(TAG, "AppDetailsFragment, Restoring savedInstanceState");
-            Log.d(TAG, "AppDetailsFragment, mShownIndex = " + mShownIndex);
             mShownIndex = savedInstanceState.getLong("mShownIndex");
         } else {
             mShownIndex = getArguments().getLong("index", 0);
@@ -192,9 +182,6 @@ public class AppDetailsFragment extends ListFragment
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Log.d(TAG, "AppDetailsFragment, onSaveIntanceState()");
-        Log.d(TAG, "AppDetailsFragment, mShownIndex = " + mShownIndex);
-        
         if (mShownIndex != -1) {
             outState.putLong("mShownIndex", mShownIndex);
         }
@@ -215,7 +202,6 @@ public class AppDetailsFragment extends ListFragment
                 clearLog();
             break;
         case R.id.more_button:
-            Log.d(TAG, "more button clicked");
             MoreOptionsPopup popup = new MoreOptionsPopup(view);
             popup.show();
             break;
@@ -243,7 +229,6 @@ public class AppDetailsFragment extends ListFragment
     
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "requestCode = " + requestCode + ", resultCode = " + resultCode);
         if (resultCode == Activity.RESULT_OK) {
             doToggle();
         }
@@ -304,8 +289,6 @@ public class AppDetailsFragment extends ListFragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.d(TAG, "AppDetailsFragment, onCreateLoader()");
-        Log.d(TAG, "AppDetailsFragment, mShownIndex = " + mShownIndex);
         switch (id) {
         case DETAILS_LOADER:
             return new CursorLoader(getActivity(),
@@ -322,12 +305,9 @@ public class AppDetailsFragment extends ListFragment
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.d(TAG, "AppDetailsFragment, onLoadFinished()");
         switch (loader.getId()) {
         case DETAILS_LOADER:
-            Log.d(TAG, "AppDetailsFragment, DETAILS_LOADER finished");
             if (data.moveToFirst()) {
-                Log.d(TAG, "AppDetailsFragment, details found, loading them");
                 mAppName.setText(data.getString(data.getColumnIndex(Apps.NAME)));
                 mAppIcon.setImageDrawable(
                         Util.getAppIcon(getActivity(), data.getInt(data.getColumnIndex(Apps.UID))));
@@ -368,7 +348,6 @@ public class AppDetailsFragment extends ListFragment
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        Log.d(TAG, "AppDetailsFragment, onLoaderReset()");
         if (loader.getId() == LOG_LOADER) {
             mAdapter.swapCursor(null);
         }

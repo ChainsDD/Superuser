@@ -202,7 +202,6 @@ public class Util {
             // too long if there's a problem.
             for (int i = 0; i < 200; i++) {
                 if (is.ready()) {
-                    Log.d(TAG, "slept " + i + " times");
                     break;
                 }
                 try {
@@ -248,7 +247,6 @@ public class Util {
             // too long if there's a problem.
             for (int i = 0; i < 200; i++) {
                 if (is.ready()) {
-                    Log.d(TAG, "slept " + i + " times");
                     break;
                 }
                 try {
@@ -340,7 +338,6 @@ public class Util {
                 PackageInfo pi;
                 try {
                     pi = pm.getPackageInfo("com.noshufou.android.su.elite", 0);
-                    Log.d(TAG, pi.applicationInfo.sourceDir);
                     if (pi.versionCode >= minVersion) {
                         return true;
                     } else {
@@ -375,7 +372,6 @@ public class Util {
         try {
             byte[] input = digest.digest(pin.getBytes("UTF-8"));
             String base64 = Base64.encode(input);
-            Log.d("Utils", "hashed pin = " + base64);
             return base64;
         } catch (UnsupportedEncodingException e) {
             Log.e("Utils", "UnsupportedEncoding, storing in plain text...", e);

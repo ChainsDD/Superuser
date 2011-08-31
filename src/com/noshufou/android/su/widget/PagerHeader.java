@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 import com.noshufou.android.su.R;
 
 public class PagerHeader extends ViewGroup {
-    private static final String TAG = "Su.PagerHeader";
+//    private static final String TAG = "Su.PagerHeader";
     
     private final int HEIGHT;
     private final int PADDING_TOP;

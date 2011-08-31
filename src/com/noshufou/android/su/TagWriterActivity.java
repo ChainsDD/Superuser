@@ -102,7 +102,6 @@ public class TagWriterActivity extends Activity {
                 }
                 
                 int maxSize = ndef.getMaxSize();
-                Log.d(TAG, "Max tag size = " + maxSize + ", Message size = " + message.toByteArray().length);
                 
                 if (maxSize < message.toByteArray().length) {
                     Toast.makeText(this, "Tag not big enough", Toast.LENGTH_SHORT).show();
@@ -111,7 +110,6 @@ public class TagWriterActivity extends Activity {
                 try {
                     ndef.connect();
                     ndef.writeNdefMessage(message);
-                    Log.d(TAG, "Tag written");
                     finish();
                 } catch (IOException e) {
                     Log.e(TAG, "IOException", e);
@@ -126,7 +124,6 @@ public class TagWriterActivity extends Activity {
                     try {
                         format.connect();
                         format.format(message);
-                        Log.d(TAG, "Formated tag");
                         finish();
                     } catch (IOException e) {
                         Log.e(TAG, "IOException", e);

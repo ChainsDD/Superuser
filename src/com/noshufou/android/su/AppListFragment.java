@@ -15,7 +15,6 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,7 @@ import com.noshufou.android.su.widget.PinnedHeaderListView;
 import com.noshufou.android.su.widget.PinnedHeaderListView.PinnedHeaderCache;
 
 public class AppListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
-    private static final String TAG = "Su.AppListFragment";
+//    private static final String TAG = "Su.AppListFragment";
     
     private boolean mShowStatusIcons = true;
     private boolean mShowLogData = true;
@@ -47,7 +46,6 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        Log.d(TAG, "AppListFragment, onCreateView()");
         View view = inflater.inflate(R.layout.fragment_app_list, container, false);
         mLoadingLayout = (LinearLayout) view.findViewById(R.id.loading_layout);
         return view;
@@ -55,7 +53,6 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Log.d(TAG, "AppListFragment, onActivityCreated()");
         super.onActivityCreated(savedInstanceState);
         
         setupListView();
@@ -64,7 +61,6 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
     
     @Override
     public void onResume() {
-        Log.d(TAG, "AppListActivity, onResume()");
         super.onResume();
         
         boolean refresh = false;
@@ -131,7 +127,6 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
-        Log.d(TAG, "onLoadFinished, data " + (data==null?"is":"is not") + " null");
         mLoadingLayout.setVisibility(View.GONE);
         Fragment fragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (fragment instanceof AppDetailsFragment) {

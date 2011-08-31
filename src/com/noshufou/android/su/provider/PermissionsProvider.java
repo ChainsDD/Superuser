@@ -289,7 +289,6 @@ public class PermissionsProvider extends ContentProvider {
             try {
                 rowId = mDb.insertOrThrow(Apps.TABLE_NAME, null, values);
             } catch (SQLException e) {
-                Log.d("PermissionsProvider", "Row already exists, update it instead");
                 rowId = mDb.update(Apps.TABLE_NAME, values, Apps.UID + "=?",
                         new String[] { values.getAsString(Apps.UID) });
             }
@@ -371,23 +370,19 @@ public class PermissionsProvider extends ContentProvider {
             count = mDb.delete(Apps.TABLE_NAME, selection, selectionArgs);
             break;
         case APP_ID:
-            Log.d("PermissionsProvider", "Deleting app " +  uri.getPathSegments().get(1));
             count = mDb.delete(Apps.TABLE_NAME,
                     Apps._ID + "=" + uri.getPathSegments().get(1) +
                     (!TextUtils.isEmpty(selection)? " AND (" +
                             selection  + ")":""),
                     selectionArgs);
-            Log.d("PermissionsProvider", "Rows deleted: " + count);
             // No break here so we can fall through and delete associated logs
         case APP_ID_LOGS:
         case LOGS_APP_ID:
-            Log.d("PermissionsProvider", "Deleting logs for app " +  uri.getPathSegments().get(1));
             count += mDb.delete(Logs.TABLE_NAME,
                     Logs.APP_ID + "=" + uri.getPathSegments().get(1) +
                     (!TextUtils.isEmpty(selection)? " AND (" +
                             selection  + ")":""),
                     selectionArgs);
-            Log.d("PermissionsProvider", "Rows deleted: " + count);
             break;
         case APP_UID:
             // May remove this, I don't think I'm going to want to use it
@@ -414,7 +409,6 @@ public class PermissionsProvider extends ContentProvider {
                 mDb = mDbHelper.getWritableDatabase();
                 if (mDb == null) return false;
             } else {
-              Log.d(TAG, "su binary too old, not giving you the database");
               NotificationManager nm = 
                   (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
               Notification notification = new Notification(R.drawable.stat_su,

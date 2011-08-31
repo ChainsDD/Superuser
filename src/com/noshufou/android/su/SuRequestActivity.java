@@ -122,7 +122,6 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             mSocket = new LocalSocket();
             mSocket.connect(new LocalSocketAddress(socketPath,
                     LocalSocketAddress.Namespace.FILESYSTEM));
-            Log.d(TAG, "socketPath = " + socketPath);
         } catch (IOException e) {
             // If we can't connect to the socket, there's no point in
             // being here. Log it and quit
@@ -133,7 +132,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         if (mSuVersionCode < 10) {
             // This won't check for the absolute latest version of su, just the 
             // latest required to work properly.
-            Log.d(TAG, "su binary out of date, version code = " + mSuVersionCode);
+            Log.i(TAG, "su binary out of date, version code = " + mSuVersionCode);
             mUseDb = false;
             NotificationManager nm = 
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -159,7 +158,6 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         TextView commandView = (TextView)findViewById(R.id.command);
         commandView.setText(mDesiredCmd);
 
-        Log.d(TAG, "mUseDb = " + mUseDb);
         mRememberCheckBox = (CheckBox) findViewById(R.id.check_remember);
         mRememberCheckBox.setChecked(mUseDb?mPrefs.getBoolean("last_remember_value", true):false);
         mRememberCheckBox.setEnabled(mUseDb);
@@ -265,7 +263,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
 
         try {
             OutputStream os = mSocket.getOutputStream();
-            Log.d(TAG, "Sending result: " + resultCode + " for UID: " + mCallerUid);
+            Log.i(TAG, "Sending result: " + resultCode + " for UID: " + mCallerUid);
             os.write(resultCode.getBytes("UTF-8"));
             os.flush();
             os.close();
@@ -278,22 +276,16 @@ public class SuRequestActivity extends Activity implements OnClickListener {
     
     @Override
     public void onNewIntent(Intent intent) {
-        Log.d(TAG, "Found tag");
         Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         if (rawMsgs != null) {
-            Log.d(TAG, "There's messages there");
             NdefMessage msg = (NdefMessage) rawMsgs[0];
             NdefRecord record = msg.getRecords()[0];
             short tnf = record.getTnf();
             String type = new String(record.getType());
-            Log.d(TAG, "Record TNF = " + tnf + ", Record type = " + type);
             if (tnf == NdefRecord.TNF_MIME_MEDIA &&
                     type.equals("text/x-su-a")) {
-                Log.d(TAG, "Right type, let's check the pin");
                 String tagPin = new String(record.getPayload());
-                Log.d(TAG, tagPin);
                 if (tagPin.equals(mPrefs.getString("pin", ""))) {
-                    Log.d(TAG, "That's the right PIN, allow");
                     sendResult(true, mRememberCheckBox.isChecked());
                 }
             }

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.noshufou.android.su.preferences.Preferences;
 
@@ -16,7 +15,6 @@ public class SecretCodeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Uri uri = intent.getData();
         String secretCode = uri.getHost();
-        Log.d("SecretCodeReceiver", "secret code (" + secretCode + ") received");
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getBoolean(Preferences.GHOST_MODE, false) &&
                 prefs.getString(Preferences.SECRET_CODE, "787378737").equals(secretCode)) {

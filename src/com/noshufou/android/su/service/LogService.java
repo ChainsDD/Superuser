@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.noshufou.android.su.SuRequestReceiver;
 import com.noshufou.android.su.preferences.Preferences;
@@ -35,7 +34,6 @@ public class LogService extends IntentService {
     
     @Override
     public void onStart(Intent intent, int startId) {
-        Log.d(TAG, "Service started via onStart()");
         mCr = getContentResolver();
         super.onStart(intent, startId);
     }
@@ -49,16 +47,12 @@ public class LogService extends IntentService {
             } else {
                 int appUid = intent.getIntExtra(EXTRA_APP_UID, 0);
                 Uri appUri = Uri.withAppendedPath(Apps.CONTENT_URI, "uid/" + appUid);
-                Log.d(TAG, "Looking for app with UID of " + appUid);
-                Log.d(TAG, "Using uri: " + appUri);
                 Cursor c = mCr.query(appUri, new String[] { Apps._ID }, null, null, null);
                 if (c != null && c.moveToFirst()) {
-                    Log.d(TAG, "app_id=" + c.getLong(c.getColumnIndex(Apps._ID)));
                     addLog(c.getLong(c.getColumnIndex(Apps._ID)),
                             intent.getIntExtra(EXTRA_ALLOW, 0));
                     c.close();
                 } else {
-                    Log.d(TAG, "app_id not found, add it to the database");
                     addAppAndLog(intent);
                 }
             }
@@ -81,12 +75,10 @@ public class LogService extends IntentService {
         values.put(Apps.EXEC_CMD, intent.getStringExtra("desired_cmd"));
         values.put(Apps.ALLOW, Apps.AllowType.ASK);
         long appId = Long.parseLong(mCr.insert(Apps.CONTENT_URI, values).getLastPathSegment());
-        Log.d(TAG, "appId = " + appId);
         addLog(appId, intent.getIntExtra("allow", -1));
     }
     
     private void addLog(long appId, int type) {
-        Log.d(TAG, "Adding log for app_id " + appId + " for type " + type);
         ContentValues values = new ContentValues();
         values.put(Logs.DATE, System.currentTimeMillis());
         values.put(Logs.TYPE, type);
@@ -107,17 +99,12 @@ public class LogService extends IntentService {
         int count = c.getInt(0);
         c.close();
         if (count > limit) {
-            Log.d(TAG, "Too many logs, " + limit + " allowed, " + count + " found. Deleting oldest logs");
             c = mCr.query(Logs.CONTENT_URI, new String[] { Logs._ID }, null, null, Logs.DATE + " ASC");
             long id = 0;
             while (count > limit && c.moveToNext()) {
                 id = c.getLong(0);
-                Log.d(TAG, "Deleting log where id=" + id);
                 count -= mCr.delete(Logs.CONTENT_URI, Logs._ID + "=?", new String[] { String.valueOf(id) });
-                Log.d(TAG, "New count " + count);
             }
-        } else {
-            Log.d(TAG, "Not too many logs, " + limit + " allowed, " + count + " found.");
         }
     }
 

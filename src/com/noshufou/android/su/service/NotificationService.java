@@ -42,7 +42,6 @@ public class NotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, "NotificationService handling intent");
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         int callerUid = intent.getIntExtra(SuRequestReceiver.EXTRA_CALLERUID, 0);
@@ -80,20 +79,15 @@ public class NotificationService extends IntentService {
     }
     
     private void showToast(int callerUid, final String notificationMessage, long currentTime) {
-        Log.d(TAG, "show toast");
         int lastNotificationUid = mPrefs.getInt(LAST_NOTIFICATION_UID, 0);
         long lastNotificationTime = mPrefs.getLong(LAST_NOTIFICATION_TIME, 0);
-        Log.d(TAG, "callerUid = " + callerUid + ", currentTime = " + currentTime);
-        Log.d(TAG, "lastNotificationUid = " + lastNotificationUid + ", lastNotificationTime = " + lastNotificationTime);
         if (callerUid != lastNotificationUid ||
                 lastNotificationTime + (5 * 1000) < currentTime) {
-            Log.d(TAG, "checks passed, display the toast now");
             final int gravity = Integer.parseInt(mPrefs.getString(Preferences.TOAST_LOCATION, "0"));
             mHandler.post(new Runnable() {
 
                 @Override
                 public void run() {
-                    Log.d(TAG, "showing toast from handler");
                     Toast toast = Toast.makeText(getApplicationContext(), notificationMessage, Toast.LENGTH_SHORT);
                     if (gravity > 0) {
                         toast.setGravity(gravity, 0, 0);

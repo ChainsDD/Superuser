@@ -112,7 +112,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
 
         mElite = Util.elitePresent(mContext, false, 0);
         if (!mElite) {
-            Log.d(TAG, "Elite not found, removing Elite preferences");
+            Log.i(TAG, "Elite not found, removing Elite preferences");
             for (String s : Preferences.ELITE_PREFS) {
                 String[] bits = s.split(":");
                 if (bits[1].equals("all")) {
@@ -299,7 +299,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             }
             return false;
         } else if (pref.equals(Preferences.SECRET_CODE)) {
-            Log.d(TAG, "secret code changed");
             mSecretCode.setSummary(getString(R.string.pref_secret_code_summary,
                     ((String)newValue)));
             return true;
@@ -526,7 +525,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
                                 cr.insert(Apps.CONTENT_URI, currentItem);
                                 currentItem = null;
                             } catch (NameNotFoundException e) {
-                                Log.d(TAG, "package" + pkg + " not installed, skipping restore");
+                                Log.i(TAG, "package" + pkg + " not installed, skipping restore");
                             }
                         }
                         break;

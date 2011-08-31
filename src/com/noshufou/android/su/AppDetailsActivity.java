@@ -18,13 +18,12 @@ package com.noshufou.android.su;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 
 import com.noshufou.android.su.util.Util;
 
 public class AppDetailsActivity extends FragmentActivity {
-    private static final String TAG = "Su.AppDetailsActivity";
+//    private static final String TAG = "Su.AppDetailsActivity";
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,6 @@ public class AppDetailsActivity extends FragmentActivity {
     }
 
     public void goHome(View view) {
-        Log.d(TAG, "Home button pressed");
         Util.goHome(this);
     }
 }
