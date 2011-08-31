@@ -23,8 +23,6 @@ public class Preferences {
     public static final String TOAST_LOCATION = "pref_toast_location";
     public static final String USE_ALLOW_TAG = "pref_use_allow_tag";
     public static final String WRITE_ALLOW_TAG = "pref_write_allow_tag";
-    public static final String USE_GHOST_TAG = "pref_use_ghost_tag";
-    public static final String WRITE_GHOST_TAG = "pref_write_ghost_tag";
     public static final String DEBUGGING = "pref_debugging";
     public static final String BACKUP = "pref_backup";
     public static final String RESTORE = "pref_restore";
@@ -49,7 +47,8 @@ public class Preferences {
         CATEGORY_SECURITY + ":" + SECRET_CODE,
         CATEGORY_LOG + ":" + LOG_ENTRY_LIMIT ,
         CATEGORY_NOTIFICATION + ":" + TOAST_LOCATION,
-        CATEGORY_NFC + ":all"
+        CATEGORY_NFC + ":all",
+        CATEGORY_BACKUP_RESTORE + ":all"
     };
 
 }
