@@ -88,8 +88,14 @@ public class PagerHeader extends ViewGroup {
         if (position >= 0 && position < getChildCount()) {
             TextView view = (TextView) getChildAt(position);
             int viewWidth = view.getWidth();
-            int range = center - (viewWidth / 2);
-            int newLeft = (int) (range - (range * positionOffset));
+            int leftMin = 0;
+            if (position + 1 < getChildCount()) {
+                int nextViewWidth = getChildAt(position + 1).getWidth();
+                leftMin = Math.min(0,
+                        center - (nextViewWidth / 2) - PADDING_PUSH - viewWidth);
+            }
+            int leftMax = center - (viewWidth / 2);
+            int newLeft = map(positionOffset, 1, 0, leftMin, leftMax);
             view.layout(newLeft, view.getTop(), newLeft + viewWidth, view.getBottom());
             view.setTextColor(Color.rgb(
                     Math.max(0, (int) ((-328 * (float) positionOffset) + 164)),
@@ -102,9 +108,11 @@ public class PagerHeader extends ViewGroup {
         if ((position + 1) < getChildCount()) {
             TextView view = (TextView) getChildAt(position + 1);
             int viewWidth = view.getWidth();
-            int newLeft = view.getLeft();
-            int range = (width - viewWidth) - (center - (viewWidth / 2));
-            newLeft = (int) (width - viewWidth - (range * positionOffset));
+            int prevViewWidth = getChildAt(position).getWidth();
+            int leftMin = center - (viewWidth / 2);
+            int leftMax = Math.max(width - viewWidth,
+                    center + (prevViewWidth / 2) + PADDING_PUSH);
+            int newLeft = map(positionOffset, 1, 0, leftMin, leftMax);
             view.layout(newLeft, view.getTop(), newLeft + viewWidth, view.getBottom());
             view.setTextColor(Color.rgb(
                     Math.max(0, (int) ((328 * positionOffset) - 164)),
@@ -122,7 +130,7 @@ public class PagerHeader extends ViewGroup {
             if (plusOneLeft < newLeft + viewWidth + PADDING_PUSH || newLeft < 0) {
                 newLeft = Math.min(0, plusOneLeft - viewWidth - PADDING_PUSH);
                 view.layout(newLeft, view.getTop(), newLeft + viewWidth, view.getBottom());
-                int alpha = (int) (255 * ((float) view.getRight() / (float) viewWidth));
+                int alpha = map(positionOffset, 1, 0, 0, 255);
                 view.setTextColor(Color.argb(alpha, 0, 0, 0));
             }
         }
@@ -137,7 +145,7 @@ public class PagerHeader extends ViewGroup {
             if (minusOneRight > (newLeft - PADDING_PUSH) || newLeft + viewWidth > width) {
                 newLeft = Math.max(minusOneRight + PADDING_PUSH, width - viewWidth);
                 view.layout(newLeft, view.getTop(), newLeft + viewWidth, view.getBottom());
-                int alpha = (int) (255 * ((float) (width - newLeft) / (float) viewWidth));
+                int alpha = map(positionOffset, 0, 1, 0, 255);
                 view.setTextColor(Color.argb(alpha, 0, 0, 0));
             }
         }
@@ -186,7 +194,8 @@ public class PagerHeader extends ViewGroup {
             int viewHeight = view.getMeasuredHeight();
             int viewLeft = 0;
             if (i == mDisplayedPage - 1) {
-                viewLeft = 0;
+                int nextViewWidth = getChildAt(mDisplayedPage).getWidth();
+                viewLeft = Math.min(0, center - (nextViewWidth / 2) - PADDING_PUSH - viewWidth);
             } else if (i == mDisplayedPage) {
                 viewLeft = center - (viewWidth / 2);
                 view.setTextColor(0xffa4c639);
@@ -195,7 +204,9 @@ public class PagerHeader extends ViewGroup {
                         viewLeft + viewWidth + TAB_PADDING,
                         b - t);
             } else if (i == mDisplayedPage + 1) {
-                viewLeft = right - viewWidth;
+                int prevViewWidth = getChildAt(mDisplayedPage).getWidth();
+                viewLeft = Math.max(right - viewWidth,
+                        center + (prevViewWidth / 2) + PADDING_PUSH);
             } else if (i < (mDisplayedPage - 1)) {
                 viewLeft = left - viewWidth - 5;
             } else if (i > (mDisplayedPage + 1)) {
@@ -257,5 +268,9 @@ public class PagerHeader extends ViewGroup {
         mLastMotionAction = event.getAction();
         mLastMotionX = event.getX();
         return true;
+    }
+    
+    private static int map(float value, float fromLow, float fromHigh, int toLow, int toHigh) {
+        return (int) ((value - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow);
     }
 }
