@@ -14,7 +14,7 @@
     <string name="su_up_to_date">su is up to date</string>
     <string name="checking">Checking...</string>
     <string name="no_connection">No network connection. Could not check for updates</string>
-    <string name="manifest_download_failed">Checking avalaible version failed</string>
+    <string name="manifest_download_failed">Checking available version failed</string>
     <string name="su_original">original</string>
     
     <string name="warning">Warning</string>
@@ -90,7 +90,7 @@
     <string name="notification_text">%s has been granted Superuser permissions</string>
 
     <!-- Do not translate -->
-    <string name="report_subject">Possibly malicious app found</string>
-    <string name="report_body">The following package was found to be requesting to respond to Superuser requests.\n\n - %s\n\nPlease investigate.</string>
-    <string name="update_filename">su-2.3.1-bin-signed.zip</string>
+    <string name="report_subject" translatable="false">Possibly malicious app found</string>
+    <string name="report_body" translatable="false">The following package was found to be requesting to respond to Superuser requests.\n\n - %s\n\nPlease investigate.</string>
+    <string name="update_filename" translatable="false">su-2.3.1-bin-signed.zip</string>
 </resources>
