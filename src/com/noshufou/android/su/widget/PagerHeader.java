@@ -1,4 +1,22 @@
+/*
+ *	Copyright (c) 2011 Adam Shanks, Daniel Huckaby
+ *
+ *	Licensed under the Apache License, Version 2.0 (the "License");
+ *	you may not use this file except in compliance with the License.
+ *	You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *	Unless required by applicable law or agreed to in writing, software
+ *	distributed under the License is distributed on an "AS IS" BASIS,
+ * 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *	See the License for the specific language governing permissions and
+ *	limitations under the License.
+ */
+
 package com.noshufou.android.su.widget;
+
+import com.noshufou.android.su.R;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -6,12 +24,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.noshufou.android.su.R;
 
 public class PagerHeader extends ViewGroup {
 //    private static final String TAG = "Su.PagerHeader";
@@ -39,41 +57,75 @@ public class PagerHeader extends ViewGroup {
     private Drawable mFadingEdgeRight;
     
     private OnHeaderChangeListener mOnHeaderChangeListener = null;
+    private OnHeaderClickListener mOnHeaderClickListener = null;
+	
+	private int mSelectedTextColor, mSelectedTextColorRed, mSelectedTextColorGreen, mSelectedTextColorBlue;
+	private int mUnselectedTextColor, mUnselectedTextColorRed, mUnselectedTextColorGreen, mUnselectedTextColorBlue;
+	
+	private static DisplayMetrics mDisplayMetrics;
     
     public interface OnHeaderChangeListener {
         public void onHeaderSelected(int position);
     }
     
+    public interface OnHeaderClickListener {
+        public void onHeaderClicked(int position);
+	}
+    
     public PagerHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         
-        Resources res = context.getResources();
-        HEIGHT = res.getDimensionPixelOffset(R.dimen.pager_header_height);
-        PADDING_TOP = res.getDimensionPixelSize(R.dimen.pager_header_padding_top);
-        PADDING_BOTTOM = res.getDimensionPixelSize(R.dimen.pager_header_padding_bottom);
-        PADDING_PUSH = res.getDimensionPixelSize(R.dimen.pager_header_padding_push);
-        TAB_HEIGHT = res.getDimensionPixelSize(R.dimen.pager_header_tab_height);
-        TAB_PADDING = res.getDimensionPixelSize(R.dimen.pager_header_tab_padding);
-        FADING_EDGE_LENGTH = res.getDimensionPixelSize(R.dimen.pager_header_fading_edge_length);
+        Resources mResources = context.getResources();
+        mDisplayMetrics = mResources.getDisplayMetrics();
         
-        mTabDrawable = res.getDrawable(R.drawable.pager_header_tab);
-        mFadingEdgeLeft = res.getDrawable(R.drawable.pager_header_fading_edge_left);
-        mFadingEdgeRight = res.getDrawable(R.drawable.pager_header_fading_edge_right);
+        mSelectedTextColor = mResources.getColor(R.color.pager_header_selected_text_color);
+        mSelectedTextColorRed = Color.red(mSelectedTextColor);
+        mSelectedTextColorGreen = Color.green(mSelectedTextColor);
+        mSelectedTextColorBlue = Color.blue(mSelectedTextColor);
+        
+        mUnselectedTextColor = mResources.getColor(R.color.pager_header_unselected_text_color);
+        mUnselectedTextColorRed = Color.red(mUnselectedTextColor);
+        mUnselectedTextColorGreen = Color.green(mUnselectedTextColor);
+        mUnselectedTextColorBlue = Color.blue(mUnselectedTextColor);
+
+        HEIGHT = dipToPixels(32);
+        PADDING_TOP = dipToPixels(3);
+        PADDING_BOTTOM = dipToPixels(5);
+        PADDING_PUSH = dipToPixels(50);
+        TAB_HEIGHT = dipToPixels(4);
+        TAB_PADDING = dipToPixels(10);
+        FADING_EDGE_LENGTH = dipToPixels(30);
+
+        // TODO Do this programmatically
+        mTabDrawable = mResources.getDrawable(R.drawable.pager_header_tab);
+        mFadingEdgeLeft = mResources.getDrawable(R.drawable.pager_header_fading_edge_left);
+        mFadingEdgeRight = mResources.getDrawable(R.drawable.pager_header_fading_edge_right);
     }
     
     public void add(int index, String label) {
         TextView textView = new TextView(mContext);
         textView.setText(label);
-        textView.setTextColor(Color.BLACK);
+        textView.setTextColor(mUnselectedTextColor);
 //        textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
         textView.setTextSize(TEXT_SIZE);
+        textView.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v) {
+                if (mOnHeaderClickListener != null) {
+                	mOnHeaderClickListener.onHeaderClicked(mDisplayedPage);
+                }
+        	}
+        });
         addView(textView);
     }
     
     public void setOnHeaderChangeListener(OnHeaderChangeListener listener) {
         mOnHeaderChangeListener = listener;
     }
+    
+    public void setOnHeaderClickListener(OnHeaderClickListener listener) {
+        mOnHeaderClickListener = listener;
+	}
     
     public void setDisplayedPage(int index) {
         mDisplayedPage = index;
@@ -98,9 +150,9 @@ public class PagerHeader extends ViewGroup {
             int newLeft = map(positionOffset, 1, 0, leftMin, leftMax);
             view.layout(newLeft, view.getTop(), newLeft + viewWidth, view.getBottom());
             view.setTextColor(Color.rgb(
-                    Math.max(0, (int) ((-328 * (float) positionOffset) + 164)),
-                    Math.max(0, (int) ((-396 * (float) positionOffset) + 198)),
-                    Math.max(0, (int) ((-114 * (float) positionOffset) + 57))));
+                	Math.max(mUnselectedTextColorRed, (int) ((-(mSelectedTextColorRed * 2) * (float) positionOffset) + mSelectedTextColorRed)),
+                	Math.max(mUnselectedTextColorGreen, (int) ((-(mSelectedTextColorGreen * 2) * (float) positionOffset) + mSelectedTextColorGreen)),
+                	Math.max(mUnselectedTextColorBlue, (int) ((-(mSelectedTextColorBlue * 2) * (float) positionOffset) + mSelectedTextColorBlue))));
         }
         
         // Move the view at position + 1. This will be the label for the
@@ -115,9 +167,9 @@ public class PagerHeader extends ViewGroup {
             int newLeft = map(positionOffset, 1, 0, leftMin, leftMax);
             view.layout(newLeft, view.getTop(), newLeft + viewWidth, view.getBottom());
             view.setTextColor(Color.rgb(
-                    Math.max(0, (int) ((328 * positionOffset) - 164)),
-                    Math.max(0, (int) ((396 * positionOffset) - 198)),
-                    Math.max(0, (int) ((114 * positionOffset) - 57))));
+                	Math.max(mUnselectedTextColorRed, (int) (((mSelectedTextColorRed * 2) * positionOffset) - mSelectedTextColorRed)),
+                	Math.max(mUnselectedTextColorGreen, (int) (((mSelectedTextColorGreen * 2) * positionOffset) - mSelectedTextColorGreen)),
+                	Math.max(mUnselectedTextColorBlue, (int) (((mSelectedTextColorBlue * 2) * positionOffset) - mSelectedTextColorBlue))));
         }
         
         // Move the view at position - 1. This will be the label for the 
@@ -198,7 +250,7 @@ public class PagerHeader extends ViewGroup {
                 viewLeft = Math.min(0, center - (nextViewWidth / 2) - PADDING_PUSH - viewWidth);
             } else if (i == mDisplayedPage) {
                 viewLeft = center - (viewWidth / 2);
-                view.setTextColor(0xffa4c639);
+                view.setTextColor(mSelectedTextColor);
                 mTabDrawable.setBounds(viewLeft - TAB_PADDING,
                         b - t - TAB_HEIGHT,
                         viewLeft + viewWidth + TAB_PADDING,
@@ -273,4 +325,11 @@ public class PagerHeader extends ViewGroup {
     private static int map(float value, float fromLow, float fromHigh, int toLow, int toHigh) {
         return (int) ((value - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow);
     }
+    
+    /**
+	 * Converts density independent pixel value to raw pixel value
+	 */
+	private static int dipToPixels(float dipValue) {
+        return (int) (mDisplayMetrics.density * dipValue + 0.5f);
+	}
 }
