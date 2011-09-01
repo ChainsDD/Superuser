@@ -27,4 +27,7 @@
     <color name="console_grey">#eeeeec</color>
     <color name="console_red">#ef2929</color>
     <color name="console_green">#8ae234</color>
+    
+    <color name="pager_header_selected_text_color">#ffa4c639</color>
+    <color name="pager_header_unselected_text_color">#ff000000</color>
 </resources>
