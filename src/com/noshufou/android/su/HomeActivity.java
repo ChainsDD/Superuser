@@ -57,8 +57,8 @@ public class HomeActivity extends FragmentActivity {
                     mPager,
                     (PagerHeader)findViewById(R.id.pager_header));
 
-            pagerAdapter.addPage(AppListFragment.class, null, "apps");
-            pagerAdapter.addPage(LogFragment.class, null, "log");
+            pagerAdapter.addPage(AppListFragment.class, R.string.page_label_apps);
+            pagerAdapter.addPage(LogFragment.class, R.string.page_label_log);
         }
         
         mTitleLogo = 
@@ -191,6 +191,18 @@ public class HomeActivity extends FragmentActivity {
             mHeader.setOnHeaderChangeListener(this);
             mPager.setAdapter(this);
             mPager.setOnPageChangeListener(this);
+        }
+        
+        public void addPage(Class<?> clss, int res) {
+            addPage(clss, null, res);
+        }
+        
+        public void addPage(Class<?> clss, String title) {
+            addPage(clss, null, title);
+        }
+        
+        public void addPage(Class<?> clss, Bundle args, int res) {
+            addPage(clss, null, mContext.getResources().getString(res));
         }
         
         public void addPage(Class<?> clss, Bundle args, String title) {

@@ -23,6 +23,9 @@
     <string name="description_preferences">Preferences</string>
     <string name="description_extras">Extras</string>
     
+    <string name="page_label_apps">apps</string>
+    <string name="page_label_log">log</string>
+    
     <string name="menu_extras">Extras</string>
     <string name="menu_preferences">Preferences</string>
     <string name="menu_clear">Clear</string>
