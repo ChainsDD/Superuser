@@ -21,22 +21,13 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
-import com.noshufou.android.su.preferences.Preferences;
-import com.noshufou.android.su.service.LogService;
-import com.noshufou.android.su.service.NotificationService;
-import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.service.ResultService;
 
 public class SuResultReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        
-        Long currentTime = System.currentTimeMillis();
-        
         // Notify the user if their su binary is outdated. Note this doesn't
         // check for the absolute latest binary, just the latest required
         // to work properly
@@ -55,37 +46,10 @@ public class SuResultReceiver extends BroadcastReceiver {
             return;
         }
         
-        boolean notificationsEnabled = prefs.getBoolean(Preferences.NOTIFICATIONS, true);
-        boolean loggingEnabled = prefs.getBoolean(Preferences.LOGGING, true);
-        
-        // If elite is installed, pass control to that. Elite has licensing checks in it,
-        // so it's not necessary to check for a valid license here.
-        if (Util.elitePresent(context, true, 2)) {
-            Intent eliteIntent = new Intent();
-            eliteIntent.setClassName("com.noshufou.android.su.elite",
-                    "com.noshufou.android.su.elite.service.ResultService");
-            eliteIntent.putExtras(intent);
-            eliteIntent.putExtra("notifications_enabled", notificationsEnabled);
-            eliteIntent.putExtra("logging_enabled", loggingEnabled);
-            eliteIntent.putExtra("current_time", currentTime);
-            context.startService(eliteIntent);
-            return;
-        }
-        
-        // Add log if applicable
-        if (loggingEnabled) {
-            Intent serviceIntent = new Intent(context, LogService.class);
-            serviceIntent.putExtras(intent);
-            serviceIntent.putExtra(LogService.EXTRA_ACTION, LogService.ADD_LOG);
-            context.startService(serviceIntent);
-        }
-        
-        // Send notification if applicable
-        if (notificationsEnabled) {
-            Intent serviceIntent = new Intent(context, NotificationService.class);
-            serviceIntent.putExtras(intent);
-            context.startService(serviceIntent);
-        }
+        Intent serviceIntent = new Intent(context, ResultService.class);
+        serviceIntent.putExtras(intent);
+        serviceIntent.putExtra(ResultService.EXTRA_ACTION, ResultService.ACTION_RESULT);
+        context.startService(serviceIntent);
     }
 
 }

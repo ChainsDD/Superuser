@@ -45,10 +45,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.util.Log;
 import android.util.Xml;
 import android.view.MenuItem;
@@ -64,7 +64,7 @@ import com.noshufou.android.su.TagWriterActivity;
 import com.noshufou.android.su.UpdaterActivity;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps;
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
-import com.noshufou.android.su.service.LogService;
+import com.noshufou.android.su.service.ResultService;
 import com.noshufou.android.su.util.Util;
 import com.noshufou.android.su.widget.ChangeLog;
 import com.noshufou.android.su.widget.NumberPickerDialog;
@@ -322,8 +322,8 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
         public void onNumberSet(int number) {
             mLogLimit.setSummary(getString(R.string.pref_log_entry_limit_summary, number));
             mPrefs.edit().putInt(Preferences.LOG_ENTRY_LIMIT, number).commit();
-            final Intent intent = new Intent(mContext, LogService.class);
-            intent.putExtra(LogService.EXTRA_ACTION, LogService.RECYCLE);
+            final Intent intent = new Intent(mContext, ResultService.class);
+            intent.putExtra(ResultService.EXTRA_ACTION, ResultService.ACTION_RECYCLE);
             startService(intent);
         }
     };

@@ -103,10 +103,7 @@
             </intent-filter>
         </receiver>
         
-        <service android:name=".service.LogService"
-            android:exported="true" />
-        <service android:name=".service.NotificationService"
-            android:exported="true" />
+        <service android:name=".service.ResultService" />
         
         <provider android:name=".provider.PermissionsProvider"
             android:authorities="com.noshufou.android.su.provider"

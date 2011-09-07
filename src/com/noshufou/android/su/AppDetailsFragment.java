@@ -35,21 +35,21 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps;
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
-import com.noshufou.android.su.service.LogService;
+import com.noshufou.android.su.service.ResultService;
 import com.noshufou.android.su.util.Util;
 import com.noshufou.android.su.widget.BetterPopupWindow;
 import com.noshufou.android.su.widget.LogAdapter;
@@ -243,10 +243,12 @@ public class AppDetailsFragment extends ListFragment
         cr.update(uri, values, null, null);
         
         // Update the log
-        Intent intent = new Intent(getActivity(), LogService.class);
-        intent.putExtra(LogService.EXTRA_ACTION, LogService.ADD_LOG);
-        intent.putExtra(LogService.EXTRA_APP_ID, mShownIndex);
-        intent.putExtra(LogService.EXTRA_ALLOW, Logs.LogType.TOGGLE);
+        values.clear();
+        values.put(Logs.DATE, System.currentTimeMillis());
+        values.put(Logs.TYPE, Logs.LogType.TOGGLE);
+        cr.insert(Uri.withAppendedPath(Logs.CONTENT_URI, String.valueOf(mShownIndex)), values);
+        Intent intent = new Intent(getActivity(), ResultService.class);
+        intent.putExtra(ResultService.EXTRA_ACTION, ResultService.ACTION_RECYCLE);
         getActivity().startService(intent);
     }
     
