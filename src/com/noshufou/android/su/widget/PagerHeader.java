@@ -78,15 +78,15 @@ public class PagerHeader extends ViewGroup {
         super(context, attrs);
         mContext = context;
         
-        Resources mResources = context.getResources();
-        mDisplayMetrics = mResources.getDisplayMetrics();
+        Resources resources = context.getResources();
+        mDisplayMetrics = resources.getDisplayMetrics();
         
-        mSelectedTextColor = mResources.getColor(R.color.pager_header_selected_text_color);
+        mSelectedTextColor = resources.getColor(R.color.pager_header_selected_text_color);
         mSelectedTextColorRed = Color.red(mSelectedTextColor);
         mSelectedTextColorGreen = Color.green(mSelectedTextColor);
         mSelectedTextColorBlue = Color.blue(mSelectedTextColor);
         
-        mUnselectedTextColor = mResources.getColor(R.color.pager_header_unselected_text_color);
+        mUnselectedTextColor = resources.getColor(R.color.pager_header_unselected_text_color);
         mUnselectedTextColorRed = Color.red(mUnselectedTextColor);
         mUnselectedTextColorGreen = Color.green(mUnselectedTextColor);
         mUnselectedTextColorBlue = Color.blue(mUnselectedTextColor);
@@ -98,12 +98,15 @@ public class PagerHeader extends ViewGroup {
         TAB_HEIGHT = dipToPixels(4);
         TAB_PADDING = dipToPixels(10);
         FADING_EDGE_LENGTH = dipToPixels(30);
-        
+
         mTabDrawable = new ShapeDrawable(new RectShape());
         mTabDrawable.getPaint().setColor(mSelectedTextColor);
         
-        mFadingEdgeLeft = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] {0xFF919191, 0x00919191});
-        mFadingEdgeRight = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, new int[] {0xFF919191, 0x00919191});
+        int fadingEdgeColorFull = resources.getColor(R.color.pager_header_fading_edge_color);
+        int fadingEdgeColorEmpty = Color.parseColor(resources.getString(R.color.pager_header_fading_edge_color).replace("#FF", "#00").replace("#ff", "#00"));
+        
+        mFadingEdgeLeft = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] {fadingEdgeColorFull, fadingEdgeColorEmpty});
+        mFadingEdgeRight = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, new int[] {fadingEdgeColorFull, fadingEdgeColorEmpty});
     }
     
     public void add(int index, String label) {
