@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">Superbruger</string>
-    <string name="app_name_request">Anmod om superbrugertilladelse</string>
+    <string name="app_name">Superuser</string>
+    <string name="app_name_request">Anmod om Superuser tilladelse</string>
 
-    <string name="permlab_respond">Svar på superbruger anmodninger</string>
-    <string name="permdesc_respond">Tillader programmet at besvare på superbruger anmodninger. Ondskabsfulde programmer kan give tilladelserne til programmer som brugeren ikke specifikt har givet tilladelse til.</string>
+    <string name="permlab_respond">Svar på Superuser anmodninger</string>
+    <string name="permdesc_respond">Tillader programmet at besvare på Superuser anmodninger. Ondskabsfulde programmer kan give tilladelserne til programmer som brugeren ikke specifikt har givet tilladelse til.</string>
 
     <string name="allow">Godkend</string>
     <string name="forget">Glem</string>
@@ -20,7 +20,7 @@
     <string name="created">Oprettet</string>
     <string name="toggled">Ændret</string>
 
-    <string name="no_log_data">Ingen log data</string>
+    <string name="no_log_data">Ingen logdata</string>
     <string name="last_allowed">Sidst godkendt:</string>
     <string name="last_denied">Sidst afvist:</string>
     <string name="empty_apps">Ingen programmer på listen</string>
@@ -32,7 +32,7 @@
     <string name="detail_created">Oprettet:</string>
     <string name="detail_last_accessed">Seneste adgang:</string>
 
-    <string name="request_message">Dette program kræver superbrugertilladelser:</string>
+    <string name="request_message">Dette program kræver Superuruger tilladelser:</string>
     <string name="request_app_name">Program:</string>
 
     <string name="preferences">Indstillinger</string>
