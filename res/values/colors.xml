@@ -30,4 +30,5 @@
     
     <color name="pager_header_selected_text_color">#ffa4c639</color>
     <color name="pager_header_unselected_text_color">#ff000000</color>
+    <color name="pager_header_fading_edge_color">#FF919191</color>
 </resources>
