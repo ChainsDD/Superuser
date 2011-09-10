@@ -22,7 +22,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -52,9 +54,9 @@ public class PagerHeader extends ViewGroup {
     private int mLastMotionAction;
     private float mLastMotionX;
     
-    private Drawable mTabDrawable;
-    private Drawable mFadingEdgeLeft;
-    private Drawable mFadingEdgeRight;
+    private ShapeDrawable mTabDrawable;
+    private GradientDrawable mFadingEdgeLeft;
+    private GradientDrawable mFadingEdgeRight;
     
     private OnHeaderChangeListener mOnHeaderChangeListener = null;
     private OnHeaderClickListener mOnHeaderClickListener = null;
@@ -96,11 +98,12 @@ public class PagerHeader extends ViewGroup {
         TAB_HEIGHT = dipToPixels(4);
         TAB_PADDING = dipToPixels(10);
         FADING_EDGE_LENGTH = dipToPixels(30);
-
-        // TODO Do this programmatically
-        mTabDrawable = mResources.getDrawable(R.drawable.pager_header_tab);
-        mFadingEdgeLeft = mResources.getDrawable(R.drawable.pager_header_fading_edge_left);
-        mFadingEdgeRight = mResources.getDrawable(R.drawable.pager_header_fading_edge_right);
+        
+        mTabDrawable = new ShapeDrawable(new RectShape());
+        mTabDrawable.getPaint().setColor(mSelectedTextColor);
+        
+        mFadingEdgeLeft = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] {0xFF919191, 0x00919191});
+        mFadingEdgeRight = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, new int[] {0xFF919191, 0x00919191});
     }
     
     public void add(int index, String label) {
