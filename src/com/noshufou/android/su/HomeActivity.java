@@ -165,7 +165,7 @@ public class HomeActivity extends FragmentActivity {
     }
 
     public static class PagerAdapter extends FragmentPagerAdapter
-            implements ViewPager.OnPageChangeListener, PagerHeader.OnHeaderChangeListener {
+            implements ViewPager.OnPageChangeListener, PagerHeader.OnHeaderClickListener {
         
         private final Context mContext;
         private final ViewPager mPager;
@@ -188,7 +188,7 @@ public class HomeActivity extends FragmentActivity {
             mContext = activity;
             mPager = pager;
             mHeader = header;
-            mHeader.setOnHeaderChangeListener(this);
+            mHeader.setOnHeaderClickListener(this);
             mPager.setAdapter(this);
             mPager.setOnPageChangeListener(this);
         }
@@ -235,6 +235,11 @@ public class HomeActivity extends FragmentActivity {
 
         @Override
         public void onPageScrollStateChanged(int state) {
+        }
+
+        @Override
+        public void onHeaderClicked(int position) {
+            
         }
 
         @Override

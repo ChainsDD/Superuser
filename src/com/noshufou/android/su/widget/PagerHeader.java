@@ -16,10 +16,9 @@
 
 package com.noshufou.android.su.widget;
 
-import com.noshufou.android.su.R;
-
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -27,120 +26,135 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.noshufou.android.su.R;
 
 public class PagerHeader extends ViewGroup {
-//    private static final String TAG = "Su.PagerHeader";
-    
-    private final int HEIGHT;
-    private final int PADDING_TOP;
-    private final int PADDING_BOTTOM;
-    private final int PADDING_PUSH;
-    private final int TAB_HEIGHT;
-    private final int TAB_PADDING;
-    private final int FADING_EDGE_LENGTH;
-    private final float TEXT_SIZE = 16;
-    
-    private int mTextTop = 0;
-    private int mTextHeight = 0;
-    
+    private static final String TAG = "Su.PagerHeader";
+
     private Context mContext;
     private int mDisplayedPage = 0;
-    
+
     private int mLastMotionAction;
     private float mLastMotionX;
-    
+
     private ShapeDrawable mTabDrawable;
+    private ShapeDrawable mBottomBar;
+    private GradientDrawable mShadow;
     private GradientDrawable mFadingEdgeLeft;
     private GradientDrawable mFadingEdgeRight;
-    
-    private OnHeaderChangeListener mOnHeaderChangeListener = null;
+
     private OnHeaderClickListener mOnHeaderClickListener = null;
-	
-	private int mSelectedTextColor, mSelectedTextColorRed, mSelectedTextColorGreen, mSelectedTextColorBlue;
-	private int mUnselectedTextColor, mUnselectedTextColorRed, mUnselectedTextColorGreen, mUnselectedTextColorBlue;
-	
-	private static DisplayMetrics mDisplayMetrics;
-    
-    public interface OnHeaderChangeListener {
-        public void onHeaderSelected(int position);
-    }
-    
+
+    private boolean mChangeOnClick = true;
+
+    private ColorSet mActiveTextColor;
+    private ColorSet mInactiveTextColor;
+    private ColorSet mTabColor;
+    private int mTabHeight;
+    private int mTabPadding;
+    private int mPaddingPush;
+    private int mFadingEdgeLength;
+    private boolean mShowTopShadow;
+    private boolean mShowBottomBar;
+    private boolean mShowTab;
+
+    private static DisplayMetrics mDisplayMetrics;
+
     public interface OnHeaderClickListener {
         public void onHeaderClicked(int position);
-	}
-    
+        public void onHeaderSelected(int position);
+    }
+
     public PagerHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        
+
         Resources resources = context.getResources();
         mDisplayMetrics = resources.getDisplayMetrics();
-        
-        mSelectedTextColor = resources.getColor(R.color.pager_header_selected_text_color);
-        mSelectedTextColorRed = Color.red(mSelectedTextColor);
-        mSelectedTextColorGreen = Color.green(mSelectedTextColor);
-        mSelectedTextColorBlue = Color.blue(mSelectedTextColor);
-        
-        mUnselectedTextColor = resources.getColor(R.color.pager_header_unselected_text_color);
-        mUnselectedTextColorRed = Color.red(mUnselectedTextColor);
-        mUnselectedTextColorGreen = Color.green(mUnselectedTextColor);
-        mUnselectedTextColorBlue = Color.blue(mUnselectedTextColor);
 
-        HEIGHT = dipToPixels(32);
-        PADDING_TOP = dipToPixels(3);
-        PADDING_BOTTOM = dipToPixels(5);
-        PADDING_PUSH = dipToPixels(50);
-        TAB_HEIGHT = dipToPixels(4);
-        TAB_PADDING = dipToPixels(10);
-        FADING_EDGE_LENGTH = dipToPixels(30);
+        // Get attributes from the layout xml
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PagerHeader, 0, 0);
+        mActiveTextColor = new ColorSet(
+                a.getColor(R.styleable.PagerHeader_activeTextColor, Color.BLACK));
+        mInactiveTextColor = new ColorSet(
+                a.getColor(R.styleable.PagerHeader_inactiveTextColor, Color.DKGRAY));
+        mTabColor = new ColorSet(
+                a.getColor(R.styleable.PagerHeader_tabColor, mActiveTextColor.getColor()));
+        mTabHeight = a.getDimensionPixelSize(R.styleable.PagerHeader_tabHeight, dipToPixels(4));
+        mTabPadding = a.getDimensionPixelSize(R.styleable.PagerHeader_tabPadding, dipToPixels(10));
+        mPaddingPush = a.getDimensionPixelSize(
+                R.styleable.PagerHeader_paddingPush, dipToPixels(50));
+        mFadingEdgeLength = a.getDimensionPixelSize(
+                R.styleable.PagerHeader_fadingEdgeLength, dipToPixels(30));
+        mShowTopShadow = a.getBoolean(R.styleable.PagerHeader_showTopShadow, true);
+        mShowBottomBar = a.getBoolean(R.styleable.PagerHeader_showBottomBar, true);
+        mShowTab = a.getBoolean(R.styleable.PagerHeader_showTab, true);
+
+        ColorSet fadingEdgeColorHint = new ColorSet(0);
+        if (a.hasValue(R.styleable.PagerHeader_backgroundColor)) {
+            int backgroundColor = a.getColor(R.styleable.PagerHeader_backgroundColor, 0);
+            setBackgroundColor(backgroundColor);
+            fadingEdgeColorHint.setColor(backgroundColor);
+        } else if (a.hasValue(R.styleable.PagerHeader_fadingEdgeColorHint)) {
+            fadingEdgeColorHint.setColor(
+                    a.getColor(R.styleable.PagerHeader_fadingEdgeColorHint, 0));
+        } else {
+            Log.w(TAG, "Either backgroundColor or fadingEdgeColorHint must be specified to " +
+                    "enable fading edges");
+            fadingEdgeColorHint.setColor(0x00000000);
+        }
 
         mTabDrawable = new ShapeDrawable(new RectShape());
-        mTabDrawable.getPaint().setColor(mSelectedTextColor);
-        
-        int fadingEdgeColorFull = resources.getColor(R.color.pager_header_fading_edge_color);
-        int fadingEdgeColorEmpty = Color.parseColor(resources.getString(R.color.pager_header_fading_edge_color).replace("#FF", "#00").replace("#ff", "#00"));
-        
-        mFadingEdgeLeft = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] {fadingEdgeColorFull, fadingEdgeColorEmpty});
-        mFadingEdgeRight = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, new int[] {fadingEdgeColorFull, fadingEdgeColorEmpty});
+        mTabDrawable.getPaint().setColor(mTabColor.getColor());
+
+        mBottomBar = new ShapeDrawable(new RectShape());
+        mBottomBar.getPaint().setColor(mTabColor.getColor());
+
+        mShadow = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[] {0x88000000, 0x00000000});
+
+        int[] fadingEdgeGradient = new int[] { fadingEdgeColorHint.getColor(),
+                fadingEdgeColorHint.getColor(0) };
+        mFadingEdgeLeft = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                fadingEdgeGradient);
+        mFadingEdgeRight = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT,
+                fadingEdgeGradient);
     }
-    
+
     public void add(int index, String label) {
         TextView textView = new TextView(mContext);
         textView.setText(label);
-        textView.setTextColor(mUnselectedTextColor);
-//        textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
-        textView.setTextSize(TEXT_SIZE);
-        textView.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-                if (mOnHeaderClickListener != null) {
-                	mOnHeaderClickListener.onHeaderClicked(mDisplayedPage);
-                }
-        	}
-        });
+        textView.setTextColor(mInactiveTextColor.getColor());
+        textView.setTextSize(16);
         addView(textView);
     }
-    
-    public void setOnHeaderChangeListener(OnHeaderChangeListener listener) {
-        mOnHeaderChangeListener = listener;
-    }
-    
-    public void setOnHeaderClickListener(OnHeaderClickListener listener) {
-        mOnHeaderClickListener = listener;
-	}
-    
+
     public void setDisplayedPage(int index) {
         mDisplayedPage = index;
     }
-    
+
+    public void setOnHeaderClickListener(OnHeaderClickListener listener) {
+        mOnHeaderClickListener = listener;
+    }
+
+    public void setChangeOnClick(boolean changeOnClick) {
+        mChangeOnClick = changeOnClick;
+    }
+
+    public boolean getChangeOnClick() {
+        return mChangeOnClick;
+    }
+
     public void setPosition(int position, float positionOffset, int positionOffsetPixels) {
         int width = getWidth();
         int center = width / 2;
-        
+
         // Move the view at position. This will be the label for the left
         // of the two fragments that may be on the screen
         if (position >= 0 && position < getChildCount()) {
@@ -150,17 +164,17 @@ public class PagerHeader extends ViewGroup {
             if (position + 1 < getChildCount()) {
                 int nextViewWidth = getChildAt(position + 1).getWidth();
                 leftMin = Math.min(0,
-                        center - (nextViewWidth / 2) - PADDING_PUSH - viewWidth);
+                        center - (nextViewWidth / 2) - mPaddingPush - viewWidth);
             }
             int leftMax = center - (viewWidth / 2);
             int newLeft = map(positionOffset, 1, 0, leftMin, leftMax);
             view.layout(newLeft, view.getTop(), newLeft + viewWidth, view.getBottom());
             view.setTextColor(Color.rgb(
-                	Math.max(mUnselectedTextColorRed, (int) ((-(mSelectedTextColorRed * 2) * (float) positionOffset) + mSelectedTextColorRed)),
-                	Math.max(mUnselectedTextColorGreen, (int) ((-(mSelectedTextColorGreen * 2) * (float) positionOffset) + mSelectedTextColorGreen)),
-                	Math.max(mUnselectedTextColorBlue, (int) ((-(mSelectedTextColorBlue * 2) * (float) positionOffset) + mSelectedTextColorBlue))));
+                    map(positionOffset, 1, 0, mInactiveTextColor.red, mActiveTextColor.red),
+                    map(positionOffset, 1, 0, mInactiveTextColor.green, mActiveTextColor.green),
+                    map(positionOffset, 1, 0, mInactiveTextColor.blue, mActiveTextColor.blue)));
         }
-        
+
         // Move the view at position + 1. This will be the label for the
         // right of the two fragments that may be visible on screen
         if ((position + 1) < getChildCount()) {
@@ -169,30 +183,30 @@ public class PagerHeader extends ViewGroup {
             int prevViewWidth = getChildAt(position).getWidth();
             int leftMin = center - (viewWidth / 2);
             int leftMax = Math.max(width - viewWidth,
-                    center + (prevViewWidth / 2) + PADDING_PUSH);
+                    center + (prevViewWidth / 2) + mPaddingPush);
             int newLeft = map(positionOffset, 1, 0, leftMin, leftMax);
             view.layout(newLeft, view.getTop(), newLeft + viewWidth, view.getBottom());
             view.setTextColor(Color.rgb(
-                	Math.max(mUnselectedTextColorRed, (int) (((mSelectedTextColorRed * 2) * positionOffset) - mSelectedTextColorRed)),
-                	Math.max(mUnselectedTextColorGreen, (int) (((mSelectedTextColorGreen * 2) * positionOffset) - mSelectedTextColorGreen)),
-                	Math.max(mUnselectedTextColorBlue, (int) (((mSelectedTextColorBlue * 2) * positionOffset) - mSelectedTextColorBlue))));
+                    map(positionOffset, 1, 0, mActiveTextColor.red, mInactiveTextColor.red),
+                    map(positionOffset, 1, 0, mActiveTextColor.green, mInactiveTextColor.green),
+                    map(positionOffset, 1, 0, mActiveTextColor.blue, mInactiveTextColor.blue)));
         }
-        
-        // Move the view at position - 1. This will be the label for the 
+
+        // Move the view at position - 1. This will be the label for the
         // fragment that is off the screen to the left, if it exists
         if (position > 0) {
             TextView view = (TextView) getChildAt(position - 1);
             int plusOneLeft = getChildAt(position).getLeft();
             int newLeft = view.getLeft();
             int viewWidth = view.getWidth();
-            if (plusOneLeft < newLeft + viewWidth + PADDING_PUSH || newLeft < 0) {
-                newLeft = Math.min(0, plusOneLeft - viewWidth - PADDING_PUSH);
+            if (plusOneLeft < newLeft + viewWidth + mPaddingPush || newLeft < 0) {
+                newLeft = Math.min(0, plusOneLeft - viewWidth - mPaddingPush);
                 view.layout(newLeft, view.getTop(), newLeft + viewWidth, view.getBottom());
                 int alpha = map(positionOffset, 1, 0, 0, 255);
                 view.setTextColor(Color.argb(alpha, 0, 0, 0));
             }
         }
-        
+
         // Move the view at position + 2. This will be the label for the
         // fragment that is off the screen to the right, if it exists
         if ((position + 2) < getChildCount()) {
@@ -200,142 +214,162 @@ public class PagerHeader extends ViewGroup {
             int minusOneRight = getChildAt(position + 1).getRight();
             int newLeft = view.getLeft();
             int viewWidth = view.getWidth();
-            if (minusOneRight > (newLeft - PADDING_PUSH) || newLeft + viewWidth > width) {
-                newLeft = Math.max(minusOneRight + PADDING_PUSH, width - viewWidth);
+            if (minusOneRight > (newLeft - mPaddingPush) || newLeft + viewWidth > width) {
+                newLeft = Math.max(minusOneRight + mPaddingPush, width - viewWidth);
                 view.layout(newLeft, view.getTop(), newLeft + viewWidth, view.getBottom());
                 int alpha = map(positionOffset, 0, 1, 0, 255);
                 view.setTextColor(Color.argb(alpha, 0, 0, 0));
             }
         }
-        
-        // Draw the tab under the active or oncoming TextView based the
+
+        // Draw the tab under the active or oncoming TextView based on the
         // positionOffset
         View view = getChildAt(positionOffset < 0.5f?position:position + 1);
         int viewLeft = view.getLeft();
         int viewRight = view.getRight();
-        float percent = (float) (Math.abs(positionOffset - 0.5f)/0.5f);
-        int tabHeight =  (int) (TAB_HEIGHT * percent);
-        int alpha = (int) (255 * percent); 
-        mTabDrawable.setBounds(viewLeft - TAB_PADDING,
+        float percent = (Math.abs(positionOffset - 0.5f)/0.5f);
+        int tabHeight =  (int) (mTabHeight * percent);
+        int alpha = (int) (255 * percent);
+        mTabDrawable.setBounds(viewLeft - mTabPadding,
                 getHeight() - tabHeight,
-                viewRight + TAB_PADDING,
+                viewRight + mTabPadding,
                 getHeight());
         mTabDrawable.setAlpha(alpha);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int textHeight = 0;
         for (int i = 0; i < getChildCount(); i++ ) {
             View view = getChildAt(i);
             view.measure(0, 0);
-            mTextHeight = Math.max(mTextHeight, view.getMeasuredHeight());
+            textHeight = Math.max(textHeight, view.getMeasuredHeight());
         }
-        
+
         int width = resolveSize(0, widthMeasureSpec);
-        
-        int textHeight = getChildAt(0).getMeasuredHeight();
-        mTextTop = PADDING_TOP;
-        int height = Math.max(HEIGHT, textHeight + PADDING_TOP + PADDING_BOTTOM);
-        
+
+        int height = resolveSize(textHeight + getPaddingTop() + getPaddingBottom(),
+                heightMeasureSpec);
+
         setMeasuredDimension(width, height);
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        int left = 0;
         int right = r - l;
-        int center = (r - l) / 2;
-        
+
+        int textTop = 0 + getPaddingTop();
+        int textBottom = b - t - getPaddingBottom();
+
         for (int i = 0; i < getChildCount(); i++) {
+            // Put all the children outside of the view, then use setPosition
+            // to put the ones that need to be seen back. This will be where
+            // we set the top and bottom of every view though.
             TextView view = (TextView) getChildAt(i);
             int viewWidth = view.getMeasuredWidth();
-            int viewHeight = view.getMeasuredHeight();
-            int viewLeft = 0;
-            if (i == mDisplayedPage - 1) {
-                int nextViewWidth = getChildAt(mDisplayedPage).getWidth();
-                viewLeft = Math.min(0, center - (nextViewWidth / 2) - PADDING_PUSH - viewWidth);
-            } else if (i == mDisplayedPage) {
-                viewLeft = center - (viewWidth / 2);
-                view.setTextColor(mSelectedTextColor);
-                mTabDrawable.setBounds(viewLeft - TAB_PADDING,
-                        b - t - TAB_HEIGHT,
-                        viewLeft + viewWidth + TAB_PADDING,
-                        b - t);
-            } else if (i == mDisplayedPage + 1) {
-                int prevViewWidth = getChildAt(mDisplayedPage).getWidth();
-                viewLeft = Math.max(right - viewWidth,
-                        center + (prevViewWidth / 2) + PADDING_PUSH);
-            } else if (i < (mDisplayedPage - 1)) {
-                viewLeft = left - viewWidth - 5;
-            } else if (i > (mDisplayedPage + 1)) {
-                viewLeft = right + 5;
-            }
-            view.layout(viewLeft,
-                    mTextTop,
-                    viewLeft + viewWidth,
-                    mTextTop + viewHeight);
+            view.layout(right,
+                    textTop,
+                    right + viewWidth,
+                    textBottom);
         }
-        
+        setPosition(mDisplayedPage, 0, 0);
+
+        mShadow.setBounds(0, 0, right, dipToPixels(3));
+        mBottomBar.setBounds(0, b - t - dipToPixels(2), right, b - t);
+
         // Set up the fading edges
-        mFadingEdgeLeft.setBounds(0, 
-                mTextTop,
-                FADING_EDGE_LENGTH,
-                mTextTop + mTextHeight);
-        mFadingEdgeRight.setBounds(right - FADING_EDGE_LENGTH,
-                mTextTop,
-                right,
-                mTextTop + mTextHeight);
+        mFadingEdgeLeft.setBounds(0, textTop, mFadingEdgeLength, textBottom);
+        mFadingEdgeRight.setBounds(right - mFadingEdgeLength, textTop, right, textBottom);
     }
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
 
-        mTabDrawable.draw(canvas);
         mFadingEdgeLeft.draw(canvas);
         mFadingEdgeRight.draw(canvas);
+        if (mShowTopShadow) mShadow.draw(canvas);
+        if (mShowBottomBar) mBottomBar.draw(canvas);
+        if (mShowTab) mTabDrawable.draw(canvas);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
-        if (action == MotionEvent.ACTION_DOWN) {
-            
-        }
-        
+
         if (action == MotionEvent.ACTION_UP
                 && mLastMotionAction == MotionEvent.ACTION_DOWN
                 && event.getX() == mLastMotionX) {
-            int width = getWidth();
-            int pageSize = width / 4;
-            if ((int)mLastMotionX < pageSize
-                    && mDisplayedPage > 0) {
-                setDisplayedPage(mDisplayedPage - 1);
-                if (mOnHeaderChangeListener != null) {
-                    mOnHeaderChangeListener.onHeaderSelected(mDisplayedPage);
+            int displayedPageWidth = getChildAt(mDisplayedPage).getWidth() + mPaddingPush;
+            int edgeWidth = (getWidth()/2) - (displayedPageWidth/2);
+            int leftEdgeWidth = edgeWidth;
+            int rightEdgeWidth = getWidth() - edgeWidth;
+            if (mLastMotionX < leftEdgeWidth && mDisplayedPage > 0) {
+                if (mOnHeaderClickListener != null) {
+                    mOnHeaderClickListener.onHeaderClicked(mDisplayedPage - 1);
                 }
-            } else if ((int)mLastMotionX > width - pageSize
-                    && mDisplayedPage < getChildCount() - 1) {
-                setDisplayedPage(mDisplayedPage + 1);
-                if (mOnHeaderChangeListener != null) {
-                    mOnHeaderChangeListener.onHeaderSelected(mDisplayedPage);
+                if (mChangeOnClick) {
+                    setDisplayedPage(mDisplayedPage - 1);
+                    if (mOnHeaderClickListener != null) {
+                        mOnHeaderClickListener.onHeaderSelected(mDisplayedPage);
+                    }
+                }
+            } else if (mLastMotionX > leftEdgeWidth && mLastMotionX < rightEdgeWidth) {
+                if (mOnHeaderClickListener != null) {
+                    mOnHeaderClickListener.onHeaderClicked(mDisplayedPage);
+                }
+            } else if (mLastMotionX > rightEdgeWidth && mDisplayedPage < getChildCount() - 1) {
+                if (mOnHeaderClickListener != null) {
+                    mOnHeaderClickListener.onHeaderClicked(mDisplayedPage + 1);
+                }
+                if (mChangeOnClick) {
+                    setDisplayedPage(mDisplayedPage + 1);
+                    if (mOnHeaderClickListener != null) {
+                        mOnHeaderClickListener.onHeaderSelected(mDisplayedPage);
+                    }
                 }
             }
         }
-        
+
         mLastMotionAction = event.getAction();
         mLastMotionX = event.getX();
         return true;
     }
-    
+
     private static int map(float value, float fromLow, float fromHigh, int toLow, int toHigh) {
         return (int) ((value - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow);
     }
-    
+
     /**
-	 * Converts density independent pixel value to raw pixel value
-	 */
-	private static int dipToPixels(float dipValue) {
+     * Converts density independent pixel value to raw pixel value
+     */
+    private static int dipToPixels(float dipValue) {
         return (int) (mDisplayMetrics.density * dipValue + 0.5f);
-	}
+    }
+
+    private class ColorSet {
+        public int alpha;
+        public int red;
+        public int green;
+        public int blue;
+
+        ColorSet(int color) {
+            setColor(color);
+        }
+
+        public void setColor(int color) {
+            alpha = Color.alpha(color);
+            red = Color.red(color);
+            green = Color.green(color);
+            blue = Color.blue(color);
+        }
+
+        public int getColor() {
+            return Color.argb(alpha, red, green, blue);
+        }
+
+        public int getColor(int alphaOverride) {
+            return Color.argb(alphaOverride, red, green, blue);
+        }
+    }
 }

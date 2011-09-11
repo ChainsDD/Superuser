@@ -40,4 +40,7 @@
     <dimen name="log_item_padding_left">100dip</dimen>
     <dimen name="log_item_gap_between_fields">5dip</dimen>
     <dimen name="log_item_header_padding_left">10dip</dimen>
+    
+    <!--  Dimensions for PagerHeaders -->
+    <dimen name="pager_header_height">32dp</dimen>
 </resources>
