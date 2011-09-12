@@ -29,6 +29,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -40,8 +41,17 @@ public class PagerHeader extends ViewGroup {
     private Context mContext;
     private int mDisplayedPage = 0;
 
-    private int mLastMotionAction;
-    private float mLastMotionX;
+    private static final int LEFT_ZONE = -1;
+    private static final int MIDDLE_ZONE = 0;
+    private static final int RIGHT_ZONE = 1;
+
+    private int mLeftZoneEdge;
+    private int mRightZoneEdge;
+    private boolean mTouchZonesAccurate;
+
+    private int mTouchSlopSquare;
+    private boolean mAlwaysInTapRegion;
+    private MotionEvent mCurrentDownEvent;
 
     private ShapeDrawable mTabDrawable;
     private ShapeDrawable mBottomBar;
@@ -125,6 +135,10 @@ public class PagerHeader extends ViewGroup {
                 fadingEdgeGradient);
         mFadingEdgeRight = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT,
                 fadingEdgeGradient);
+
+        final ViewConfiguration config = ViewConfiguration.get(context);
+        int touchSlop = config.getScaledTouchSlop();
+        mTouchSlopSquare = touchSlop * touchSlop;
     }
 
     public void add(int index, String label) {
@@ -152,6 +166,7 @@ public class PagerHeader extends ViewGroup {
     }
 
     public void setPosition(int position, float positionOffset, int positionOffsetPixels) {
+        mTouchZonesAccurate = false;
         int width = getWidth();
         int center = width / 2;
 
@@ -295,45 +310,89 @@ public class PagerHeader extends ViewGroup {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int action = event.getAction();
+        final int action = event.getAction();
+        final float x = event.getX();
+        final float y = event.getY();
 
-        if (action == MotionEvent.ACTION_UP
-                && mLastMotionAction == MotionEvent.ACTION_DOWN
-                && event.getX() == mLastMotionX) {
-            int displayedPageWidth = getChildAt(mDisplayedPage).getWidth() + mPaddingPush;
-            int edgeWidth = (getWidth()/2) - (displayedPageWidth/2);
-            int leftEdgeWidth = edgeWidth;
-            int rightEdgeWidth = getWidth() - edgeWidth;
-            if (mLastMotionX < leftEdgeWidth && mDisplayedPage > 0) {
-                if (mOnHeaderClickListener != null) {
-                    mOnHeaderClickListener.onHeaderClicked(mDisplayedPage - 1);
+        switch (action) {
+        case MotionEvent.ACTION_DOWN:
+            if (mCurrentDownEvent != null) {
+                mCurrentDownEvent.recycle();
+            }
+            mCurrentDownEvent = MotionEvent.obtain(event);
+            mAlwaysInTapRegion = true;
+            showPress(mCurrentDownEvent, true);
+            break;
+        case MotionEvent.ACTION_MOVE:
+            if (mAlwaysInTapRegion) {
+                final int deltaX = (int) (x - mCurrentDownEvent.getX());
+                final int deltaY = (int) (y - mCurrentDownEvent.getY());
+                int distance = (deltaX * deltaX) + (deltaY * deltaY);
+                if (distance > mTouchSlopSquare) {
+                    mAlwaysInTapRegion = false;
+                    showPress(mCurrentDownEvent, false);
                 }
-                if (mChangeOnClick) {
-                    setDisplayedPage(mDisplayedPage - 1);
-                    if (mOnHeaderClickListener != null) {
-                        mOnHeaderClickListener.onHeaderSelected(mDisplayedPage);
-                    }
-                }
-            } else if (mLastMotionX > leftEdgeWidth && mLastMotionX < rightEdgeWidth) {
-                if (mOnHeaderClickListener != null) {
-                    mOnHeaderClickListener.onHeaderClicked(mDisplayedPage);
-                }
-            } else if (mLastMotionX > rightEdgeWidth && mDisplayedPage < getChildCount() - 1) {
-                if (mOnHeaderClickListener != null) {
-                    mOnHeaderClickListener.onHeaderClicked(mDisplayedPage + 1);
-                }
-                if (mChangeOnClick) {
-                    setDisplayedPage(mDisplayedPage + 1);
-                    if (mOnHeaderClickListener != null) {
-                        mOnHeaderClickListener.onHeaderSelected(mDisplayedPage);
-                    }
-                }
+            }
+            break;
+        case MotionEvent.ACTION_UP:
+            showPress(mCurrentDownEvent, false);
+            if (mAlwaysInTapRegion) {
+                onTap(mCurrentDownEvent);
             }
         }
 
-        mLastMotionAction = event.getAction();
-        mLastMotionX = event.getX();
         return true;
+    }
+
+    private void showPress(MotionEvent event, boolean pressed) {
+        int touchZone = getTouchZone(event);
+        if (touchZone != MIDDLE_ZONE) {
+            TextView view = (TextView) getChildAt(mDisplayedPage + getTouchZone(event));
+            view.setTextColor(pressed?mActiveTextColor.getColor():mInactiveTextColor.getColor());
+        }
+    }
+
+    private void onTap(MotionEvent event) {
+        int touchZone = getTouchZone(event);
+        if (mOnHeaderClickListener != null) {
+            mOnHeaderClickListener.onHeaderClicked(mDisplayedPage + touchZone);
+        }
+
+        if (mChangeOnClick && touchZone != MIDDLE_ZONE) {
+            setDisplayedPage(mDisplayedPage + touchZone);
+            if (mOnHeaderClickListener != null) {
+                mOnHeaderClickListener.onHeaderSelected(mDisplayedPage);
+            }
+        }
+    }
+
+    private int getTouchZone(MotionEvent event) {
+        if (mTouchZonesAccurate) {
+            int x = (int) event.getX();
+            if (x < mLeftZoneEdge && mDisplayedPage > 0) {
+                return LEFT_ZONE;
+            } else if (x > mLeftZoneEdge && x < mRightZoneEdge) {
+                return MIDDLE_ZONE;
+            } else if (x > mRightZoneEdge && mDisplayedPage < getChildCount() -1) {
+                return RIGHT_ZONE;
+            }
+        } else {
+            View middleChild = getChildAt(mDisplayedPage);
+            int mLeft = middleChild.getLeft();
+            int mRight = middleChild.getRight();
+
+            View leftChild = getChildAt(mDisplayedPage - 1);
+            int lRight = leftChild!=null?leftChild.getRight():-1;
+
+            View rightChild = getChildAt(mDisplayedPage + 1);
+            int rLeft = rightChild!=null?rightChild.getLeft():-1;
+
+            mLeftZoneEdge = lRight < 0 ? 0 : lRight + ((mLeft - lRight)/2);
+            mRightZoneEdge = rLeft < 0 ? getWidth() : rLeft - ((rLeft - mRight)/2);
+            mTouchZonesAccurate = true;
+            return getTouchZone(event);
+        }
+        return MIDDLE_ZONE;
     }
 
     private static int map(float value, float fromLow, float fromHigh, int toLow, int toHigh) {
