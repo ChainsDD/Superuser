@@ -259,16 +259,19 @@ public class PagerHeader extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int textHeight = 0;
+        int textWidth = 0;
         for (int i = 0; i < getChildCount(); i++ ) {
             View view = getChildAt(i);
             view.measure(0, 0);
             textHeight = Math.max(textHeight, view.getMeasuredHeight());
+            textWidth = Math.max(textWidth, view.getMeasuredWidth());
         }
 
-        int width = resolveSize(0, widthMeasureSpec);
+        int width = resolveSize(textWidth, widthMeasureSpec);
 
-        int height = resolveSize(textHeight + getPaddingTop() + getPaddingBottom(),
-                heightMeasureSpec);
+        int desiredHeight = textHeight + getPaddingTop() + getPaddingBottom()
+                + mShadowHeight + mTabHeight;
+        int height = resolveSize(desiredHeight, heightMeasureSpec);
 
         setMeasuredDimension(width, height);
     }
@@ -285,7 +288,8 @@ public class PagerHeader extends ViewGroup {
             TextView view = (TextView) getChildAt(i);
             int viewWidth = view.getMeasuredWidth();
             int viewHeight = view.getMeasuredHeight();
-            int textTop = (height/2) - (viewHeight - (view.getLineHeight()/2));
+            int textTop = (height/2) - (viewHeight -
+                    ((view.getLineHeight()*view.getLineCount())/2));
             view.layout(right,
                     textTop,
                     right + viewWidth,
