@@ -267,7 +267,8 @@ public class PagerHeader extends ViewGroup {
             textWidth = Math.max(textWidth, view.getMeasuredWidth());
         }
 
-        int width = resolveSize(textWidth, widthMeasureSpec);
+        int desiredWidth = textWidth + (mFadingEdgeLength *2);
+        int width = resolveSize(desiredWidth, widthMeasureSpec);
 
         int desiredHeight = textHeight + getPaddingTop() + getPaddingBottom()
                 + mShadowHeight + mTabHeight;
