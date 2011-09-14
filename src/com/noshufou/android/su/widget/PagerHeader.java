@@ -70,6 +70,8 @@ public class PagerHeader extends ViewGroup {
     private int mTabPadding;
     private int mPaddingPush;
     private int mFadingEdgeLength;
+    private int mShadowHeight;
+    private int mBottomBarHeight;
     private boolean mShowTopShadow;
     private boolean mShowBottomBar;
     private boolean mShowTab;
@@ -125,9 +127,11 @@ public class PagerHeader extends ViewGroup {
 
         mBottomBar = new ShapeDrawable(new RectShape());
         mBottomBar.getPaint().setColor(mTabColor.getColor());
+        mBottomBarHeight = dipToPixels(2);
 
         mShadow = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
                 new int[] {0x88000000, 0x00000000});
+        mShadowHeight = dipToPixels(3);
 
         int[] fadingEdgeGradient = new int[] { fadingEdgeColorHint.getColor(),
                 fadingEdgeColorHint.getColor(0) };
@@ -143,9 +147,9 @@ public class PagerHeader extends ViewGroup {
 
     public void add(int index, String label) {
         TextView textView = new TextView(mContext);
-        textView.setText(label);
         textView.setTextColor(mInactiveTextColor.getColor());
         textView.setTextSize(16);
+        textView.setText(label);
         addView(textView);
     }
 
@@ -272,9 +276,7 @@ public class PagerHeader extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int right = r - l;
-
-        int textTop = 0 + getPaddingTop();
-        int textBottom = b - t - getPaddingBottom();
+        int height = b - t;
 
         for (int i = 0; i < getChildCount(); i++) {
             // Put all the children outside of the view, then use setPosition
@@ -282,19 +284,22 @@ public class PagerHeader extends ViewGroup {
             // we set the top and bottom of every view though.
             TextView view = (TextView) getChildAt(i);
             int viewWidth = view.getMeasuredWidth();
+            int viewHeight = view.getMeasuredHeight();
+            int textTop = (height/2) - (viewHeight - (view.getLineHeight()/2));
             view.layout(right,
                     textTop,
                     right + viewWidth,
-                    textBottom);
+                    textTop + viewHeight);
         }
         setPosition(mDisplayedPage, 0, 0);
 
-        mShadow.setBounds(0, 0, right, dipToPixels(3));
-        mBottomBar.setBounds(0, b - t - dipToPixels(2), right, b - t);
+        mShadow.setBounds(0, 0, right, mShadowHeight);
+        mBottomBar.setBounds(0, height - mBottomBarHeight, right, height);
 
         // Set up the fading edges
-        mFadingEdgeLeft.setBounds(0, textTop, mFadingEdgeLength, textBottom);
-        mFadingEdgeRight.setBounds(right - mFadingEdgeLength, textTop, right, textBottom);
+        mFadingEdgeLeft.setBounds(0, mShadowHeight, mFadingEdgeLength, height - mBottomBarHeight);
+        mFadingEdgeRight.setBounds(right - mFadingEdgeLength, mShadowHeight,
+                right, height - mBottomBarHeight);
     }
 
     @Override
