@@ -26,6 +26,14 @@ public class LogAdapter extends CursorAdapter
     private Cursor mCursor;
     private Context mContext;
 
+    public static final String[] PROJECTION = new String[] {
+        Logs._ID, Logs.NAME, Logs.DATE, Logs.TYPE
+    };
+
+    private static final int LOG_COLUMN_NAME = 1;
+    private static final int LOG_COLUMN_DATE = 2;
+    private static final int LOG_COLUMN_TYPE = 3;
+
     public LogAdapter(Cursor cursor, Context context) {
         super(context, cursor, false);
         mCursor = cursor;
@@ -50,7 +58,7 @@ public class LogAdapter extends CursorAdapter
             return;
         }
 
-        mIndexer = new DateIndexer(mContext, cursor, cursor.getColumnIndex(Logs.DATE));
+        mIndexer = new DateIndexer(mContext, cursor, LOG_COLUMN_DATE);
     }
 
     public boolean getDisplaySectionHeadersEnabled() {
@@ -79,12 +87,12 @@ public class LogAdapter extends CursorAdapter
     public void bindView(View view, Context context, Cursor cursor) {
         LogListItem item = (LogListItem) view;
         item.setTimeText(Util.formatTime(context,
-                cursor.getLong(cursor.getColumnIndex(Logs.DATE))));
+                cursor.getLong(LOG_COLUMN_DATE)));
         if (mShowName) {
-            item.setNameText(cursor.getString(cursor.getColumnIndex(Logs.NAME)));
+            item.setNameText(cursor.getString(LOG_COLUMN_NAME));
         }
         int logType = R.string.unknown;
-        switch (cursor.getInt(cursor.getColumnIndex(Logs.TYPE))) {
+        switch (cursor.getInt(LOG_COLUMN_TYPE)) {
         case Logs.LogType.ALLOW:
             logType = R.string.allowed;
             break;

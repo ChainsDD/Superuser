@@ -86,7 +86,7 @@ public class LogFragment extends ListFragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), Logs.CONTENT_URI, null, null, null, null);
+        return new CursorLoader(getActivity(), Logs.CONTENT_URI, LogAdapter.PROJECTION, null, null, null);
     }
 
     @Override

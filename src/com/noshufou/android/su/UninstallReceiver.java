@@ -26,7 +26,7 @@ public class UninstallReceiver extends BroadcastReceiver {
         if (cursor.moveToFirst()) {
             cr.delete(
                     ContentUris.withAppendedId(Apps.CONTENT_URI,
-                            cursor.getLong(cursor.getColumnIndex(Apps._ID))),
+                            cursor.getLong(0)),
                     null, null);
         }
         cursor.close();

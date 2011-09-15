@@ -19,11 +19,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
+import android.widget.AbsListView.OnScrollListener;
 
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps;
@@ -42,6 +42,17 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
     private int mPinnedHeaderBackgroundColor;
     private AppListAdapter mAdapter;
     private LinearLayout mLoadingLayout = null;
+    
+    public static final String[] PROJECTION = new String[] {
+        Apps._ID, Apps.UID, Apps.NAME, Apps.ALLOW, Logs.DATE, Logs.TYPE,
+    };
+
+    private static final int COLUMN_ID = 0;
+    private static final int COLUMN_UID = 1;
+    private static final int COLUMN_NAME = 2;
+    private static final int COLUMN_ALLOW = 3;
+    private static final int COLUMN_LAST_ACCESS = 4;
+    private static final int COLUMN_LAST_ACCESS_TYPE = 5;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -120,7 +131,7 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), Apps.CONTENT_URI, null,
+        return new CursorLoader(getActivity(), Apps.CONTENT_URI, PROJECTION,
                 Apps.ALLOW + "!=?", new String[] { String.valueOf(Apps.AllowType.ASK) }, null);
     }
 
@@ -187,7 +198,7 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
                 mCursor.moveToPosition(mLastCachedPosition);
                 while (mCursor.moveToNext()) {
                     mLastCachedPosition++;
-                    if (mCursor.getLong(mCursor.getColumnIndex(Apps._ID)) == id) {
+                    if (mCursor.getLong(COLUMN_ID) == id) {
                         mPositions.put(id, mLastCachedPosition);
                         return mLastCachedPosition;
                     }
@@ -214,9 +225,9 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
         public void bindView(View itemView, Context context, Cursor cursor) {
             final AppListItem view = (AppListItem) itemView;
 
-            int uid = cursor.getInt(cursor.getColumnIndex(Apps.UID));
-            String nameText = cursor.getString(cursor.getColumnIndex(Apps.NAME));
-            int allow = cursor.getInt(cursor.getColumnIndex(Apps.ALLOW));
+            int uid = cursor.getInt(COLUMN_UID);
+            String nameText = cursor.getString(COLUMN_NAME);
+            int allow = cursor.getInt(COLUMN_ALLOW);
 
             // Set app icon
             view.setAppIcon(Util.getAppIcon(getActivity(), uid));
@@ -236,9 +247,9 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
             }
 
             // Set log data
-            long  date = cursor.getLong(cursor.getColumnIndex(Apps.LAST_ACCESS));
+            long  date = cursor.getLong(COLUMN_LAST_ACCESS);
             if (mShowLogData && date > 0) {
-                int lastLogType = cursor.getInt(cursor.getColumnIndex(Apps.LAST_ACCESS_TYPE));
+                int lastLogType = cursor.getInt(COLUMN_LAST_ACCESS_TYPE);
                 int logTextRes = R.string.log_last_accessed;
                 switch (lastLogType) {
                 case Logs.LogType.ALLOW: logTextRes = R.string.log_last_allowed; break;
@@ -305,7 +316,7 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
                 return -1;
             }
             mCursor.moveToPosition(position);
-            int allow = mCursor.getInt(mCursor.getColumnIndex(Apps.ALLOW));
+            int allow = mCursor.getInt(COLUMN_ALLOW);
             if (allow == Apps.AllowType.ALLOW) {
                 return 0;
             } else {

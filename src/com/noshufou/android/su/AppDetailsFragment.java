@@ -85,6 +85,20 @@ public class AppDetailsFragment extends ListFragment
     private int mAllow = -1;
     
     LogAdapter mAdapter = null;
+
+    public static final String[] DETAILS_PROJECTION = new String[] {
+        Apps._ID, Apps.UID, Apps.PACKAGE, Apps.NAME, Apps.EXEC_UID, Apps.EXEC_CMD, Apps.ALLOW,
+        Apps.NOTIFICATIONS, Apps.LOGGING
+    };
+    
+    private static final int DETAILS_COLUMN_UID = 1;
+    private static final int DETAILS_COLUMN_PACKAGE = 2;
+    private static final int DETAILS_COLUMN_NAME = 3;
+    private static final int DETAILS_COLUMN_EXEC_UID = 4;
+    private static final int DETAILS_COLUMN_EXEC_CMD = 5;
+    private static final int DETAILS_COLUMN_ALLOW = 6;
+    private static final int DETAILS_COLUMN_NOTIFICATIONS = 7;
+    private static final int DETAILS_COLUMN_LOGGING = 8;
     
     public static AppDetailsFragment newInstance(long index) {
         AppDetailsFragment fragment = new AppDetailsFragment();
@@ -295,11 +309,11 @@ public class AppDetailsFragment extends ListFragment
         case DETAILS_LOADER:
             return new CursorLoader(getActivity(),
                     ContentUris.withAppendedId(Apps.CONTENT_URI, mShownIndex),
-                    null, null, null, null);
+                    DETAILS_PROJECTION, null, null, null);
         case LOG_LOADER:
             return new CursorLoader(getActivity(),
                     ContentUris.withAppendedId(Logs.CONTENT_URI, mShownIndex),
-                    null, null, null, null);
+                    LogAdapter.PROJECTION, null, null, null);
         default:
             throw new IllegalArgumentException("Unknown Loader: " + id);
         }
@@ -310,16 +324,16 @@ public class AppDetailsFragment extends ListFragment
         switch (loader.getId()) {
         case DETAILS_LOADER:
             if (data.moveToFirst()) {
-                mAppName.setText(data.getString(data.getColumnIndex(Apps.NAME)));
+                mAppName.setText(data.getString(DETAILS_COLUMN_NAME));
                 mAppIcon.setImageDrawable(
-                        Util.getAppIcon(getActivity(), data.getInt(data.getColumnIndex(Apps.UID))));
-                int allow = data.getInt(data.getColumnIndex(Apps.ALLOW));
+                        Util.getAppIcon(getActivity(), data.getInt(DETAILS_COLUMN_UID)));
+                int allow = data.getInt(DETAILS_COLUMN_ALLOW);
                 mStatusIcon.setImageDrawable(Util.getStatusIconDrawable(getActivity(), allow));
-                mPackageNameText.setText(data.getString(data.getColumnIndex(Apps.PACKAGE)));
-                mAppUidText.setText(data.getString(data.getColumnIndex(Apps.UID)));
+                mPackageNameText.setText(data.getString(DETAILS_COLUMN_PACKAGE));
+                mAppUidText.setText(data.getString(DETAILS_COLUMN_UID));
                 mRequestDetailText.setText(
-                        Util.getUidName(getActivity(), data.getInt(data.getColumnIndex(Apps.EXEC_UID)), true));
-                mCommandText.setText(data.getString(data.getColumnIndex(Apps.EXEC_CMD)));
+                        Util.getUidName(getActivity(), data.getInt(DETAILS_COLUMN_EXEC_UID), true));
+                mCommandText.setText(data.getString(DETAILS_COLUMN_EXEC_CMD));
                 mStatusText.setText(allow==1?
                         R.string.allowed:R.string.denied);
                 if (mToggleButton != null) {
@@ -327,8 +341,8 @@ public class AppDetailsFragment extends ListFragment
                 }
                 mAllow = allow;
                 
-                String notificationsStr = data.getString(data.getColumnIndex(Apps.NOTIFICATIONS));
-                String loggingStr = data.getString(data.getColumnIndex(Apps.LOGGING));
+                String notificationsStr = data.getString(DETAILS_COLUMN_NOTIFICATIONS);
+                String loggingStr = data.getString(DETAILS_COLUMN_LOGGING);
                 if (notificationsStr == null && loggingStr == null) {
                     mUseAppSettings = true;
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
