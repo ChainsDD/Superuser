@@ -289,11 +289,18 @@ public class PermissionsProvider extends ContentProvider {
             try {
                 rowId = mDb.insertOrThrow(Apps.TABLE_NAME, null, values);
             } catch (SQLException e) {
-                rowId = mDb.update(Apps.TABLE_NAME, values, Apps.UID + "=?",
+                mDb.update(Apps.TABLE_NAME, values, Apps.UID + "=?",
                         new String[] { values.getAsString(Apps.UID) });
+                Cursor c = mDb.query(Apps.TABLE_NAME, new String[] { Apps._ID },
+                        Apps.UID + "=?", new String[] { values.getAsString(Apps.UID)},
+                        null, null, null);
+                if (c.moveToFirst()) {
+                    rowId = c.getLong(0);
+                }
+                c.close();
             }
+            Log.d(TAG, "rowId = " + rowId);
             if (values.getAsInteger(Apps.ALLOW) != Apps.AllowType.ASK) {
-                // TODO: Switch this to use the log service
                 ContentValues logValues = new ContentValues();
                 logValues.put(Logs.APP_ID, rowId);
                 logValues.put(Logs.DATE, System.currentTimeMillis());
@@ -320,7 +327,7 @@ public class PermissionsProvider extends ContentProvider {
             throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
         
-        if (rowId > 0) {
+        if (rowId > -1) {
             getContext().getContentResolver().notifyChange(returnUri, null);
             return returnUri;
         }
