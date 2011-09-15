@@ -17,6 +17,7 @@ package com.noshufou.android.su;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
@@ -38,10 +39,10 @@ public class AppDetailsActivity extends FragmentActivity {
         
         setContentView(R.layout.activity_app_details);
         if (savedInstanceState == null) {
-            AppDetailsFragment detailsFragment = new AppDetailsFragment();
-            detailsFragment.setArguments(getIntent().getExtras());
+            Fragment fragment = Fragment.instantiate(this, AppDetailsFragment.class.getName(),
+                    getIntent().getExtras());
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, detailsFragment).commit();
+                    .add(R.id.container, fragment).commit();
         }
     }
 
