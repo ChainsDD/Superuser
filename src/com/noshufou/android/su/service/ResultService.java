@@ -16,7 +16,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.noshufou.android.su.AppDetailsActivity;
 import com.noshufou.android.su.HomeActivity;
 import com.noshufou.android.su.R;
 import com.noshufou.android.su.SuRequestReceiver;
@@ -35,9 +34,18 @@ public class ResultService extends IntentService {
     final String LAST_NOTIFICATION_UID = "last_notification_uid";
     final String LAST_NOTIFICATION_TIME = "last_notification_time";
     
+    public static final String[] PROJECTION = new String[] {
+        Apps._ID, Apps.ALLOW, Apps.NOTIFICATIONS, Apps.LOGGING
+    };
+
+    private static final int COLUMN_ID = 0;
+    private static final int COLUMN_ALLOW = 1;
+    private static final int COLUMN_NOTIFICATIONS = 2;
+    private static final int COLUMN_LOGGING = 3;
+
     // TODO: Add in a license check here
-    private boolean mLicenseChecked = false;
-    private boolean mLicensed = true;
+//    private boolean mLicenseChecked = false;
+//    private boolean mLicensed = true;
     
     private SharedPreferences mPrefs = null;
     private boolean mNotify = true;
@@ -76,14 +84,14 @@ public class ResultService extends IntentService {
             Cursor c = getContentResolver().query(
                     Uri.withAppendedPath(Apps.CONTENT_URI,
                             "uid/" + callerUid),
-                    new String[] { Apps._ID, Apps.LOGGING, Apps.NOTIFICATIONS, Apps.ALLOW },
+                    PROJECTION,
                     null, null, null);
             if (c.moveToFirst()) {
                 Log.d(TAG, "Found in database");
-                appId = c.getLong(c.getColumnIndex(Apps._ID));
-                appNotify = c.getString(c.getColumnIndex(Apps.NOTIFICATIONS));
-                appLog = c.getString(c.getColumnIndex(Apps.LOGGING));
-                appAllow = c.getInt(c.getColumnIndex(Apps.ALLOW));
+                appId = c.getLong(COLUMN_ID);
+                appNotify = c.getString(COLUMN_NOTIFICATIONS);
+                appLog = c.getString(COLUMN_LOGGING);
+                appAllow = c.getInt(COLUMN_ALLOW);
                 Log.d(TAG, "appId = " + appId);
             }
             c.close();
