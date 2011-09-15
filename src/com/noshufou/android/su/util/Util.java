@@ -198,9 +198,9 @@ public class Util {
 
             // We have to hold up the thread to make sure that we're ready to read
             // the stream, using increments of 5ms makes it return as quick as
-            // possible, and limiting to 500ms makes sure that it doesn't hang for
+            // possible, and limiting to 1000ms makes sure that it doesn't hang for
             // too long if there's a problem.
-            for (int i = 0; i < 200; i++) {
+            for (int i = 0; i < 400; i++) {
                 if (is.ready()) {
                     break;
                 }
@@ -243,9 +243,9 @@ public class Util {
 
             // We have to hold up the thread to make sure that we're ready to read
             // the stream, using increments of 5ms makes it return as quick as
-            // possible, and limiting to 500ms makes sure that it doesn't hang for
+            // possible, and limiting to 1000ms makes sure that it doesn't hang for
             // too long if there's a problem.
-            for (int i = 0; i < 200; i++) {
+            for (int i = 0; i < 400; i++) {
                 if (is.ready()) {
                     break;
                 }
