@@ -1,6 +1,6 @@
 {
     "version": "1",
-    "homepage": "http://androidsu.com"/,
+    "homepage": "http://androidsu.com/",
     "donate": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DNKPJ3PX44ZU8",
     "roms": [
         {
