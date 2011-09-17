@@ -301,7 +301,7 @@ public class Util {
     public static String formatTime(Context context, long time) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean hour24 = prefs.getBoolean("pref_24_hour_format", true);
-        boolean showSeconds = prefs.getBoolean("pref_show_seconds", true);
+        boolean showSeconds = prefs.getBoolean("pref_show_seconds", false);
         String hour = "kk";
         String min = "mm";
         String sec = ":ss";

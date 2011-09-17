@@ -110,7 +110,7 @@
             android:summaryOn="@string/pref_show_seconds_summary_on"
             android:summaryOff="@string/pref_show_seconds_summary_off"
             android:dependency="pref_logging"
-            android:defaultValue="true" />
+            android:defaultValue="false" />
         <ListPreference
             android:key="pref_date_format"
             android:title="@string/pref_date_format_title"
