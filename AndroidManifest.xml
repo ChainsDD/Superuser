@@ -38,9 +38,6 @@
         <activity android:name="AppDetailsActivity"
             android:theme="@style/Theme.Superuser"
             android:label="Details" />
-        <activity android:name="LogActivity"
-            android:theme="@style/Theme.Superuser"
-            android:label="Log" />
         <activity android:name=".preferences.PreferencesActivity"
             android:theme="@style/Theme.Superuser.Preferences"
             android:label="Preferences" />
