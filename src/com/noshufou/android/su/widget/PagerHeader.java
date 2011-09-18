@@ -222,7 +222,7 @@ public class PagerHeader extends ViewGroup {
                 newLeft = Math.min(0, plusOneLeft - viewWidth - mPaddingPush);
                 view.layout(newLeft, view.getTop(), newLeft + viewWidth, view.getBottom());
                 int alpha = map(positionOffset, 1, 0, 0, 255);
-                view.setTextColor(mInactiveTextColor.getColor());
+                view.setTextColor(mInactiveTextColor.getColor(alpha));
             }
         }
 
@@ -237,7 +237,7 @@ public class PagerHeader extends ViewGroup {
                 newLeft = Math.max(minusOneRight + mPaddingPush, width - viewWidth);
                 view.layout(newLeft, view.getTop(), newLeft + viewWidth, view.getBottom());
                 int alpha = map(positionOffset, 0, 1, 0, 255);
-                view.setTextColor(mInactiveTextColor.getColor());
+                view.setTextColor(mInactiveTextColor.getColor(alpha));
             }
         }
 
