@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright (c) 2011 Adam Shanks (ChainsDD)
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package com.noshufou.android.su;
 
 import android.app.Notification;
@@ -6,48 +21,42 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 
+import com.noshufou.android.su.util.Util;
+
 public class InstallReceiver extends BroadcastReceiver {
-    private static final String TAG = "InstallReceiver";
+    private static final String TAG = "Su.InstallReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         PackageManager pm = context.getPackageManager();
         String packageName = intent.getDataString().split(":")[1];
-        Log.d("InstallReceiver", packageName);
-        int newAppUid = 0;
-        int superuserUid = 0;
-        
+        PackageInfo packageInfo = null;
+
         try {
-            newAppUid = pm.getApplicationInfo(packageName, 0).uid;
-            superuserUid = pm.getApplicationInfo(context.getPackageName(), 0).uid;
+            packageInfo  = pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
         } catch (NameNotFoundException e) {
-            // This can't happen
-            Log.e(TAG, "You divided by zero...", e);
+            // This won't happen, but if it does, we don't continue
+            Log.e(TAG, "PackageManager divided by zero...", e);
+            return;
         }
         
-        if (newAppUid == superuserUid ||
-                pm.checkPermission("com.noshufou.android.su.RESPOND", packageName) ==
-                    PackageManager.PERMISSION_GRANTED) {
-            CharSequence appName = "";
-            try {
-                appName = pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0));
-            } catch (NameNotFoundException e) {
-                e.printStackTrace();
-            }
+        if (Util.isPackageMalicious(context, packageInfo) != 0) {
             NotificationManager nm = 
-                    (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             Notification notification = new Notification(R.drawable.stat_su,
                     context.getString(R.string.malicious_app_notification_ticker),
                     System.currentTimeMillis());
-            
             CharSequence contentTitle = context.getString(R.string.app_name);
-            CharSequence contentText = context.getString(R.string.malicious_app_notification_text, appName);
-            Intent notificationIntent = new Intent(context, Su.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+            CharSequence contentText = context.getString(R.string.malicious_app_notification_text,
+                    pm.getApplicationLabel(packageInfo.applicationInfo));
+            Intent notificationIntent = new Intent(Intent.ACTION_DELETE, intent.getData());
+            PendingIntent contentIntent =
+                PendingIntent.getActivity(context, 0, notificationIntent, 0);
             notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
             notification.flags |= Notification.FLAG_AUTO_CANCEL;
             nm.notify(0, notification);
