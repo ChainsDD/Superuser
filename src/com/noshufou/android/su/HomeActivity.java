@@ -60,6 +60,13 @@ public class HomeActivity extends FragmentActivity {
 
             pagerAdapter.addPage(AppListFragment.class, R.string.page_label_apps);
             pagerAdapter.addPage(LogFragment.class, R.string.page_label_log);
+
+            // DEBUG
+//            pagerAdapter.addPage(AppListFragment.class, null, "APPS");
+//            pagerAdapter.addPage(LogFragment.class, null, "LOGS");
+//            pagerAdapter.addPage(AppListFragment.class, null, "more apps");
+//            pagerAdapter.addPage(LogFragment.class, null, "more logs");
+            // END DEBUG
         }
 
         mTitleLogo = 

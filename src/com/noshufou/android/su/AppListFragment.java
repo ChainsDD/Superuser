@@ -2,7 +2,10 @@ package com.noshufou.android.su;
 
 import java.util.HashMap;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -17,17 +20,19 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
-import android.widget.AbsListView.OnScrollListener;
 
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps;
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
+import com.noshufou.android.su.service.ResultService;
 import com.noshufou.android.su.util.Util;
 import com.noshufou.android.su.widget.AppListItem;
 import com.noshufou.android.su.widget.PinnedHeaderListView;
@@ -150,6 +155,26 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
+    
+    private void doToggle(long id, int allow) {
+        ContentResolver cr = getActivity().getContentResolver();
+        Uri uri = Uri.withAppendedPath(Apps.CONTENT_URI, String.valueOf(id));
+
+        ContentValues values = new ContentValues();
+        values.put(Apps.ALLOW, allow == 1?0:1);
+        cr.update(uri, values, null, null);
+        
+        // Update the log
+        values.clear();
+        values.put(Logs.DATE, System.currentTimeMillis());
+        values.put(Logs.TYPE, Logs.LogType.TOGGLE);
+        cr.insert(Uri.withAppendedPath(Logs.CONTENT_URI, String.valueOf(id)), values);
+        Intent intent = new Intent(getActivity(), ResultService.class);
+        intent.putExtra(ResultService.EXTRA_ACTION, ResultService.ACTION_RECYCLE);
+        getActivity().startService(intent);
+
+    }
+    
     public class AppListAdapter extends CursorAdapter
             implements OnScrollListener, SectionIndexer, 
             PinnedHeaderListView.PinnedHeaderAdapter {
@@ -225,9 +250,10 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
         public void bindView(View itemView, Context context, Cursor cursor) {
             final AppListItem view = (AppListItem) itemView;
 
-            int uid = cursor.getInt(COLUMN_UID);
-            String nameText = cursor.getString(COLUMN_NAME);
-            int allow = cursor.getInt(COLUMN_ALLOW);
+            final long id = cursor.getLong(COLUMN_ID);
+            final int uid = cursor.getInt(COLUMN_UID);
+            final String nameText = cursor.getString(COLUMN_NAME);
+            final int allow = cursor.getInt(COLUMN_ALLOW);
 
             // Set app icon
             view.setAppIcon(Util.getAppIcon(getActivity(), uid));
@@ -242,6 +268,14 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
             // Set the status indicator
             if (mShowStatusIcons) {
                 view.setStatusButton(Util.getStatusIconDrawable(getActivity(), allow), 0, 0l);
+//                view.setOnStatusButtonClickListener(new OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(View v) {
+//                        doToggle(id, allow);
+//                    }
+//                    
+//                });
             } else {
                 view.setStatusButton(null, 0, 0);
             }
