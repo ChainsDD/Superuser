@@ -40,7 +40,7 @@
   <string name="log_count">%d bejegyzés megjelenítése</string>
   <string name="log_last_accessed">Utoljára hozzáfért: %1$s, %2$s</string>
   <string name="log_last_allowed">Utoljára engedélyezve: %1$s, %2$s</string>
-  <string name="log_last_denied">Utoljára megtagadva: %1$, %2$s</string>
+  <string name="log_last_denied">Utoljára megtagadva: %1$s, %2$s</string>
   <string name="log_last_toggled">Utoljára átváltva: %1$s, %2$s</string>
   <string name="log_created_on">Létrehozva %1$s, %2$s</string>
   <string name="detail_package">Csomag</string>
