@@ -23,13 +23,15 @@ public class UninstallReceiver extends BroadcastReceiver {
                 Apps.UID + "=?",
                 new String[] { String.valueOf(intent.getIntExtra(Intent.EXTRA_UID, -1)) },
                 null);
-        if (cursor.moveToFirst()) {
-            cr.delete(
-                    ContentUris.withAppendedId(Apps.CONTENT_URI,
-                            cursor.getLong(0)),
-                    null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                cr.delete(
+                        ContentUris.withAppendedId(Apps.CONTENT_URI,
+                                cursor.getLong(0)),
+                                null, null);
+            }
+            cursor.close();
         }
-        cursor.close();
     }
 
 }
