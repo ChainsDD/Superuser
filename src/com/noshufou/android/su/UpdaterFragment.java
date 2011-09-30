@@ -56,6 +56,20 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
         public String binaryMd5;
         public String busyboxUrl;
         public String busyboxMd5;
+        
+        public boolean populate(JSONObject manifest) {
+            try {
+                version = manifest.getString("version");
+                versionCode = manifest.getInt("version-code");
+                binaryUrl = manifest.getString("binary");
+                binaryMd5 = manifest.getString("binary-md5sum");
+                busyboxUrl = manifest.getString("busybox");
+                busyboxMd5 = manifest.getString("busybox-md5sum");
+            } catch (JSONException e) {
+                return false;
+            }
+            return true;
+        }
     }
 
     private Manifest mManifest;
@@ -112,6 +126,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
         public static final int STATUS_FINISHED_SUCCESSFUL = 2;
         public static final int STATUS_FINISHED_FAIL = 3;
         public static final int STATUS_FINISHED_NO_NEED = 4;
+        public static final int STATUS_CONN_FAILED = 5;
 
         @Override
         protected void onPreExecute() {
@@ -138,7 +153,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                 } else {
                     publishProgress(progressTotal, progressStep - 1, progressStep,
                             R.string.updater_fail, CONSOLE_RED);
-                    return STATUS_FINISHED_FAIL;
+                    return STATUS_CONN_FAILED;
                 }
                 // Parse manifest
                 // TODO: Actually parse the manifest here, as of now it's being
@@ -158,8 +173,13 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                 progressStep++;
                 publishProgress(progressTotal, progressStep - 1, progressStep,
                         R.string.updater_step_latest_version);
-                publishProgress(progressTotal, progressStep, progressStep,
-                        mManifest.version, CONSOLE_GREEN);
+                if (mManifest.version != null) {
+                    publishProgress(progressTotal, progressStep, progressStep,
+                            mManifest.version, CONSOLE_GREEN);
+                } else {
+                    publishProgress(progressTotal, progressStep - 1, progressStep,
+                            R.string.updater_fail, CONSOLE_RED);
+                }
                 
                 // Check the currently installed version
                 progressStep++;
@@ -167,6 +187,9 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                         R.string.updater_step_check_installed_version);
                 int installedVersionCode = Util.getSuVersionCode();
                 String installedVersion = Util.getSuVersion();
+                if (installedVersion == null) {
+                    installedVersion = "legacy";
+                }
                 if (installedVersionCode < mManifest.versionCode) {
                     publishProgress(progressTotal, progressStep, progressStep,
                             installedVersion, CONSOLE_RED);
@@ -282,6 +305,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                             R.string.updater_bad_install_location);
                     return STATUS_FINISHED_FAIL;
                 }
+
                 publishProgress(progressTotal, progressStep, progressStep,
                         installedSu, CONSOLE_GREEN);
                 
@@ -455,6 +479,11 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                         R.string.updater_step_check_installed_version);
                 installedVersionCode = Util.getSuVersionCode();
                 installedVersion = Util.getSuVersion();
+                if (installedVersion == null) {
+                    publishProgress(progressTotal, progressStep, progressStep,
+                            R.string.updater_fail, CONSOLE_RED);
+                    return STATUS_FINISHED_FAIL;
+                }
                 if (installedVersionCode == mManifest.versionCode) {
                     publishProgress(progressTotal, progressStep, progressStep,
                             installedVersion, CONSOLE_GREEN);
@@ -492,9 +521,13 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                 addConsoleEntry((Integer)values[3]);
             } else if (values.length == 5) {
                 if (values[3] instanceof String) {
+                    Log.d(TAG, "String " + values[3]);
                     addStatusToEntry((String)values[3], (Integer)values[4]);
-                } else  {
+                } else if (values[3] instanceof Integer){
+                    Log.d(TAG, "Integer " + values[3]);
                     addStatusToEntry((Integer)values[3], (Integer)values[4]);
+                } else {
+                    addStatusToEntry(R.string.updater_fail, CONSOLE_RED);
                 }
             }
         }
@@ -522,6 +555,10 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
             case STATUS_FINISHED_FAIL:
                 mActionButton.setText(R.string.updater_try_again);
                 mStatusText.setText(R.string.updater_update_failed);
+                break;
+            case STATUS_CONN_FAILED:
+                mActionButton.setText(R.string.updater_try_again);
+                mStatusText.setText(R.string.updater_no_conn);
             }
         }
 
@@ -560,18 +597,12 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
             
             if (localName.equals("manifest")) {
                 try {
-                    JSONObject manifest = new JSONObject(new String(baf.toByteArray()));
                     mManifest = new Manifest();
-                    mManifest.version = manifest.getString("version");
-                    mManifest.versionCode = manifest.getInt("version-code");
-                    mManifest.binaryUrl = manifest.getString("binary");
-                    mManifest.binaryMd5 = manifest.getString("binary-md5sum");
-                    mManifest.busyboxUrl = manifest.getString("busybox");
-                    mManifest.busyboxMd5 = manifest.getString("busybox-md5sum");
+                    return mManifest.populate(new JSONObject(new String(baf.toByteArray())));
                 } catch (JSONException e) {
                     Log.e(TAG, "Malformed manifest file", e);
+                    return false;
                 }
-                return true;
             } else {
                 FileOutputStream outFileStream = getActivity().openFileOutput(localName, 0);
                 outFileStream.write(baf.toByteArray());
