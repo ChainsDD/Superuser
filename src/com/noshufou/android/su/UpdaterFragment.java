@@ -450,19 +450,6 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     publishProgress(progressTotal, progressStep, progressStep,
                             R.string.updater_ok, CONSOLE_GREEN);
                     
-                    // Change su file mode
-                    progressStep++;
-                    publishProgress(progressTotal, progressStep - 1, progressStep,
-                            R.string.updater_step_chmod);
-                    inLine = executeCommand(os, is, mBusyboxPath, "chmod 06755", installedSu, "&&",
-                            mBusyboxPath, "echo YEAH");
-                    if (inLine == null || !inLine.equals("YEAH")) {
-                        publishProgress(progressTotal, progressStep - 1, progressStep,
-                                R.string.updater_fail, CONSOLE_RED);
-                    }
-                    publishProgress(progressTotal, progressStep, progressStep,
-                            R.string.updater_ok, CONSOLE_GREEN);
-
                     // Remount system partition
                     progressStep++;
                     publishProgress(progressTotal, progressStep - 1, progressStep,
