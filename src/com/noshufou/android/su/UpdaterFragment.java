@@ -25,6 +25,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Build.VERSION;
 import android.support.v4.app.ListFragment;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +43,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
     private static final String TAG = "Su.UpdaterFragment";
     
     private String MANIFEST_URL;
+    private int CONSOLE_GREY;
     private int CONSOLE_RED;
     private int CONSOLE_GREEN;
 
@@ -86,6 +89,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
             Bundle savedInstanceState) {
         MANIFEST_URL = getString(Integer.parseInt(VERSION.SDK) < 5?
                 R.string.updater_manifest_legacy:R.string.updater_manifest);
+        CONSOLE_GREY = getActivity().getResources().getColor(R.color.console_grey);
         CONSOLE_RED = getActivity().getResources().getColor(R.color.console_red);
         CONSOLE_GREEN = getActivity().getResources().getColor(R.color.console_green);
 
@@ -521,10 +525,8 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                 addConsoleEntry((Integer)values[3]);
             } else if (values.length == 5) {
                 if (values[3] instanceof String) {
-                    Log.d(TAG, "String " + values[3]);
                     addStatusToEntry((String)values[3], (Integer)values[4]);
                 } else if (values[3] instanceof Integer){
-                    Log.d(TAG, "Integer " + values[3]);
                     addStatusToEntry((Integer)values[3], (Integer)values[4]);
                 } else {
                     addStatusToEntry(R.string.updater_fail, CONSOLE_RED);
@@ -731,7 +733,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
     private class ConsoleAdapter extends ArrayAdapter<ConsoleEntry> {
         
         ConsoleAdapter(Context context) {
-            super(context, R.layout.console_item, R.id.console_step);
+            super(context, R.layout.console_item);
         }
         
         @Override
@@ -742,11 +744,14 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = super.getView(position, convertView, parent);
+            TextView view = (TextView) super.getView(position, convertView, parent);
+            ConsoleEntry entry = getItem(position);
             
-            TextView status = (TextView) view.findViewById(R.id.console_status);
-            status.setText(getItem(position).status);
-            status.setTextColor(getItem(position).statusColor);
+            Spannable str = (Spannable) view.getText();
+            str.setSpan(new ForegroundColorSpan(entry.statusColor),
+                    entry.entry.length(),
+                    entry.toString().length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             
             return view;
         }
@@ -754,8 +759,8 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
     
     private class ConsoleEntry {
         public String entry;
-        public String status;
-        public int statusColor;
+        public String status = "";
+        public int statusColor = CONSOLE_GREY;
         
         public ConsoleEntry(int res) {
             entry = getActivity().getString(res);
@@ -763,7 +768,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
 
         @Override
         public String toString() {
-            return entry;
+            return entry + status;
         }
     }
 

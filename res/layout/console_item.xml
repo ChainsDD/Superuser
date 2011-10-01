@@ -14,21 +14,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <TextView android:id="@+id/console_step"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:typeface="monospace"
-        android:textSize="@dimen/text_size_console"
-        android:textColor="@color/console_grey" />
-    <TextView android:id="@+id/console_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:typeface="monospace"
-        android:textSize="@dimen/text_size_console"
-        android:textColor="@color/console_green"
-        android:gravity="bottom" />
-</LinearLayout>
+    android:typeface="monospace"
+    android:textSize="@dimen/text_size_console"
+    android:textColor="@color/console_grey"
+    android:bufferType="spannable" />
