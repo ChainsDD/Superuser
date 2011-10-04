@@ -28,8 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Checkable;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
+import android.widget.ImageView.ScaleType;
 
 import com.noshufou.android.su.R;
 

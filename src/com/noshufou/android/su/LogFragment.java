@@ -1,11 +1,16 @@
 package com.noshufou.android.su;
 
+import com.noshufou.android.su.provider.PermissionsProvider.Logs;
+import com.noshufou.android.su.widget.LogAdapter;
+import com.noshufou.android.su.widget.PinnedHeaderListView;
+
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +18,9 @@ import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.noshufou.android.su.provider.PermissionsProvider.Logs;
-import com.noshufou.android.su.widget.LogAdapter;
-import com.noshufou.android.su.widget.PinnedHeaderListView;
-
 public class LogFragment extends ListFragment
         implements LoaderManager.LoaderCallbacks<Cursor>, FragmentWithLog, OnClickListener {
+    private static final String TAG = "Su.LogFragment";
     
     private LogAdapter mAdapter = null;
     private TextView mLogCountTextView = null;
@@ -44,11 +46,12 @@ public class LogFragment extends ListFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        
+
         ListFragment appList = (ListFragment) getActivity().getSupportFragmentManager()
                 .findFragmentById(R.id.app_list);
         if (appList != null) {
             appList.getListView().clearChoices();
+            appList.getListView().invalidateViews();
         }
 
         setupListView();

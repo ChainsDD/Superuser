@@ -29,4 +29,12 @@
         <attr name="showBottomBar" format="boolean" />
         <attr name="showTab" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="SlidingPanel">
+        <attr name="button" format="reference" />
+        <attr name="anchor" format="reference" />
+        <attr name="content" format="reference" />
+        <attr name="openOverlap" format="dimension" />
+        <attr name="closedLimit" format="dimension" />
+    </declare-styleable>
 </resources>

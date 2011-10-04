@@ -1,6 +1,9 @@
 package com.noshufou.android.su;
 
-import java.util.ArrayList;
+import com.noshufou.android.su.provider.PermissionsProvider.Logs;
+import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.widget.ChangeLog;
+import com.noshufou.android.su.widget.PagerHeader;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -20,10 +23,7 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 
-import com.noshufou.android.su.provider.PermissionsProvider.Logs;
-import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.widget.ChangeLog;
-import com.noshufou.android.su.widget.PagerHeader;
+import java.util.ArrayList;
 
 public class HomeActivity extends FragmentActivity {
 //    private static final String TAG = "Su.HomeActivity";

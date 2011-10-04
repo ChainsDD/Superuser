@@ -20,14 +20,13 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
+import android.widget.AbsListView.OnScrollListener;
 
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps;
