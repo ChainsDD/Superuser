@@ -24,6 +24,13 @@
   </head>
 
   <body>
+$ 36
+  %3.0.1
+  _ 2011-0-10-05
+    * New layout for tablets in portrait
+    * Don't show log if logging is disabled
+    * Binary updater fixes
+    * Prevent FC when uninstalling an app
 $ 35
   %3.0
   _ 2011-09-26
