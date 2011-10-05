@@ -45,6 +45,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">Okay</string>
+    <string name="loading">loading</string>
     
     <string name="allow">Allow</string>
     <string name="cancel">Cancel</string>

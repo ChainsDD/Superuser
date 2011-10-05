@@ -1,16 +1,15 @@
 package com.noshufou.android.su;
 
-import com.noshufou.android.su.provider.PermissionsProvider.Logs;
-import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.widget.ChangeLog;
-import com.noshufou.android.su.widget.PagerHeader;
+import java.util.ArrayList;
 
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -20,10 +19,15 @@ import android.support.v4.view.MenuCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
+import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.provider.PermissionsProvider.Logs;
+import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.widget.ChangeLog;
+import com.noshufou.android.su.widget.PagerHeader;
 
 public class HomeActivity extends FragmentActivity {
 //    private static final String TAG = "Su.HomeActivity";
@@ -34,7 +38,7 @@ public class HomeActivity extends FragmentActivity {
 
     private static final String STATE_SHOW_DETAILS = "show_details";
 
-    private boolean mDualPane = false;
+    public boolean mDualPane = false;
 
     private ViewPager mPager;
     private TransitionDrawable mTitleLogo;
@@ -45,21 +49,37 @@ public class HomeActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_home);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean loggingEnabled = prefs.getBoolean(Preferences.LOGGING, true);
+
         if (findViewById(R.id.fragment_container) != null) {
             mDualPane = true;
             ((AppListFragment)getSupportFragmentManager().findFragmentById(R.id.app_list))
                     .getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
             if (savedInstanceState == null) {
-                showLog();
+                if (loggingEnabled) {
+                    showLog();
+                } else {
+                    Fragment detailsFragment =
+                            Fragment.instantiate(this, AppDetailsFragment.class.getName());
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    transaction.replace(R.id.fragment_container, detailsFragment);
+                    transaction.commit();
+                }
             }
         } else {
             mPager = (ViewPager)findViewById(R.id.pager);
-            PagerAdapter pagerAdapter = new PagerAdapter(this,
-                    mPager,
-                    (PagerHeader)findViewById(R.id.pager_header));
+            PagerHeader pagerHeader = (PagerHeader) findViewById(R.id.pager_header);
+            PagerAdapter pagerAdapter = new PagerAdapter(this, mPager, pagerHeader);
 
             pagerAdapter.addPage(AppListFragment.class, R.string.page_label_apps);
-            pagerAdapter.addPage(LogFragment.class, R.string.page_label_log);
+            if (loggingEnabled) {
+                pagerAdapter.addPage(LogFragment.class, R.string.page_label_log);
+            } else {
+                pagerHeader.setVisibility(View.GONE);
+
+            }
 
             // DEBUG
 //            pagerAdapter.addPage(AppListFragment.class, null, "APPS");

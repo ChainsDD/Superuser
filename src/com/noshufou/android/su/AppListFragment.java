@@ -1,6 +1,13 @@
 package com.noshufou.android.su;
 
-import java.util.HashMap;
+import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.provider.PermissionsProvider.Apps;
+import com.noshufou.android.su.provider.PermissionsProvider.Logs;
+import com.noshufou.android.su.service.ResultService;
+import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.widget.AppListItem;
+import com.noshufou.android.su.widget.PinnedHeaderListView;
+import com.noshufou.android.su.widget.PinnedHeaderListView.PinnedHeaderCache;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -18,6 +25,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,17 +36,10 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 
-import com.noshufou.android.su.preferences.Preferences;
-import com.noshufou.android.su.provider.PermissionsProvider.Apps;
-import com.noshufou.android.su.provider.PermissionsProvider.Logs;
-import com.noshufou.android.su.service.ResultService;
-import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.widget.AppListItem;
-import com.noshufou.android.su.widget.PinnedHeaderListView;
-import com.noshufou.android.su.widget.PinnedHeaderListView.PinnedHeaderCache;
+import java.util.HashMap;
 
 public class AppListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
-//    private static final String TAG = "Su.AppListFragment";
+    private static final String TAG = "Su.AppListFragment";
     
     private boolean mShowStatusIcons = true;
     private boolean mShowLogData = true;
@@ -143,9 +144,20 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
         mLoadingLayout.setVisibility(View.GONE);
-        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        final HomeActivity activity = (HomeActivity) getActivity();
+        Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        boolean logging = PreferenceManager.getDefaultSharedPreferences(activity)
+                .getBoolean(Preferences.LOGGING, true);
         if (fragment instanceof AppDetailsFragment) {
-            long shownItem = ((AppDetailsFragment)fragment).getShownIndex();
+            long shownItem = 0;
+            if (logging) {
+                shownItem = ((AppDetailsFragment)fragment).getShownIndex();
+            } else {
+                if (data != null && data.moveToFirst()) {
+                    shownItem = data.getLong(COLUMN_ID);
+                    ((AppDetailsFragment)fragment).setShownIndex(shownItem);
+                }
+            }
             getListView().setItemChecked(mAdapter.getPositionForId(shownItem), true);
         }
     }

@@ -35,16 +35,17 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps;
@@ -62,6 +63,7 @@ public class AppDetailsFragment extends ListFragment
     private TextView mAppName = null;
     private ImageView mAppIcon = null;
     private ImageView mStatusIcon = null;
+    private LinearLayout mDetailsContainer = null;
     private TextView mPackageNameText = null;
     private TextView mAppUidText = null;
     private TextView mRequestDetailText = null;
@@ -131,6 +133,7 @@ public class AppDetailsFragment extends ListFragment
         mAppName = (TextView) view.findViewById(R.id.app_name);
         mAppIcon = (ImageView) view.findViewById(R.id.app_icon);
         mStatusIcon = (ImageView) view.findViewById(R.id.status_icon);
+        mDetailsContainer = (LinearLayout) view.findViewById(R.id.details_container);
         mPackageNameText = (TextView) view.findViewById(R.id.package_name);
         mAppUidText = (TextView) view.findViewById(R.id.app_uid);
         mRequestDetailText = (TextView) view.findViewById(R.id.request_detail);
@@ -166,8 +169,10 @@ public class AppDetailsFragment extends ListFragment
         if (savedInstanceState != null && 
                 savedInstanceState.containsKey("mShownIndex")) {
             mShownIndex = savedInstanceState.getLong("mShownIndex");
-        } else {
+        } else if (getArguments() != null) {
             mShownIndex = getArguments().getLong("index", 0);
+        } else {
+            mShownIndex = 0;
         }
         
         setupListView();
@@ -324,11 +329,13 @@ public class AppDetailsFragment extends ListFragment
         switch (loader.getId()) {
         case DETAILS_LOADER:
             if (data.moveToFirst()) {
+                mDetailsContainer.setVisibility(View.VISIBLE);
                 mAppName.setText(data.getString(DETAILS_COLUMN_NAME));
                 mAppIcon.setImageDrawable(
                         Util.getAppIcon(getActivity(), data.getInt(DETAILS_COLUMN_UID)));
                 int allow = data.getInt(DETAILS_COLUMN_ALLOW);
                 mStatusIcon.setImageDrawable(Util.getStatusIconDrawable(getActivity(), allow));
+                mStatusIcon.setVisibility(View.VISIBLE);
                 mPackageNameText.setText(data.getString(DETAILS_COLUMN_PACKAGE));
                 mAppUidText.setText(data.getString(DETAILS_COLUMN_UID));
                 mRequestDetailText.setText(

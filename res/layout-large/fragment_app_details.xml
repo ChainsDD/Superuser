@@ -46,13 +46,19 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:text="App name" />
+                android:text="@string/loading" />
             <ImageView android:id="@+id/status_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:scaleType="center" />
+                android:scaleType="center"
+                android:visibility="gone" />
         </LinearLayout>
         
+        <LinearLayout android:id="@+id/details_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
         <LinearLayout style="@style/AppDetailsRow">
             <TextView style="@style/DetailsLabel"
                 android:id="@+id/package_name_label"
@@ -107,6 +113,7 @@
                 android:id="@android:id/list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+        </LinearLayout>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout android:id="@+id/options_container"
