@@ -329,7 +329,9 @@ public class AppDetailsFragment extends ListFragment
         switch (loader.getId()) {
         case DETAILS_LOADER:
             if (data.moveToFirst()) {
-                mDetailsContainer.setVisibility(View.VISIBLE);
+                if (mDetailsContainer != null) {
+                    mDetailsContainer.setVisibility(View.VISIBLE);
+                }
                 mAppName.setText(data.getString(DETAILS_COLUMN_NAME));
                 mAppIcon.setImageDrawable(
                         Util.getAppIcon(getActivity(), data.getInt(DETAILS_COLUMN_UID)));
