@@ -1,0 +1,8 @@
+{
+    "version": "2.3.2-efgh",
+    "version-code": 1,
+    "binary": "http://downloads.androidsu.com/superuser/su/2x/su-2.3.3-efgh",
+    "bianry-md5": "",
+    "busybox": "http://downloads.androidsu.com/superuser/su/busybox",
+    "busybox-md5sum": "110c2bb1545919222212d35bb320a30e"
+}
