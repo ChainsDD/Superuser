@@ -24,9 +24,13 @@
   </head>
 
   <body>
+$ 37
+  %3.0.2
+  _ 2011-10-06
+    * Fix FC when viewing app details on phones
 $ 36
   %3.0.1
-  _ 2011-0-10-05
+  _ 2011-10-05
     * New layout for tablets in portrait
     * Don't show log if logging is disabled
     * Binary updater fixes
