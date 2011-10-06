@@ -9,7 +9,8 @@
             "device": "all",
             "urls": [
                 "http://goo-inside.me/superuser/su-3.0.1-d-signed.zip",
-                "http://downloads.androidsu.com/superuser/su-3.0.1-d-signed.zip"
+                "http://downloads.androidsu.com/superuser/su-3.0.1-d-signed.zip",
+                "http://chainsdd.github.com/Superuser/download/su-3.0.1-d-signed.zip"
             ]
         },
         {
@@ -18,7 +19,8 @@
             "device": "all",
             "urls": [
                 "http://goo-inside.me/superuser/su-3.0.1-efgh-signed.zip",
-                "http://downloads.androidsu.com/superuser/su-3.0.1-efgh-signed.zip"
+                "http://downloads.androidsu.com/superuser/su-3.0.1-efgh-signed.zip",
+                "http://chainsdd.github.com/Superuser/download/su-3.0.1-efgh-signed.zip"
             ]
         },
         {
@@ -27,7 +29,8 @@
             "device": "all",
             "urls": [
                 "http://goo-inside.me/superuser/su-2.3.6.3-cd-signed.zip",
-                "http://downloads.androidsu.com/superuser/su-2.3.6.3-cd-signed.zip"
+                "http://downloads.androidsu.com/superuser/su-2.3.6.3-cd-signed.zip",
+                "http://chainsdd.github.com/Superuser/download/su-2.3.6.3-cd-signed.zip"
             ]
         },
         {
@@ -36,7 +39,8 @@
             "device": "all",
             "urls": [
                 "http://goo-inside.me/superuser/su-2.3.6.3-efgh-signed.zip",
-                "http://downloads.androidsu.com/superuser/su-2.3.6.3-efgh-signed.zip"
+                "http://downloads.androidsu.com/superuser/su-2.3.6.3-efgh-signed.zip",
+                "http://chainsdd.github.com/Superuser/download/su-2.3.6.3-efgh-signed.zip"
             ]
         }
     ]
