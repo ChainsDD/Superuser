@@ -1,0 +1,9 @@
+{
+    "version": "3.0",
+    "version-code": 11,
+    "binary": "http://downloads.androidsu.com/superuser/su/su-3.0",
+    "binary-md5sum": "69b9e0a7bb69d59b286e48e17e90dc38",
+    "busybox": "http://downloads.androidsu.com/superuser/su/busybox",
+    "busybox-md5sum": "110c2bb1545919222212d35bb320a30e"
+}
+
