@@ -71,6 +71,13 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
             } catch (JSONException e) {
                 return false;
             }
+
+            // verify that all values have been properly initialized
+            if (version == null || versionCode == 0 ||
+                    binaryUrl == null || binaryMd5 == null ||
+                    busyboxUrl == null || busyboxMd5 == null) {
+                return false;
+            }
             return true;
         }
     }
