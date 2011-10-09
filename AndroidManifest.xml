@@ -46,7 +46,8 @@
             android:label="Preferences" />
         <activity android:name="UpdaterActivity"
             android:theme="@style/Theme.Superuser"
-            android:label="Updater" />
+            android:label="Updater"
+            android:screenOrientation="nosensor" />
         <activity android:name="SuRequestActivity"
             android:label="@string/app_name_request"
             android:excludeFromRecents="true"
