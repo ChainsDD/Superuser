@@ -17,8 +17,11 @@ import org.apache.http.util.ByteArrayBuffer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -140,6 +143,9 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
         public static final int STATUS_FINISHED_FAIL = 3;
         public static final int STATUS_FINISHED_NO_NEED = 4;
         public static final int STATUS_CONN_FAILED = 5;
+        public static final int STATUS_FINISHED_FAIL_REMOUNT = R.string.updater_failed_remount;
+        public static final int STATUS_FINISHED_FAIL_SBIN =
+                R.string.updater_bad_install_location_explained;
 
         @Override
         protected void onPreExecute() {
@@ -316,7 +322,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                             installedSu, CONSOLE_RED);
                     publishProgress(progressTotal, progressStep - 1, progressStep,
                             R.string.updater_bad_install_location);
-                    return STATUS_FINISHED_FAIL;
+                    return STATUS_FINISHED_FAIL_SBIN;
                 }
 
                 publishProgress(progressTotal, progressStep, progressStep,
@@ -386,8 +392,8 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                             mBusyboxPath + " echo YEAH");
                     if (inLine == null || !inLine.equals("YEAH")) {
                         publishProgress(progressTotal, progressStep - 1, progressStep,
-                                R.string.updater_ok, CONSOLE_RED);
-                        return STATUS_FINISHED_FAIL;
+                                R.string.updater_fail, CONSOLE_RED);
+                        return STATUS_FINISHED_FAIL_REMOUNT;
                     }
                     publishProgress(progressTotal, progressStep, progressStep,
                             R.string.updater_ok, CONSOLE_GREEN);
@@ -570,6 +576,19 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
             case STATUS_CONN_FAILED:
                 mActionButton.setText(R.string.updater_try_again);
                 mStatusText.setText(R.string.updater_no_conn);
+                break;
+            case STATUS_FINISHED_FAIL_REMOUNT:
+            case STATUS_FINISHED_FAIL_SBIN:
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(result)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getActivity().finish();
+                            }
+                        })
+                        .create().show();
             }
         }
 
