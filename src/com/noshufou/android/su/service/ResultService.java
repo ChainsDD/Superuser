@@ -67,7 +67,6 @@ public class ResultService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, "onHandleIntent()");
         switch (intent.getIntExtra(EXTRA_ACTION, 0)) {
         case ACTION_RESULT:
             ensurePrefs();
@@ -85,13 +84,11 @@ public class ResultService extends IntentService {
                             "uid/" + callerUid),
                     PROJECTION,
                     null, null, null);
-            if (c.moveToFirst()) {
-                Log.d(TAG, "Found in database");
+            if (c != null && c.moveToFirst()) {
                 appId = c.getLong(COLUMN_ID);
                 appNotify = c.getString(COLUMN_NOTIFICATIONS);
                 appLog = c.getString(COLUMN_LOGGING);
                 allow = c.getInt(COLUMN_ALLOW);
-                Log.d(TAG, "appId = " + appId);
             }
             c.close();
 
@@ -189,7 +186,6 @@ public class ResultService extends IntentService {
     }
 
     private void recycle() {
-        Log.d(TAG, "recycle()");
         ensurePrefs();
         if (!mPrefs.getBoolean(Preferences.DELETE_OLD_LOGS, true)) {
             // Log recycling is disabled, no need to go further
@@ -215,9 +211,7 @@ public class ResultService extends IntentService {
     }
     
     private void ensurePrefs() {
-        Log.d(TAG, "ensurePrefs()");
         if (mPrefs == null) {
-            Log.d(TAG, "loading prefs");
             mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
             // read some global settings that we need every time
             mNotify = mPrefs.getBoolean(Preferences.NOTIFICATIONS, true);
@@ -225,24 +219,4 @@ public class ResultService extends IntentService {
             mLog = mPrefs.getBoolean(Preferences.LOGGING, true);
         }
     }
-
-    // These three methods are only here for debugging, remove them later
-    @Override
-    public void onDestroy() {
-        Log.d(TAG, "onDestroy()");
-        super.onDestroy();
-    }
-
-    @Override
-    public void onStart(Intent intent, int startId) {
-        Log.d(TAG, "onStart()");
-        super.onStart(intent, startId);
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand()");
-        return super.onStartCommand(intent, flags, startId);
-    }
-
 }
