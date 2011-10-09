@@ -4,21 +4,21 @@
     "donate": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DNKPJ3PX44ZU8",
     "roms": [
         {
-            "name": "Superuser 3.0.2 d",
+            "name": "Superuser 3.0.4 d",
             "summary": "Donut",
             "device": "all",
             "urls": [
-                "http://goo-inside.me/superuser/su-3.0.2-d-signed.zip",
-                "http://downloads.androidsu.com/superuser/su-3.0.2-d-signed.zip"
+                "http://goo-inside.me/superuser/su-3.0.4-d-signed.zip",
+                "http://downloads.androidsu.com/superuser/su-3.0.4-d-signed.zip"
             ]
         },
         {
-            "name": "Superuser 3.0.2 efgh",
+            "name": "Superuser 3.0.4 efgh",
             "summary": "Eclair, Froyo, Gingerbread, and Honeycomb",
             "device": "all",
             "urls": [
-                "http://goo-inside.me/superuser/su-3.0.2-efgh-signed.zip",
-                "http://downloads.androidsu.com/superuser/su-3.0.2-efgh-signed.zip"
+                "http://goo-inside.me/superuser/su-3.0.4-efgh-signed.zip",
+                "http://downloads.androidsu.com/superuser/su-3.0.4-efgh-signed.zip"
             ]
         },
         {
