@@ -1,5 +1,33 @@
 package com.noshufou.android.su;
 
+import com.noshufou.android.su.util.Util;
+
+import org.apache.http.util.ByteArrayBuffer;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -12,35 +40,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.http.util.ByteArrayBuffer;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Build.VERSION;
-import android.support.v4.app.ListFragment;
-import android.text.Spannable;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import com.noshufou.android.su.util.Util;
 
 public class UpdaterFragment extends ListFragment implements OnClickListener {
     private static final String TAG = "Su.UpdaterFragment";
