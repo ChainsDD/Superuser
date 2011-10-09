@@ -1,12 +1,17 @@
 package com.noshufou.android.su;
 
-import java.util.ArrayList;
+import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.provider.PermissionsProvider.Logs;
+import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.widget.ChangeLog;
+import com.noshufou.android.su.widget.PagerHeader;
 
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.TransitionDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -23,22 +28,20 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 
-import com.noshufou.android.su.preferences.Preferences;
-import com.noshufou.android.su.provider.PermissionsProvider.Logs;
-import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.widget.ChangeLog;
-import com.noshufou.android.su.widget.PagerHeader;
+import java.util.ArrayList;
 
 public class HomeActivity extends FragmentActivity {
 //    private static final String TAG = "Su.HomeActivity";
 
     private static final int MENU_ELITE = 0;
-    private static final int MENU_CLEAR_LOG = 1;
-    private static final int MENU_PREFERENCES = 2;
+    private static final int MENU_GET_ELITE = 1;
+    private static final int MENU_CLEAR_LOG = 2;
+    private static final int MENU_PREFERENCES = 3;
 
     private static final String STATE_SHOW_DETAILS = "show_details";
 
     public boolean mDualPane = false;
+    private boolean mLoggingEnabled = true;
 
     private ViewPager mPager;
     private TransitionDrawable mTitleLogo;
@@ -50,14 +53,14 @@ public class HomeActivity extends FragmentActivity {
         setContentView(R.layout.activity_home);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean loggingEnabled = prefs.getBoolean(Preferences.LOGGING, true);
+        mLoggingEnabled = prefs.getBoolean(Preferences.LOGGING, true);
 
         if (findViewById(R.id.fragment_container) != null) {
             mDualPane = true;
             ((AppListFragment)getSupportFragmentManager().findFragmentById(R.id.app_list))
                     .getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
             if (savedInstanceState == null) {
-                if (loggingEnabled) {
+                if (mLoggingEnabled) {
                     showLog();
                 } else {
                     Fragment detailsFragment =
@@ -74,7 +77,7 @@ public class HomeActivity extends FragmentActivity {
             PagerAdapter pagerAdapter = new PagerAdapter(this, mPager, pagerHeader);
 
             pagerAdapter.addPage(AppListFragment.class, R.string.page_label_apps);
-            if (loggingEnabled) {
+            if (mLoggingEnabled) {
                 pagerAdapter.addPage(LogFragment.class, R.string.page_label_log);
             } else {
                 pagerHeader.setVisibility(View.GONE);
@@ -101,17 +104,25 @@ public class HomeActivity extends FragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem item;
         if (Util.elitePresent(this, false, 0)) {
-            MenuItem item = menu.add(Menu.NONE, MENU_ELITE,
+            item = menu.add(Menu.NONE, MENU_ELITE,
                     MENU_ELITE, R.string.menu_extras);
+            item.setIcon(R.drawable.ic_menu_star);
+            MenuCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        } else {
+            item = menu.add(Menu.NONE, MENU_GET_ELITE,
+                    MENU_GET_ELITE, R.string.pref_get_elite_title);
             item.setIcon(R.drawable.ic_menu_star);
             MenuCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
 
-        MenuItem item = menu.add(Menu.NONE, MENU_CLEAR_LOG,
-                MENU_CLEAR_LOG, R.string.menu_clear_log);
-        item.setIcon(R.drawable.ic_menu_clear_log);
-        MenuCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        if (mLoggingEnabled) {
+            item = menu.add(Menu.NONE, MENU_CLEAR_LOG,
+                    MENU_CLEAR_LOG, R.string.menu_clear_log);
+            item.setIcon(R.drawable.ic_menu_clear_log);
+            MenuCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
 
         item = menu.add(Menu.NONE, MENU_PREFERENCES,
                 MENU_PREFERENCES, R.string.menu_preferences);
@@ -125,10 +136,15 @@ public class HomeActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case MENU_ELITE:
-            Intent intent = new Intent();
-            intent.setComponent(new ComponentName("com.noshufou.android.su.elite",
+            Intent eliteIntent = new Intent();
+            eliteIntent.setComponent(new ComponentName("com.noshufou.android.su.elite",
                     "com.noshufou.android.su.elite.FeaturedAppsActivity"));
-            startActivity(intent);
+            startActivity(eliteIntent);
+            break;
+        case MENU_GET_ELITE:
+            Intent mktIntent = new Intent(Intent.ACTION_VIEW);
+            mktIntent.setData(Uri.parse("market://details?id=com.noshufou.android.su.elite"));
+            startActivity(mktIntent);
             break;
         case MENU_CLEAR_LOG:
             getContentResolver().delete(Logs.CONTENT_URI, null, null);
