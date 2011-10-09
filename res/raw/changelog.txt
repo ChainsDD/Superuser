@@ -24,6 +24,15 @@
   </head>
 
   <body>
+$ 38
+  %3.0.4
+  _2011-10-09
+    * Remove the requirement for having the latest binary
+    * Add option to suppress the outdated binary option
+    * Add menu option to get elite in the main menu
+    * Don't show clear log in menu when logging is disalbled
+    * Clearer messages to the user as to why the binary updater can't update their binary
+    * More binary updater fixes
 $ 37
   %3.0.2
   _ 2011-10-06
