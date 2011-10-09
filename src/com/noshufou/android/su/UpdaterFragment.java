@@ -42,6 +42,8 @@ import com.noshufou.android.su.util.Util;
 public class UpdaterFragment extends ListFragment implements OnClickListener {
     private static final String TAG = "Su.UpdaterFragment";
     
+    public static final int NOTIFICATION_ID = 42;
+    
     private String MANIFEST_URL;
     private int CONSOLE_GREY;
     private int CONSOLE_RED;

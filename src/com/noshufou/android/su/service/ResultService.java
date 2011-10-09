@@ -72,13 +72,12 @@ public class ResultService extends IntentService {
         case ACTION_RESULT:
             ensurePrefs();
             int callerUid = intent.getIntExtra(SuRequestReceiver.EXTRA_CALLERUID, 0);
-            int allow = intent.getIntExtra(SuRequestReceiver.EXTRA_ALLOW, 0);
+            int allow = intent.getIntExtra(SuRequestReceiver.EXTRA_ALLOW, -1);
             long currentTime = System.currentTimeMillis();
 
             long appId = -1;
             String appNotify = null;
             String appLog = null;
-            int appAllow = Apps.AllowType.ASK;
 
             // get what we need from the database
             Cursor c = getContentResolver().query(
@@ -91,12 +90,12 @@ public class ResultService extends IntentService {
                 appId = c.getLong(COLUMN_ID);
                 appNotify = c.getString(COLUMN_NOTIFICATIONS);
                 appLog = c.getString(COLUMN_LOGGING);
-                appAllow = c.getInt(COLUMN_ALLOW);
+                allow = c.getInt(COLUMN_ALLOW);
                 Log.d(TAG, "appId = " + appId);
             }
             c.close();
 
-            sendNotification(appId, appAllow, callerUid, allow, currentTime, appNotify);
+            sendNotification(appId, callerUid, allow, currentTime, appNotify);
             addLog(appId, callerUid, intent.getIntExtra(SuRequestReceiver.EXTRA_UID, 0),
                     intent.getStringExtra(SuRequestReceiver.EXTRA_CMD), allow, currentTime,
                     appLog);
@@ -109,10 +108,11 @@ public class ResultService extends IntentService {
         }
     }
     
-    private void sendNotification(long appId, int appAllow, int callerUid, int allow, long currentTime, String appNotify) {
+    private void sendNotification(long appId, int callerUid, int allow, long currentTime, String appNotify) {
         // Check to see if we should notify
         if ((appNotify == null && !mNotify) ||
-                (appNotify != null && appNotify.equals("0"))) {
+                (appNotify != null && appNotify.equals("0")) ||
+                allow == -1) {
             return;
         }
         final String notificationMessage = getString(
@@ -163,7 +163,8 @@ public class ResultService extends IntentService {
             long currentTime, String appLog) {
         // Check to see if we should log
         if ((appLog == null && !mLog) ||
-                (appLog != null && appLog.equals("0"))) {
+                (appLog != null && appLog.equals("0")) ||
+                allow == -1) {
             return;
         }
         

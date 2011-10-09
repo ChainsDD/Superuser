@@ -41,9 +41,7 @@ public class SuResultReceiver extends BroadcastReceiver {
             notification.setLatestEventInfo(context, context.getString(R.string.notif_outdated_title),
                     context.getString(R.string.notif_outdated_text), contentIntent);
             notification.flags |= Notification.FLAG_AUTO_CANCEL;
-            nm.notify(0, notification);
-            // The rest of this receiver probably won't work properly, so just finish now
-            return;
+            nm.notify(UpdaterFragment.NOTIFICATION_ID, notification);
         }
         
         Intent serviceIntent = new Intent(context, ResultService.class);

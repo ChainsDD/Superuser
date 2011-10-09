@@ -64,7 +64,6 @@ public class SuRequestActivity extends Activity implements OnClickListener {
     private String mDesiredCmd = "";
     private int mSuVersionCode = 0;
     
-    private boolean mUseDb = true;
     private boolean mUsePin = false;
     private int mAttempts = 3;
     
@@ -133,7 +132,6 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             // This won't check for the absolute latest version of su, just the 
             // latest required to work properly.
             Log.i(TAG, "su binary out of date, version code = " + mSuVersionCode);
-            mUseDb = false;
             NotificationManager nm = 
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             Notification notification = new Notification(R.drawable.stat_su,
@@ -143,7 +141,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             notification.setLatestEventInfo(this, getString(R.string.notif_outdated_title),
                     getString(R.string.notif_outdated_text), contentIntent);
             notification.flags |= Notification.FLAG_AUTO_CANCEL|Notification.FLAG_ONLY_ALERT_ONCE;
-            nm.notify(1, notification);
+            nm.notify(UpdaterFragment.NOTIFICATION_ID, notification);
         }
 
         TextView appNameView = (TextView) findViewById(R.id.app_name);
@@ -159,9 +157,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         commandView.setText(mDesiredCmd);
 
         mRememberCheckBox = (CheckBox) findViewById(R.id.check_remember);
-        mRememberCheckBox.setChecked(mUseDb?mPrefs.getBoolean("last_remember_value", true):false);
-        mRememberCheckBox.setEnabled(mUseDb);
-        mRememberCheckBox.setText(mUseDb?R.string.remember:R.string.remember_disabled);
+        mRememberCheckBox.setChecked(mPrefs.getBoolean("last_remember_value", true));
     }
 
     @Override
@@ -240,7 +236,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
     private void sendResult(boolean allow, boolean remember) {
         String resultCode = allow ? "ALLOW" : "DENY";
 
-        if (remember && mSuVersionCode >= 4) {
+        if (remember) {
             ContentValues values = new ContentValues();
             values.put(Apps.UID, mCallerUid);
             values.put(Apps.PACKAGE, Util.getAppPackage(this, mCallerUid));
