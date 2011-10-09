@@ -184,6 +184,12 @@
             android:key="pref_bin_version"
             android:title="@string/pref_bin_version_title_loading"
             android:summary="@string/pref_bin_version_summary" />
+        <CheckBoxPreference
+            android:key="pref_outdated_notification"
+            android:title="@string/pref_outdated_notification_title"
+            android:summaryOn="@string/pref_outdated_notification_summary_on"
+            android:summaryOff="@string/pref_outdated_notification_summary_off"
+            android:defaultValue="true" />
         <Preference
             android:key="pref_changelog"
             android:title="@string/pref_changelog_title"

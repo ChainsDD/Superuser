@@ -28,6 +28,7 @@ public class Preferences {
     public static final String RESTORE = "pref_restore";
     public static final String VERSION = "pref_version";
     public static final String BIN_VERSION = "pref_bin_version";
+    public static final String OUTDATED_NOTIFICATION = "pref_outdated_notification";
     public static final String CHANGELOG = "pref_changelog";
     public static final String GET_ELITE = "pref_get_elite";
     

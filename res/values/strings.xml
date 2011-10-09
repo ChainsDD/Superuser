@@ -154,6 +154,9 @@
     <string name="pref_bin_version_title_loading">Loading su binary version</string>
     <string name="pref_bin_version_title">Su binary v%s</string>
     <string name="pref_bin_version_summary">Tap to check for updates</string>
+    <string name="pref_outdated_notification_title">Outdated binary notification</string>
+    <string name="pref_outdated_notification_summary_on">Show notification when binary is outdated</string>
+    <string name="pref_outdated_notification_summary_off">Do not show notification when binary is outdated</string>
     <string name="pref_changelog_title">Changelog</string>
     <string name="pref_changelog_summary">Display the changelog</string>
     <string name="pref_get_elite_title">Go Elite!</string>

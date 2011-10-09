@@ -15,7 +15,20 @@
  ******************************************************************************/
 package com.noshufou.android.su.preferences;
 
+import com.noshufou.android.su.PinActivity;
+import com.noshufou.android.su.R;
+import com.noshufou.android.su.TagWriterActivity;
+import com.noshufou.android.su.UpdaterActivity;
+import com.noshufou.android.su.UpdaterFragment;
+import com.noshufou.android.su.provider.PermissionsProvider.Logs;
+import com.noshufou.android.su.service.ResultService;
+import com.noshufou.android.su.util.BackupUtil;
+import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.widget.ChangeLog;
+import com.noshufou.android.su.widget.NumberPickerDialog;
+
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,10 +44,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,17 +56,6 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.noshufou.android.su.PinActivity;
-import com.noshufou.android.su.R;
-import com.noshufou.android.su.TagWriterActivity;
-import com.noshufou.android.su.UpdaterActivity;
-import com.noshufou.android.su.provider.PermissionsProvider.Logs;
-import com.noshufou.android.su.service.ResultService;
-import com.noshufou.android.su.util.BackupUtil;
-import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.widget.ChangeLog;
-import com.noshufou.android.su.widget.NumberPickerDialog;
 
 public class PreferencesActivity extends PreferenceActivity implements OnClickListener,
         OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
@@ -72,6 +74,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
     private Preference mToastLocation = null;
     private Preference mApkVersion = null;
     private Preference mBinVersion = null;
+    private CheckBoxPreference mOutdatedNotification = null;
     private Preference mTimeoutPreference = null;
     private CheckBoxPreference mPin = null;
     private CheckBoxPreference mGhostMode = null;
@@ -140,6 +143,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
         mClearLog = prefScreen.findPreference(Preferences.CLEAR_LOG);
         mApkVersion = prefScreen.findPreference(Preferences.VERSION);
         mBinVersion = prefScreen.findPreference(Preferences.BIN_VERSION);
+        mOutdatedNotification = (CheckBoxPreference) 
+                prefScreen.findPreference(Preferences.OUTDATED_NOTIFICATION);
+        mOutdatedNotification.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -288,6 +294,10 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             mSecretCode.setSummary(getString(R.string.pref_secret_code_summary,
                     ((String)newValue)));
             return true;
+        } else if (pref.equals(Preferences.OUTDATED_NOTIFICATION) && !((Boolean) newValue)) {
+            Log.d(TAG, "Cancel the notification");
+            ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE))
+                    .cancel(UpdaterFragment.NOTIFICATION_ID);
         }
         return true;
     }

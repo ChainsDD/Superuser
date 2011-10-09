@@ -15,14 +15,12 @@
  ******************************************************************************/
 package com.noshufou.android.su;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import com.noshufou.android.su.service.ResultService;
+import com.noshufou.android.su.util.Util;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
-import com.noshufou.android.su.service.ResultService;
 
 public class SuResultReceiver extends BroadcastReceiver {
 
@@ -32,16 +30,7 @@ public class SuResultReceiver extends BroadcastReceiver {
         // check for the absolute latest binary, just the latest required
         // to work properly
         if (intent.getIntExtra(SuRequestReceiver.EXTRA_VERSION_CODE, 0) < 6) {
-            NotificationManager nm = 
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            Notification notification = new Notification(R.drawable.stat_su,
-                    context.getString(R.string.notif_outdated_ticker), System.currentTimeMillis());
-            PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-                    new Intent(context, UpdaterActivity.class), 0);
-            notification.setLatestEventInfo(context, context.getString(R.string.notif_outdated_title),
-                    context.getString(R.string.notif_outdated_text), contentIntent);
-            notification.flags |= Notification.FLAG_AUTO_CANCEL;
-            nm.notify(UpdaterFragment.NOTIFICATION_ID, notification);
+            Util.showOutdatedNotification(context);
         }
         
         Intent serviceIntent = new Intent(context, ResultService.class);

@@ -16,19 +16,17 @@
 
 package com.noshufou.android.su;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.provider.PermissionsProvider.Apps;
+import com.noshufou.android.su.util.Util;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.IntentFilter.MalformedMimeTypeException;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
@@ -42,16 +40,15 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.noshufou.android.su.preferences.Preferences;
-import com.noshufou.android.su.provider.PermissionsProvider.Apps;
-import com.noshufou.android.su.util.Util;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class SuRequestActivity extends Activity implements OnClickListener {
     private static final String TAG = "Su.SuRequestActivity";
@@ -129,19 +126,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         }
 
         if (mSuVersionCode < 10) {
-            // This won't check for the absolute latest version of su, just the 
-            // latest required to work properly.
-            Log.i(TAG, "su binary out of date, version code = " + mSuVersionCode);
-            NotificationManager nm = 
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            Notification notification = new Notification(R.drawable.stat_su,
-                    getString(R.string.notif_outdated_ticker), System.currentTimeMillis());
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                    new Intent(this, UpdaterActivity.class), 0);
-            notification.setLatestEventInfo(this, getString(R.string.notif_outdated_title),
-                    getString(R.string.notif_outdated_text), contentIntent);
-            notification.flags |= Notification.FLAG_AUTO_CANCEL|Notification.FLAG_ONLY_ALERT_ONCE;
-            nm.notify(UpdaterFragment.NOTIFICATION_ID, notification);
+            Util.showOutdatedNotification(this);
         }
 
         TextView appNameView = (TextView) findViewById(R.id.app_name);

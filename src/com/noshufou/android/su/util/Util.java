@@ -26,6 +26,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +44,8 @@ import android.util.Log;
 
 import com.noshufou.android.su.HomeActivity;
 import com.noshufou.android.su.R;
+import com.noshufou.android.su.UpdaterActivity;
+import com.noshufou.android.su.UpdaterFragment;
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.preferences.PreferencesActivity;
 
@@ -439,5 +444,21 @@ public class Util {
         }
         
         return MALICIOUS_NOT;
+    }
+    
+    public static void showOutdatedNotification(Context context) {
+        if (PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean(Preferences.OUTDATED_NOTIFICATION, true)) {
+            NotificationManager nm = 
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            Notification notification = new Notification(R.drawable.stat_su,
+                    context.getString(R.string.notif_outdated_ticker), System.currentTimeMillis());
+            PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+                    new Intent(context, UpdaterActivity.class), 0);
+            notification.setLatestEventInfo(context, context.getString(R.string.notif_outdated_title),
+                    context.getString(R.string.notif_outdated_text), contentIntent);
+            notification.flags |= Notification.FLAG_AUTO_CANCEL;
+            nm.notify(UpdaterFragment.NOTIFICATION_ID, notification);
+        }
     }
 }
