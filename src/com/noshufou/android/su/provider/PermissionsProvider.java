@@ -306,6 +306,7 @@ public class PermissionsProvider extends ContentProvider {
             }
             // Add the app to the other DB too
             SQLiteDatabase pDb = mPDbHelper.getWritableDatabase();
+            values.put(Apps._ID, rowId);
             pDb.insert(Apps.TABLE_NAME, null, values);
             pDb.close();
             
@@ -452,7 +453,7 @@ public class PermissionsProvider extends ContentProvider {
 
     private class SuDbOpenHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "su.db";
-        private static final int DATABASE_VERSION = 1;
+        private static final int DATABASE_VERSION = 2;
 
         SuDbOpenHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -508,6 +509,38 @@ public class PermissionsProvider extends ContentProvider {
             //        .. your upgrade logic ..
             //        upgradeVersion = [the DATABASE_VERSION you set]
             //    }
+            int upgradeVersion = oldVersion;
+            
+            if (upgradeVersion == 1) {
+                SQLiteDatabase pDb = mPDbHelper.getWritableDatabase();
+                Cursor c = db.query(Apps.TABLE_NAME, null, null, null, null, null, null);
+                pDb.delete(Apps.TABLE_NAME, null, null);
+                while (c.moveToNext()) {
+                    int allow = c.getInt(c.getColumnIndex(Apps.ALLOW));
+                    if (allow == -1) {
+                        continue;
+                    }
+                    ContentValues values = new ContentValues();
+                    values.put(Apps._ID, c.getLong(c.getColumnIndex(Apps._ID)));
+                    values.put(Apps.UID, c.getInt(c.getColumnIndex(Apps.UID)));
+                    values.put(Apps.PACKAGE, c.getString(c.getColumnIndex(Apps.PACKAGE)));
+                    values.put(Apps.NAME, c.getString(c.getColumnIndex(Apps.NAME)));
+                    values.put(Apps.EXEC_UID, c.getInt(c.getColumnIndex(Apps.EXEC_UID)));
+                    values.put(Apps.EXEC_CMD, c.getString(c.getColumnIndex(Apps.EXEC_CMD)));
+                    values.put(Apps.ALLOW, allow);
+                    int notifColumn = c.getColumnIndex(Apps.NOTIFICATIONS);
+                    if (notifColumn != -1 && !c.isNull(notifColumn)) {
+                        values.put(Apps.NOTIFICATIONS, c.getInt(notifColumn));
+                    }
+                    int loggingColumn = c.getColumnIndex(Apps.LOGGING);
+                    if (loggingColumn != -1 && !c.isNull(loggingColumn)) {
+                        values.put(Apps.LOGGING, c.getInt(c.getColumnIndex(Apps.LOGGING)));
+                    }
+                    pDb.insert(Apps.TABLE_NAME, null, values);
+                }
+                c.close();
+                pDb.close();
+            }
         }
     }
     
