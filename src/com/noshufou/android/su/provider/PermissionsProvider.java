@@ -294,10 +294,17 @@ public class PermissionsProvider extends ContentProvider {
             try {
                 rowId = mDb.insertOrThrow(Apps.TABLE_NAME, null, values);
             } catch (SQLException e) {
-                mDb.update(Apps.TABLE_NAME, values, Apps.UID + "=?",
-                        new String[] { values.getAsString(Apps.UID) });
+                String where = Apps.UID + "=? AND " + Apps.EXEC_UID + "=? AND "
+                        + Apps.EXEC_CMD + "=?";
+                String[] whereArgs = new String[] { values.getAsString(Apps.UID),
+                        values.getAsString(Apps.EXEC_UID),
+                        values.getAsString(Apps.EXEC_CMD)};
+                mDb.update(Apps.TABLE_NAME, values,
+                        where,
+                        whereArgs);
                 Cursor c = mDb.query(Apps.TABLE_NAME, new String[] { Apps._ID },
-                        Apps.UID + "=?", new String[] { values.getAsString(Apps.UID)},
+                        where,
+                        whereArgs,
                         null, null, null);
                 if (c.moveToFirst()) {
                     rowId = c.getLong(0);
@@ -305,10 +312,12 @@ public class PermissionsProvider extends ContentProvider {
                 c.close();
             }
             // Add the app to the other DB too
-            SQLiteDatabase pDb = mPDbHelper.getWritableDatabase();
-            values.put(Apps._ID, rowId);
-            pDb.insert(Apps.TABLE_NAME, null, values);
-            pDb.close();
+            if (values.getAsInteger(Apps.ALLOW) != -1) {
+                SQLiteDatabase pDb = mPDbHelper.getWritableDatabase();
+                values.put(Apps._ID, rowId);
+                pDb.insert(Apps.TABLE_NAME, null, values);
+                pDb.close();
+            }
             
             if (values.getAsInteger(Apps.ALLOW) != Apps.AllowType.ASK) {
                 ContentValues logValues = new ContentValues();
