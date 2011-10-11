@@ -16,8 +16,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.noshufou.android.su"
-      android:versionCode="38"
-      android:versionName="3.0.4">
+      android:versionCode="39"
+      android:versionName="3.0.5">
     <application android:label="@string/app_name"
         android:icon="@drawable/icon"
         android:logo="@drawable/title_logo"

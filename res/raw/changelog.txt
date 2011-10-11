@@ -24,6 +24,13 @@
   </head>
 
   <body>
+$  39
+  %3.0.5
+  _2011-10-11
+    * Fix FCs that are happening when the user pressed back durring a binary update
+    * Only download busybox binary if necessary
+    * Fix FC when allowing and remembering apps
+    * Fix a problem with database IDs getting messed up
 $ 38
   %3.0.4
   _2011-10-09
