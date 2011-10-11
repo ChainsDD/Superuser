@@ -32,6 +32,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -87,7 +88,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
     }
 
     private Manifest mManifest;
-    private String mBusyboxPath = null;
+    private String mBusyboxPath = "";
     private Step mCurrentStep = Step.DOWNLOAD_MANIFEST;
     
     private ProgressBar mTitleProgress;
@@ -250,7 +251,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                 // needs to be addressed.
                 boolean fixDb = (Util.getSuVersionCode() == 0);
                 if (fixDb) {
-                    progressTotal = 16;
+                    progressTotal = 14;
                     if (isCancelled()) {
                         return STATUS_CANCELLED;
                     }
@@ -284,57 +285,71 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     publishProgress(progressTotal, progressStep, progressStep,
                             R.string.updater_ok, CONSOLE_GREEN);
                 } else {
-                    progressTotal = 15;
+                    progressTotal = 13;
                     progressStep = 0;
                 }
 
-                // Download custom tiny busybox
+                // Check for busybox
                 if (isCancelled()) {
                     return STATUS_CANCELLED;
                 }
-                progressStep++;
                 publishProgress(progressTotal, progressStep - 1, progressStep,
-                        R.string.updater_step_download_busybox);
-                if (downloadFile(mManifest.busyboxUrl, "busybox")) {
-                    try {
-//                        Process process = Runtime.getRuntime().exec(new String[] { "chmod", "755", mBusyboxPath });
-                        Process process = new ProcessBuilder()
-                                .command("chmod", "755", mBusyboxPath)
-                                .redirectErrorStream(true).start();
-                        Log.d(TAG, "chmod 755 " + mBusyboxPath);
-                        process.waitFor();
-                        process.destroy();
-                    } catch (IOException e) {
-                        Log.e(TAG, "Failed to set busybox to executable", e);
+                        R.string.updater_step_find_busybox);
+                if (findBusybox()) {
+                    publishProgress(progressTotal, progressStep, progressStep,
+                            R.string.updater_ok, CONSOLE_GREEN);
+                } else {
+                    publishProgress(progressTotal, progressStep, progressStep,
+                            R.string.updater_not_found, CONSOLE_RED);
+                    progressTotal += 2;
+                    // Download custom tiny busybox
+                    if (isCancelled()) {
+                        return STATUS_CANCELLED;
+                    }
+                    progressStep++;
+                    publishProgress(progressTotal, progressStep - 1, progressStep,
+                            R.string.updater_step_download_busybox);
+                    if (downloadFile(mManifest.busyboxUrl, "busybox")) {
+                        try {
+                            //                        Process process = Runtime.getRuntime().exec(new String[] { "chmod", "755", mBusyboxPath });
+                            Process process = new ProcessBuilder()
+                            .command("chmod", "755", mBusyboxPath)
+                            .redirectErrorStream(true).start();
+                            Log.d(TAG, "chmod 755 " + mBusyboxPath);
+                            process.waitFor();
+                            process.destroy();
+                        } catch (IOException e) {
+                            Log.e(TAG, "Failed to set busybox to executable", e);
+                            publishProgress(progressTotal, progressStep - 1, progressStep,
+                                    R.string.updater_fail, CONSOLE_RED);
+                            return STATUS_FINISHED_FAIL;
+                        } catch (InterruptedException e) {
+                            Log.w(TAG, "Process interrupted", e);
+                        }
+                        publishProgress(progressTotal, progressStep, progressStep,
+                                R.string.updater_ok, CONSOLE_GREEN);
+                    } else {
+                        Log.e(TAG, "Failed to download busybox");
+                        publishProgress(progressTotal, progressStep - 1, progressStep,
+                                R.string.updater_fail);
+                        return STATUS_FINISHED_FAIL;
+                    }
+
+                    // Verify md5sum of busybox
+                    if (isCancelled()) {
+                        return STATUS_CANCELLED;
+                    }
+                    progressStep++;
+                    publishProgress(progressTotal, progressStep - 1, progressStep,
+                            R.string.updater_step_check_md5sum);
+                    if (verifyFile(mBusyboxPath, mManifest.busyboxMd5)) {
+                        publishProgress(progressTotal, progressStep, progressStep,
+                                R.string.updater_ok, CONSOLE_GREEN);
+                    } else {
                         publishProgress(progressTotal, progressStep - 1, progressStep,
                                 R.string.updater_fail, CONSOLE_RED);
                         return STATUS_FINISHED_FAIL;
-                    } catch (InterruptedException e) {
-                        Log.w(TAG, "Process interrupted", e);
                     }
-                    publishProgress(progressTotal, progressStep, progressStep,
-                            R.string.updater_ok, CONSOLE_GREEN);
-                } else {
-                    Log.e(TAG, "Failed to download busybox");
-                    publishProgress(progressTotal, progressStep - 1, progressStep,
-                            R.string.updater_fail);
-                    return STATUS_FINISHED_FAIL;
-                }
-
-                // Verify md5sum of busybox
-                if (isCancelled()) {
-                    return STATUS_CANCELLED;
-                }
-                progressStep++;
-                publishProgress(progressTotal, progressStep - 1, progressStep,
-                        R.string.updater_step_check_md5sum);
-                if (verifyFile(mBusyboxPath, mManifest.busyboxMd5)) {
-                    publishProgress(progressTotal, progressStep, progressStep,
-                            R.string.updater_ok, CONSOLE_GREEN);
-                } else {
-                    publishProgress(progressTotal, progressStep - 1, progressStep,
-                            R.string.updater_fail, CONSOLE_RED);
-                    return STATUS_FINISHED_FAIL;
                 }
                 
                 // Check where the current su binary is installed
@@ -810,6 +825,18 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
         } else {
             return null;
         }
+    }
+    
+    private boolean findBusybox() {
+        String path = System.getenv("PATH");
+        for (String s : path.split(":")) {
+            File file = new File(s, "busybox");
+            if (file.exists()) {
+                mBusyboxPath = file.getAbsolutePath();
+                return true;
+            }
+        }
+        return false;
     }
 
     private class ConsoleAdapter extends ArrayAdapter<ConsoleEntry> {
