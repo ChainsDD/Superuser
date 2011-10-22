@@ -24,7 +24,12 @@
   </head>
 
   <body>
-$  39
+$ 40
+  %3.0.6
+  _2011-10-22
+    * Fix FC when remembering apps on some devices
+    * Updated binary, check binary updater in preferences for latest version
+$ 39
   %3.0.5
   _2011-10-11
     * Fix FCs that are happening when the user pressed back durring a binary update
