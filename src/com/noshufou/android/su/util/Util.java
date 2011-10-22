@@ -48,6 +48,7 @@ import com.noshufou.android.su.UpdaterActivity;
 import com.noshufou.android.su.UpdaterFragment;
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.preferences.PreferencesActivity;
+import com.noshufou.android.su.service.PermissionsDbService;
 
 public class Util {
     private static final String TAG = "Su.Util";
@@ -140,7 +141,7 @@ public class Util {
                 { R.drawable.perm_deny_dot, R.drawable.perm_allow_dot },
                 { R.drawable.perm_deny_emo, R.drawable.perm_allow_emo }
         };
-        
+
         String iconTypeString = PreferenceManager.getDefaultSharedPreferences(context)
                 .getString(Preferences.STATUS_ICON_TYPE, "emote");
         int statusIconType = 1;
@@ -332,7 +333,7 @@ public class Util {
     public static String formatDateTime(Context context, long date) {
         return formatDate(context, date) + " " + formatTime(context, date);
     }
-    
+
     public static boolean elitePresent(Context context, boolean versionCheck, int minVersion) {
         PackageManager pm = context.getPackageManager();
         int sigs = pm.checkSignatures("com.noshufou.android.su", "com.noshufou.android.su.elite");
@@ -356,7 +357,7 @@ public class Util {
             }
         }
     }
-    
+
     public static void launchPreferences(Context context) {
 //        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             context.startActivity(new Intent(context, PreferencesActivity.class));
@@ -364,7 +365,7 @@ public class Util {
 //            context.startActivity(new Intent(context, PreferencesActivityHC.class));
 //        }
     }
-    
+
     public static String getHash(String pin) {
         MessageDigest digest;
         try {
@@ -383,13 +384,13 @@ public class Util {
             return pin;
         }
     }
-    
+
     public static boolean checkPin(Context context, String pin) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String setPin = prefs.getString("pin", "");
         return getHash(pin).equals(setPin);
     }
-    
+
     public static void toggleAppIcon(Context context, boolean newState) {
         ComponentName componentName = new ComponentName("com.noshufou.android.su",
                 "com.noshufou.android.su.Su");
@@ -398,12 +399,12 @@ public class Util {
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP);
     }
-    
+
     public static List<String> findMaliciousPackages(Context context) {
         List<String> maliciousApps = new ArrayList<String>();
         List<PackageInfo> installedApps = context.getPackageManager()
                 .getInstalledPackages(PackageManager.GET_PERMISSIONS);
-        
+
         for (PackageInfo pkg : installedApps) {
             int result = isPackageMalicious(context, pkg);
             if (result != 0) {
@@ -412,19 +413,19 @@ public class Util {
         }
         return maliciousApps;
     }
-    
+
     public static int isPackageMalicious(Context context, PackageInfo packageInfo) {
         // If the package being checked is this one, it's not malicious
         if (packageInfo.packageName.equals(context.getPackageName())) {
             return MALICIOUS_NOT;
         }
-        
+
         // If the package being checked shares a UID with Superuser, it's
         // probably malicious
         if (packageInfo.applicationInfo.uid == context.getApplicationInfo().uid) {
             return MALICIOUS_UID;
         }
-        
+
         // Finally we check for any permissions that other apps should not have.
         if (packageInfo.requestedPermissions != null) {
             String[] bannedPermissions = new String[] { 
@@ -442,10 +443,10 @@ public class Util {
                 }
             }
         }
-        
+
         return MALICIOUS_NOT;
     }
-    
+
     public static void showOutdatedNotification(Context context) {
         if (PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean(Preferences.OUTDATED_NOTIFICATION, true)) {
@@ -460,5 +461,13 @@ public class Util {
             notification.flags |= Notification.FLAG_AUTO_CANCEL;
             nm.notify(UpdaterFragment.NOTIFICATION_ID, notification);
         }
+    }
+
+    public static void updatePermissionsDb(Context context) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putBoolean("permissions_dirty", true).commit();
+        Log.d(TAG, "Start PermissionsDbService");
+        Intent intent = new Intent(context, PermissionsDbService.class);
+        context.startService(intent);
     }
 }

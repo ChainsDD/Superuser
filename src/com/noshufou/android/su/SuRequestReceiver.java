@@ -39,12 +39,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.provider.PermissionsProvider.Apps;
 
 public class SuRequestReceiver extends BroadcastReceiver {
     private static final String TAG = "Su.SuRequestReceiver";
@@ -65,6 +67,38 @@ public class SuRequestReceiver extends BroadcastReceiver {
             return;
         } else if (automaticAction.equals("allow")) {
             sendResult(context, intent, true);
+            return;
+        }
+        if (prefs.getBoolean("permissions_dirty", false)) {
+            Log.d(TAG, "Database is dirty, check here");
+            String where = Apps.UID + "=? AND " + Apps.EXEC_UID + "=? AND " + Apps.EXEC_CMD + "=?";
+            Log.d(TAG, where);
+            Cursor c = context.getContentResolver().query(Apps.CONTENT_URI,
+                    new String[] { Apps.ALLOW },
+                    Apps.UID + "=? AND " + Apps.EXEC_UID + "=? AND " + Apps.EXEC_CMD + "=?",
+                    new String[] { String.valueOf(intent.getIntExtra(EXTRA_CALLERUID, -1)),
+                            String.valueOf(intent.getIntExtra(EXTRA_UID, -1)),
+                            String.valueOf(intent.getStringExtra(EXTRA_CMD)) }, null);
+            if (c.moveToFirst()) {
+                Log.d(TAG, "Found an entry");
+                switch (c.getInt(0)) {
+                case Apps.AllowType.ALLOW:
+                    Log.d(TAG, "Allow");
+                    sendResult(context, intent, true);
+                    break;
+                case Apps.AllowType.DENY:
+                    Log.d(TAG, "Deny");
+                    sendResult(context, intent, false);
+                    break;
+                default:
+                    Log.d(TAG, "Prompt");
+                    showPrompt(context, intent);
+                }
+            } else {
+                Log.d(TAG, "No entry found, prompt");
+                showPrompt(context, intent);
+            }
+            c.close();
             return;
         }
         int sysTimeout = prefs.getInt(Preferences.TIMEOUT, 0);
