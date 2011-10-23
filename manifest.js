@@ -13,12 +13,12 @@
             ]
         },
         {
-            "name": "su binary only 3.0.1 d",
+            "name": "su binary only 3.0.2 d",
             "summary": "Donut",
             "device": "all",
             "urls": [
-                "http://goo-inside.me/superuser/su-3.0.1-bin-d-signed.zip",
-                "http://downloads.androidsu.com/superuser/su-3.0.1-bin-d-signed.zip"
+                "http://goo-inside.me/superuser/su-3.0.2-bin-d-signed.zip",
+                "http://downloads.androidsu.com/superuser/su-3.0.2-bin-d-signed.zip"
             ]
         },
         {
@@ -31,12 +31,12 @@
             ]
         },
         {
-            "name": "su binary only 3.0.1 efgh",
+            "name": "su binary only 3.0.2 efgh",
             "summary": "Eclair, Froyo, Gingerbread, Honeycomb",
             "device": "all",
             "urls": [
-                "http://goo-inside.me/superuser/su-3.0.1-bin-efgh-signed.zip",
-                "http://downloads.androidsu.com/superuser/su-3.0.1-bin-efgh-signed.zip"
+                "http://goo-inside.me/superuser/su-3.0.2-bin-efgh-signed.zip",
+                "http://downloads.androidsu.com/superuser/su-3.0.2-bin-efgh-signed.zip"
             ]
         },
         {
