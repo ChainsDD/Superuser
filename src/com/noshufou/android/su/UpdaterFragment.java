@@ -771,7 +771,10 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
             Log.e(TAG, "Busybox not present");
             return null;
         }
-        
+
+        if(new File("/system/bin/su").exists()) {
+          return "/system/bin/su";
+        }
         Process process = null;
         try {
             String cmd = mBusyboxPath + " which su";
