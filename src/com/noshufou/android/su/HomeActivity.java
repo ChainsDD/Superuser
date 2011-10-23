@@ -73,6 +73,8 @@ public class HomeActivity extends FragmentActivity {
             }
         } else {
             mPager = (ViewPager)findViewById(R.id.pager);
+            mPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.page_margin));
+//            mPager.setPageMarginDrawable(new ColorDrawable(0xff5e5e5e));
             PagerHeader pagerHeader = (PagerHeader) findViewById(R.id.pager_header);
             PagerAdapter pagerAdapter = new PagerAdapter(this, mPager, pagerHeader);
 
