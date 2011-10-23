@@ -61,6 +61,9 @@ public class PermissionsDbService extends IntentService {
             Log.d(TAG, "tried to many times, wipe permissions.sqlite and start again");
             deleteDatabase("permissions.sqlite");
             allDirty = true;
+        } else if (attempt > 12) {
+            // we're obviously not getting anywhere with this, try agin next time
+            return;
         }
         SQLiteDatabase pDb = null;
         ContentResolver cr = getContentResolver();
