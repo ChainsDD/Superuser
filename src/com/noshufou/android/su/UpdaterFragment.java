@@ -536,9 +536,10 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                                 R.string.updater_fail, CONSOLE_RED);
                         publishProgress(progressTotal, progressStep, progressStep,
                                 R.string.updater_remount_ro_failed);
+                    } else {
+                        publishProgress(progressTotal, progressStep, progressStep,
+                                R.string.updater_ok, CONSOLE_GREEN);
                     }
-                    publishProgress(progressTotal, progressStep, progressStep,
-                            R.string.updater_ok, CONSOLE_GREEN);
 
                     os.writeBytes("exit\n");
                 } catch (IOException e) {
