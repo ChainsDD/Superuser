@@ -20,6 +20,8 @@
     <dimen name="text_size_console">10sp</dimen>
     <dimen name="text_size_medium">18sp</dimen>
     
+    <dimen name="page_margin">10dp</dimen>
+
     <!-- Dimensions for an app list item -->
     <dimen name="list_item_perferred_height">64dip</dimen>
     <dimen name="list_item_padding_top">4dip</dimen>
