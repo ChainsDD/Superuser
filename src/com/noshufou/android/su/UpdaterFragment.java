@@ -311,7 +311,6 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                             R.string.updater_step_download_busybox);
                     if (downloadFile(mManifest.busyboxUrl, "busybox")) {
                         try {
-                            //                        Process process = Runtime.getRuntime().exec(new String[] { "chmod", "755", mBusyboxPath });
                             Process process = new ProcessBuilder()
                             .command("chmod", "755", mBusyboxPath)
                             .redirectErrorStream(true).start();
@@ -765,34 +764,20 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
         }
         return true;
     }
-    
+
     private String whichSu() {
-        if (mBusyboxPath == null) {
-            Log.e(TAG, "Busybox not present");
-            return null;
-        }
-        
-        Process process = null;
-        try {
-            String cmd = mBusyboxPath + " which su";
-            Log.d(TAG, cmd);
-            process = Runtime.getRuntime().exec(cmd);
-            BufferedReader is = new BufferedReader(new InputStreamReader(
-                    new DataInputStream(process.getInputStream())), 64);
-            for (int i = 0; i < 200; i++) {
-                if (is.ready()) break;
+        for (String s : System.getenv("PATH").split(":")) {
+            File su = new File(s + "/su");
+            if (su.exists() && su.isFile()) {
                 try {
-                    Thread.sleep(5);
-                } catch (InterruptedException e) {
-                    Log.w(TAG, "Sleep timer got interrupted...");
+                    if (su.getAbsolutePath().equals(su.getCanonicalPath())) {
+                        return su.getAbsolutePath();
+                    }
+                } catch (IOException e) {
+                    // If we get an exception here, it's probably not the right file,
+                    // Log it and move on
+                    Log.w(TAG, "IOException while finding canonical path of " + su.getAbsolutePath(), e);
                 }
-            }
-            return is.readLine();
-        } catch (IOException e) {
-            Log.e(TAG, "Failed to find su binary");
-        } finally {
-            if (process != null) {
-                process.destroy();
             }
         }
         return null;
