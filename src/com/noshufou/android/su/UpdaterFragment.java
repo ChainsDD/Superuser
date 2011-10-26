@@ -350,7 +350,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                         return STATUS_FINISHED_FAIL;
                     }
                 }
-                
+
                 // Check where the current su binary is installed
                 if (isCancelled()) {
                     return STATUS_CANCELLED;
@@ -376,7 +376,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
 
                 publishProgress(progressTotal, progressStep, progressStep,
                         installedSu, CONSOLE_GREEN);
-                
+
                 // Download new su binary
                 if (isCancelled()) {
                     return STATUS_CANCELLED;
@@ -394,7 +394,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                             R.string.updater_fail, CONSOLE_RED);
                     return STATUS_FINISHED_FAIL;
                 }
-                
+
                 // Verify md5sum of su
                 if (isCancelled()) {
                     return STATUS_CANCELLED;
@@ -410,7 +410,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                             R.string.updater_fail, CONSOLE_RED);
                     return STATUS_FINISHED_FAIL;
                 }
-                
+
                 Process process = null;
                 try { // Just use one try/catch for all the root commands
                     // Get root access
@@ -421,23 +421,17 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     DataOutputStream os = new DataOutputStream(process.getOutputStream());
                     BufferedReader is = new BufferedReader(new InputStreamReader(
                             new DataInputStream(process.getInputStream())), 64);
-                    os.writeBytes("id\n");
-                    String inLine = is.readLine();
-                    if (inLine == null) {
-                        publishProgress(progressTotal, progressStep - 1, progressStep,
-                                R.string.updater_fail, CONSOLE_RED);
-                        return STATUS_FINISHED_FAIL;
-                    }
-                    Pattern pattern = Pattern.compile("uid=([\\d]+)");
-                    Matcher matcher = pattern.matcher(inLine);
-                    if (!matcher.find() || !matcher.group(1).equals("0")) {
-                        publishProgress(progressTotal, progressStep - 1, progressStep,
+
+                    String inLine = executeCommand(os, is, 1000, mBusyboxPath, "touch /data/sutest &&",
+                            mBusyboxPath, "echo YEAH");
+                    if (inLine == null || !inLine.equals("YEAH")) {
+                        publishProgress(progressTotal, progressStep -1, progressStep,
                                 R.string.updater_fail, CONSOLE_RED);
                         return STATUS_FINISHED_FAIL;
                     }
                     publishProgress(progressTotal, progressStep, progressStep,
                             R.string.updater_ok, CONSOLE_GREEN);
-                    
+
                     // Remount system partition
                     progressStep++;
                     publishProgress(progressTotal, progressStep - 1, progressStep,
@@ -452,7 +446,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     }
                     publishProgress(progressTotal, progressStep, progressStep,
                             R.string.updater_ok, CONSOLE_GREEN);
-                    
+
                     // Copy su to /system. Put it in here first so it's on the system
                     // partition then use an atomic move to make sure we don't get
                     // corrupted
@@ -468,7 +462,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     }
                     publishProgress(progressTotal, progressStep, progressStep,
                             R.string.updater_ok, CONSOLE_GREEN);
-                    
+
                     // Check su md5sum again. Do it often to make sure everything is
                     // going good.
                     progressStep++;
@@ -523,7 +517,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     }
                     publishProgress(progressTotal, progressStep, progressStep,
                             R.string.updater_ok, CONSOLE_GREEN);
-                    
+
                     // Remount system partition
                     progressStep++;
                     publishProgress(progressTotal, progressStep - 1, progressStep,
@@ -547,7 +541,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                 } finally {
                     process.destroy();
                 }
-                
+
                 // Verify the proper version is installed.
                 progressStep++;
                 publishProgress(progressTotal, progressStep - 1, progressStep,
@@ -568,7 +562,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     mCurrentStep = Step.DOWNLOAD_BUSYBOX;
                     return STATUS_FINISHED_FAIL;
                 }
-                
+
                 // Clean up
                 progressStep++;
                 publishProgress(progressTotal, progressStep - 1, progressStep,
@@ -582,7 +576,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                         R.string.updater_ok, CONSOLE_GREEN);
                 return STATUS_FINISHED_SUCCESSFUL;
             }
-            
+
             return -1;
         }
 
@@ -786,6 +780,11 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
     
     private String executeCommand(DataOutputStream os, BufferedReader is, String... commands)
             throws IOException {
+        return executeCommand(os, is, 200, commands);
+    }
+    
+    private String executeCommand(DataOutputStream os, BufferedReader is, int timeout,
+            String... commands) throws IOException {
         if (commands.length == 0) return null;
         StringBuilder command = new StringBuilder();
         for (String s : commands) {
@@ -795,7 +794,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
         Log.d(TAG, command.toString());
         os.writeBytes(command.toString());
         if (is != null) {
-            for (int i = 0; i < 200; i++) {
+            for (int i = 0; i < timeout; i++) {
                 if (is.ready()) break;
                 try {
                     Thread.sleep(5);
