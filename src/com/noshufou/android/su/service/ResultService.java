@@ -88,7 +88,10 @@ public class ResultService extends IntentService {
                 appId = c.getLong(COLUMN_ID);
                 appNotify = c.getString(COLUMN_NOTIFICATIONS);
                 appLog = c.getString(COLUMN_LOGGING);
-                allow = c.getInt(COLUMN_ALLOW);
+                int dbAllow = c.getInt(COLUMN_ALLOW);
+                if (dbAllow != -1) {
+                    allow = dbAllow;
+                }
             }
             c.close();
 
