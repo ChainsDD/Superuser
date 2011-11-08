@@ -15,16 +15,13 @@
  ******************************************************************************/
 package com.noshufou.android.su.util;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
+import com.noshufou.android.su.HomeActivity;
+import com.noshufou.android.su.R;
+import com.noshufou.android.su.UpdaterActivity;
+import com.noshufou.android.su.UpdaterFragment;
+import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.preferences.PreferencesActivity;
+import com.noshufou.android.su.service.PermissionsDbService;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -42,13 +39,17 @@ import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
 
-import com.noshufou.android.su.HomeActivity;
-import com.noshufou.android.su.R;
-import com.noshufou.android.su.UpdaterActivity;
-import com.noshufou.android.su.UpdaterFragment;
-import com.noshufou.android.su.preferences.Preferences;
-import com.noshufou.android.su.preferences.PreferencesActivity;
-import com.noshufou.android.su.service.PermissionsDbService;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Util {
     private static final String TAG = "Su.Util";
@@ -57,8 +58,48 @@ public class Util {
     public static final int MALICIOUS_UID = 1;
     public static final int MALICIOUS_RESPOND = 2;
     public static final int MALICIOUS_PROVIDER_WRITE = 3;
+    
+    private static final HashMap<Integer, String> sSystemUids = new HashMap<Integer, String>();
+    static {
+        sSystemUids.put(0, "root");
+        sSystemUids.put(1000, "system");
+        sSystemUids.put(1001, "radio");
+        sSystemUids.put(1002, "bluetooth");
+        sSystemUids.put(1003, "graphics");
+        sSystemUids.put(1004, "input");
+        sSystemUids.put(1005, "audio");
+        sSystemUids.put(1006, "camera");
+        sSystemUids.put(1007, "log");
+        sSystemUids.put(1008, "compass");
+        sSystemUids.put(1009, "mount");
+        sSystemUids.put(1010, "wifi");
+        sSystemUids.put(1011, "adb");
+        sSystemUids.put(1012, "install");
+        sSystemUids.put(1013, "media");
+        sSystemUids.put(1014, "dhcp");
+        sSystemUids.put(1015, "sdcard_rw");
+        sSystemUids.put(1016, "vpn");
+        sSystemUids.put(1017, "keystore");
+        sSystemUids.put(1018, "usb");
+        sSystemUids.put(1021, "gps");
+        sSystemUids.put(1025, "nfc");
+        sSystemUids.put(2000, "shell");
+        sSystemUids.put(2001, "cache");
+        sSystemUids.put(2002, "diag");
+        sSystemUids.put(3001, "net_bt_admin");
+        sSystemUids.put(3002, "net_bt");
+        sSystemUids.put(3003, "inet");
+        sSystemUids.put(3004, "net_raw");
+        sSystemUids.put(3005, "net_admin");
+        sSystemUids.put(9998, "misc");
+        sSystemUids.put(9999, "nobody");
+    }
 
     public static String getAppName(Context c, int uid, boolean withUid) {
+        if (sSystemUids.containsKey(uid)) {
+            return sSystemUids.get(uid);
+        }
+
         PackageManager pm = c.getPackageManager();
         String appName = "Unknown";
         String[] packages = pm.getPackagesForUid(uid);
@@ -92,6 +133,10 @@ public class Util {
     }
 
     public static String getAppPackage(Context c, int uid) {
+        if (sSystemUids.containsKey(uid)) {
+            return sSystemUids.get(uid);
+        }
+
         PackageManager pm = c.getPackageManager();
         String[] packages = pm.getPackagesForUid(uid);
         String appPackage = "unknown";

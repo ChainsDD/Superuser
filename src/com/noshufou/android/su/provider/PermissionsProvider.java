@@ -461,7 +461,7 @@ public class PermissionsProvider extends ContentProvider {
 
     private class SuDbOpenHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "su.db";
-        private static final int DATABASE_VERSION = 3;
+        private static final int DATABASE_VERSION = 4;
 
         SuDbOpenHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -503,6 +503,23 @@ public class PermissionsProvider extends ContentProvider {
                 db.update(Apps.TABLE_NAME, values, null, null);
                 Util.updatePermissionsDb(mContext);
                 upgradeVersion = 3;
+            }
+
+            if (upgradeVersion == 3) {
+                Cursor c = db.query(Apps.TABLE_NAME, 
+                        new String[] { Apps._ID, Apps.UID, Apps.NAME },
+                        null, null, null, null, null);
+                while (c.moveToNext()) {
+                    if (c.getString(2).equalsIgnoreCase("unknown")) {
+                        ContentValues values = new ContentValues();
+                        values.put(Apps.NAME, Util.getAppName(mContext, c.getInt(1), false));
+                        values.put(Apps.PACKAGE, Util.getAppPackage(mContext, c.getInt(1)));
+                        db.update(Apps.TABLE_NAME, values, Apps._ID + "=?",
+                                new String[] { String.valueOf(c.getLong(0)) });
+                    }
+                }
+                c.close();
+                upgradeVersion = 4;
             }
         }
     }
