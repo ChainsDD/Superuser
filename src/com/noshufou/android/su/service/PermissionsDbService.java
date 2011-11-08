@@ -87,12 +87,14 @@ public class PermissionsDbService extends IntentService {
                         c.getString(COLUMN_UID), c.getString(COLUMN_EXEC_UID),
                         c.getString(COLUMN_EXEC_CMD)
                 };
-                if (c.getInt(COLUMN_ALLOW) == Apps.AllowType.ASK) {
+                if (c.getInt(COLUMN_ALLOW) == Apps.AllowType.TO_DELETE) {
                     Log.d(TAG, "needs deleted");
                     pDb.delete(Apps.TABLE_NAME, deleteWhere, deleteWhereArgs);
                     cr.delete(Uri.withAppendedPath(Apps.CONTENT_URI, "clean"),
                             deleteWhere, deleteWhereArgs);
                     Log.d(TAG, "delete completed");
+                    continue;
+                } else if (c.getInt(COLUMN_ALLOW) == Apps.AllowType.ASK) {
                     continue;
                 }
                 Log.d(TAG, "Updating permissions.sqlite for " + c.getString(COLUMN_NAME));

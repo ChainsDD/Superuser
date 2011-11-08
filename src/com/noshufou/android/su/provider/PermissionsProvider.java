@@ -66,6 +66,7 @@ public class PermissionsProvider extends ContentProvider {
         public static final String DIRTY = "dirty";
 
         public static final class AllowType {
+            public static final int TO_DELETE = -2;
             public static final int ASK = -1;
             public static final int DENY = 0;
             public static final int ALLOW = 1;
@@ -400,7 +401,7 @@ public class PermissionsProvider extends ContentProvider {
         int count = 0;
 
         ContentValues deleteAppValues = new ContentValues();
-        deleteAppValues.put(Apps.ALLOW, Apps.AllowType.ASK);
+        deleteAppValues.put(Apps.ALLOW, Apps.AllowType.TO_DELETE);
         deleteAppValues.put(Apps.DIRTY, 1);
 
         switch (sUriMatcher.match(uri)) {
