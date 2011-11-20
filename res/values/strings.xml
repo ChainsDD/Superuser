@@ -76,7 +76,9 @@
     <string name="detail_command">Command</string>
     <string name="detail_status">Status</string>
 
-    <string name="request_message">The following app is requesting superuser access:</string>
+    <string name="request_message">%1$s is requesting Superuser access.\n\nWarning: If you did not initiate this action, or if you do not understand this request, it\'s generally a good idea to deny it.</string>
+    <string name="request_more_info">Tap for more info</string>
+    <string name="request_less_info">Tap for less info</string>
     <string name="request_app_name">App</string>
 
     <string name="pref_title">Preferences</string>
@@ -148,7 +150,7 @@
         <item quantity="one">One app and preferences restored</item>
         <item quantity="other">%1$d apps and preferences restored</item>
     </plurals>
-    <string name="pref_category_info_title">Superuser information</string>
+    <string name="pref_category_info_title">General</string>
     <string name="pref_version_title">Superuser v%1$s (%2$d)</string>
     <string name="pref_version_summary">Database version %s</string>
     <string name="pref_bin_version_title_loading">Loading su binary version</string>
@@ -157,6 +159,9 @@
     <string name="pref_outdated_notification_title">Outdated binary notification</string>
     <string name="pref_outdated_notification_summary_on">Show notification when binary is outdated</string>
     <string name="pref_outdated_notification_summary_off">Do not show notification when binary is outdated</string>
+    <string name="pref_advanced_prompt_title">Use advanced prompt</string>
+    <string name="pref_advanced_prompt_summary_on">Do not show warning on request prompts</string>
+    <string name="pref_advanced_prompt_summary_off">Show warning on request prompts</string>
     <string name="pref_changelog_title">Changelog</string>
     <string name="pref_changelog_summary">Display the changelog</string>
     <string name="pref_get_elite_title">Go Elite!</string>

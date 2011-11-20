@@ -46,6 +46,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -68,6 +69,8 @@ public class SuRequestActivity extends Activity implements OnClickListener {
 
     private CheckBox mRememberCheckBox;
     private EditText mPinText;
+    private ViewFlipper mFlipper;
+    private TextView mMoreInfo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,8 +82,6 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             finish();
             return;
         }
-
-        this.setContentView(R.layout.activity_request);
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -129,6 +130,9 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             Util.showOutdatedNotification(this);
         }
 
+        TextView message = (TextView) findViewById(R.id.message);
+        message.setText(getString(R.string.request_message, Util.getAppName(this, mCallerUid, false)));
+
         TextView appNameView = (TextView) findViewById(R.id.app_name);
         appNameView.setText(Util.getAppName(this, mCallerUid, true));
 
@@ -143,6 +147,17 @@ public class SuRequestActivity extends Activity implements OnClickListener {
 
         mRememberCheckBox = (CheckBox) findViewById(R.id.check_remember);
         mRememberCheckBox.setChecked(mPrefs.getBoolean("last_remember_value", true));
+
+        mFlipper = (ViewFlipper) findViewById(R.id.flipper);
+        mMoreInfo = (TextView)findViewById(R.id.more_info);
+
+        if (mPrefs.getBoolean(Preferences.ADVANCED_PROMPT, false)) {
+            mFlipper.setDisplayedChild(1);
+            mMoreInfo.setVisibility(View.GONE);
+        } else {
+            mFlipper.setOnClickListener(this);
+            mMoreInfo.setOnClickListener(this);
+        }
     }
 
     @Override
@@ -208,6 +223,18 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         case R.id.pin_cancel:
             sendResult(false, mRememberCheckBox.isChecked());
             break;
+        case R.id.flipper:
+        case R.id.more_info:
+            flipInfo();
+        }
+    }
+
+    private void flipInfo() {
+        mFlipper.showNext();
+        if (mFlipper.getDisplayedChild() == 0) {
+            mMoreInfo.setText(R.string.request_more_info);
+        } else {
+            mMoreInfo.setText(R.string.request_less_info);
         }
     }
     

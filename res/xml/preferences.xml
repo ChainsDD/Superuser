@@ -190,6 +190,12 @@
             android:summaryOn="@string/pref_outdated_notification_summary_on"
             android:summaryOff="@string/pref_outdated_notification_summary_off"
             android:defaultValue="true" />
+        <CheckBoxPreference
+            android:key="pref_advanced_prompt"
+            android:title="@string/pref_advanced_prompt_title"
+            android:summaryOn="@string/pref_advanced_prompt_summary_on"
+            android:summaryOff="@string/pref_advanced_prompt_summary_off"
+            android:defaultValue="false" />
         <Preference
             android:key="pref_changelog"
             android:title="@string/pref_changelog_title"
