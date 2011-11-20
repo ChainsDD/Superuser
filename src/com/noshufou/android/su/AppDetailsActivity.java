@@ -32,7 +32,8 @@ public class AppDetailsActivity extends FragmentActivity {
 
         Configuration config = getResources().getConfiguration();
         if (config.orientation == Configuration.ORIENTATION_LANDSCAPE
-                && config.screenLayout == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+                && (config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+                        == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
             finish();
             return;
         }
