@@ -146,7 +146,7 @@ public class BackupUtil {
     public static int restoreBackup(Context context) {
         XmlPullParser parser = Xml.newPullParser();
         FileInputStream file = null;
-        int appsRestored = -1;
+        int appsRestored = 0;
         try {
             file = new FileInputStream(
                     new File(Environment.getExternalStorageDirectory().getAbsolutePath()
@@ -174,7 +174,7 @@ public class BackupUtil {
             Log.e(TAG, "Error restoring backup", e);
             return -1;
        }
-        return appsRestored;
+       return appsRestored;
     }
 
     private static int restoreApps(Context context, XmlPullParser parser)

@@ -464,8 +464,11 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
         protected void onPostExecute(Integer result) {
             ((ProgressBar)findViewById(R.id.title_refresh_progress)).setVisibility(View.GONE);
             if (result > -1) {
+                String message = result > 0 ?
+                        getResources().getQuantityString(R.plurals.restore_complete, result, result):
+                        getString(R.string.restore_complete_prefs_only);
                 Toast.makeText(getApplicationContext(),
-                        getResources().getQuantityString(R.plurals.restore_complete, result, result),
+                        message,
                         Toast.LENGTH_SHORT).show();
                 Intent intent = getIntent();
                 finish();
