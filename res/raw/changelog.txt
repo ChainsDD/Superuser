@@ -35,8 +35,8 @@ $ 41
     * Fix portrait prompt on ICS phones
     * Swap allow/deny buttons on ICS to match the rest of the system
     * Changed prompt to be more user friendly, and added an option to turn it off for advanced users
-    * Fix for PIN being broken after restore. Create a new backup if you have PIN enabled, because restoring an old backup will turn PIN protection off.
-    * Show toast message and reload preferences if only preferences are restored
+    * <span class="elite">*</span> Fix for PIN being broken after restore. Create a new backup if you have PIN enabled, because restoring an old backup will turn PIN protection off.
+    * <span class="elite">*</span> Show toast message and reload preferences if only preferences are restored
     * Updated translations from crowdin.net
     * Fix bitwise operation for screen size (lilHermit)
 $ 40
