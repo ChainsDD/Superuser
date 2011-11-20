@@ -24,6 +24,21 @@
   </head>
 
   <body>
+$ 41
+  %3.0.7
+  _2011-11-20
+    * Add a little bit of space between pages in the Home activity
+    * Better detection of su binary in binary updater that doesn't require busybox
+    * Better detection of root access in binary updater that doesn't require busybox
+    * Fix for apps that aren't remembered only showing in the log once
+    * Better package name detection
+    * Fix portrait prompt on ICS phones
+    * Swap allow/deny buttons on ICS to match the rest of the system
+    * Changed prompt to be more user friendly, and added an option to turn it off for advanced users
+    * Fix for PIN being broken after restore. Create a new backup if you have PIN enabled, because restoring an old backup will turn PIN protection off.
+    * Show toast message and reload preferences if only preferences are restored
+    * Updated translations from crowdin.net
+    * Fix bitwise operation for screen size (lilHermit)
 $ 40
   %3.0.6
   _2011-10-22
