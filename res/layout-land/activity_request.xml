@@ -63,33 +63,5 @@
 
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/button_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button android:id="@+id/allow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:ellipsize="none"
-            android:text="@string/allow" />
-
-        <Button android:id="@+id/deny"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:ellipsize="none"
-            android:text="@string/deny" />
-
-        <CheckBox android:id="@+id/check_remember"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/remember" />
-
-    </LinearLayout>
-
+    <include layout="@layout/request_buttons" />
 </LinearLayout>
