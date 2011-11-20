@@ -7,6 +7,8 @@
   <string name="description_log">ログ</string>
   <string name="description_preferences">環境設定</string>
   <string name="description_extras">エクストラ</string>
+  <string name="page_label_apps">アプリ</string>
+  <string name="page_label_log">ログ</string>
   <string name="menu_extras">エクストラ</string>
   <string name="menu_preferences">環境設定</string>
   <string name="menu_clear">消去</string>
@@ -23,6 +25,7 @@
   <string name="yes">はい</string>
   <string name="no">いいえ</string>
   <string name="ok">OK</string>
+  <string name="loading">ロード中</string>
   <string name="allow">許可</string>
   <string name="cancel">キャンセル</string>
   <string name="deny">拒否</string>
@@ -48,7 +51,6 @@
   <string name="detail_request">要求されたUID</string>
   <string name="detail_command">コマンド</string>
   <string name="detail_status">ステータス</string>
-  <string name="request_message">次のアプリがスーパーユーザーアクセスを要求しています:</string>
   <string name="request_app_name">アプリ</string>
   <string name="pref_title">環境設定</string>
   <string name="pref_category_security">セキュリティ</string>
@@ -111,12 +113,23 @@
   <string name="pref_use_allow_tag_summary_off">許可するためにPI​​Nだけ入力してください</string>
   <string name="pref_write_allow_tag_title">新しい許可タグを書き込む</string>
   <string name="pref_write_allow_tag_summary">許可するために使用される新しいタグを書き込む</string>
-  <string name="pref_category_info_title">スーパーユーザー情報</string>
+  <string name="pref_category_backup_restore_title">バックアップ/リストア</string>
+  <string name="pref_backup_title">アプリ/設定のバックアップ</string>
+  <string name="backup_complete">バックアップがSDカードに作成しました。</string>
+  <string name="pref_restore_title">アプリ/設定のリストア</string>
+  <string name="restore_complete_prefs_only">Preferences restored</string>
+  <string name="pref_category_info_title">General</string>
   <string name="pref_version_title">スーパーユーザー v%1$s (%2$d)</string>
   <string name="pref_version_summary">データベースバージョン %s</string>
   <string name="pref_bin_version_title_loading">SUコマンドのバイナリバージョンをロードしています</string>
   <string name="pref_bin_version_title">SUコマンド v%s</string>
   <string name="pref_bin_version_summary">タップして更新を確認</string>
+  <string name="pref_outdated_notification_title">古いバイナリの通知</string>
+  <string name="pref_outdated_notification_summary_on">バイナリが古くなっているときに通知を表示する</string>
+  <string name="pref_outdated_notification_summary_off">バイナリが古くなっているときに通知を表示しない</string>
+  <string name="pref_advanced_prompt_title">高度なプロンプトを使用します。</string>
+  <string name="pref_advanced_prompt_summary_on">要求プロンプトで警告を表示しない</string>
+  <string name="pref_advanced_prompt_summary_off">要求のプロンプト表示警告</string>
   <string name="pref_changelog_title">更新履歴</string>
   <string name="pref_changelog_summary">更新履歴を表示する</string>
   <string name="pref_get_elite_title">Eliteを購入!</string>
@@ -130,7 +143,9 @@
   <string name="updater_working">処理中...</string>
   <string name="updater_ok">OK!</string>
   <string name="updater_fail">失敗しました！</string>
+  <string name="updater_not_found">見つかりません</string>
   <string name="updater_update_failed">アップデートに失敗しました。再試行しますか？</string>
+  <string name="updater_no_conn">manifestのダウンロードに失敗しました。\nインターネット接続を確認してください。</string>
   <string name="updater_try_again">再試行してください</string>
   <string name="updater_su_updated">SUバイナリが正常に更新されました</string>
   <string name="updater_step_download_manifest">Manifest...\u0020 をダウンロード</string>
@@ -138,6 +153,7 @@
   <string name="updater_step_latest_version">最新バージョン=\u0020</string>
   <string name="updater_step_check_installed_version">インストール済みのバージョンをチェックしています version =\u0020</string>
   <string name="updater_step_fix_db">データベースを修正しています...\u0020</string>
+  <string name="updater_step_find_busybox">Busybox...\u0020 をチェック</string>
   <string name="updater_step_download_busybox">カスタムbusyboxをダウンロードしています...\u0020</string>
   <string name="updater_step_check_md5sum">md5sumをチェックしています...\u0020</string>
   <string name="updater_step_check_installed_path">現在のインストールパスをチェックしています...\u0020</string>
@@ -174,6 +190,10 @@
   <string name="malicious_app_write">プロバイダへの書き込みする権限を要求する</string>
   <string name="changelog_full_title">更新履歴</string>
   <string name="changelog_title">最新情報</string>
+  <plurals name="restore_complete">
+    <item quantity="one">1つのアプリと設定を復元しました。</item>
+    <item quantity="other">%1$dつのアプリと設定を復元しました。</item>
+  </plurals>
   <plurals name="pref_logs_deleted">
     <item quantity="one">ログを1件削除しました</item>
     <item quantity="other">%1$d件のログを削除しました</item>

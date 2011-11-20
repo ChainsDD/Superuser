@@ -7,6 +7,8 @@
   <string name="description_log">Napló</string>
   <string name="description_preferences">Beállítások</string>
   <string name="description_extras">Extrák</string>
+  <string name="page_label_apps">apps</string>
+  <string name="page_label_log">napló</string>
   <string name="menu_extras">Extrák</string>
   <string name="menu_preferences">Beállítások</string>
   <string name="menu_clear">Takarít</string>
@@ -23,6 +25,7 @@
   <string name="yes">Igen</string>
   <string name="no">Nem</string>
   <string name="ok">Rendben</string>
+  <string name="loading">töltés</string>
   <string name="allow">Engedélyez</string>
   <string name="cancel">Mégse</string>
   <string name="deny">Megtagad</string>
@@ -48,7 +51,9 @@
   <string name="detail_request">Kért UID</string>
   <string name="detail_command">Parancs:</string>
   <string name="detail_status">Állapot</string>
-  <string name="request_message">A következő alkalmazás superuser hozzáférést kér:</string>
+  <string name="request_message">%1s Superuser jogokat kér.\n\nFigyelem: Ha nem te indítottad ezt a folyamatot, vagy nem érted a kérelmet, jobb hogy ha tiltod!</string>
+  <string name="request_more_info">Érintsd meg több információért</string>
+  <string name="request_less_info">Érintsd meg kevesebb információért</string>
   <string name="request_app_name">Alkalmazás</string>
   <string name="pref_title">Beállítások</string>
   <string name="pref_category_security">Biztonság</string>
@@ -63,7 +68,7 @@
   <string name="pref_ghost_mode_title">Szellem mód</string>
   <string name="pref_ghost_mode_summary_on">Titkos kód tárcsázása a Superuser futtatásához</string>
   <string name="pref_ghost_mode_summary_off">Szellem mód kikapcsolva</string>
-  <string name="pref_ghost_mode_message">Ghost mode hides the Superuser icon from the launcher. The icon will be hidden the next time the launcher is restarted. Once the icon is hidden you can access Superuser by dialing a secret code in the dialer. The default secret code is *#*#787378737#*#* (*#*#superuser#*#*), but the digits can be changed.\n\nNote that if your device does not have a dialer, you probably shouldn\'t enable Ghost mode.\n\nEnable Ghost mode?</string>
+  <string name="pref_ghost_mode_message">A Szellem mód elrejti a Superuser ikont a menüből. Az ikon eltűnik a menü következő indulásánal. Ha az ikon eltűnt, a Superuser alkalmazás csak a tárcsázóból érhető el. Ehhez a kód *#*#787378737#*#* (*#*#superuser#*#*), de a számok megváltoztathatóak.\n\nViszont ha a készülékeden nincs tárcsázó, a Szellem mód bekapcsolása nem jó ötlet.\n\nBekapcsolod a Szellem módot?</string>
   <string name="pref_ghost_mode_enabled_message">Szellem mód engedélyezve. Kérlek indítsd újra a launcheredet vagy a telefonodat a változtatásokhoz.</string>
   <string name="pref_secret_code_title">Titkos kód</string>
   <string name="pref_secret_code_summary">A titkos kód: *#*#%1$s#*#*</string>
@@ -111,12 +116,23 @@
   <string name="pref_use_allow_tag_summary_off">Csak PIN megadásával engedélyez</string>
   <string name="pref_write_allow_tag_title">Új engedélyezési címke írása</string>
   <string name="pref_write_allow_tag_summary">Új engedélyezési címke írása</string>
-  <string name="pref_category_info_title">Superuser információ</string>
+  <string name="pref_category_backup_restore_title">Mentés/Visszaállítás</string>
+  <string name="pref_backup_title">Alkalmazások/beállítások mentése</string>
+  <string name="backup_complete">Mentve az sd kártyára</string>
+  <string name="pref_restore_title">Alkalmazások/beállítások visszaállítása</string>
+  <string name="restore_complete_prefs_only">Beállítások visszaállítva</string>
+  <string name="pref_category_info_title">Általános</string>
   <string name="pref_version_title">Superuser v%1$s (%2$d)</string>
   <string name="pref_version_summary">Adatbázis verzió: %s</string>
   <string name="pref_bin_version_title_loading">Su bináris verziójának betöltése</string>
   <string name="pref_bin_version_title">Su bináris v%s</string>
   <string name="pref_bin_version_summary">Érintsd meg a frissítések kereséséhez</string>
+  <string name="pref_outdated_notification_title">Elavult bináris értesítés</string>
+  <string name="pref_outdated_notification_summary_on">Értesítés megjelenítése, ha a bináris elavult</string>
+  <string name="pref_outdated_notification_summary_off">Ne jelenítsen meg értesítést, ha a bináris elavult</string>
+  <string name="pref_advanced_prompt_title">Speciális kérés használata</string>
+  <string name="pref_advanced_prompt_summary_on">Figyelmeztetés elrejtése a kéréseken</string>
+  <string name="pref_advanced_prompt_summary_off">Figyelmeztetés megjelenítése a kéréseken</string>
   <string name="pref_changelog_title">Változások</string>
   <string name="pref_changelog_summary">Változások megjelenítése</string>
   <string name="pref_get_elite_title">Superuser Elite megszerzése</string>
@@ -130,7 +146,9 @@
   <string name="updater_working">Folyamatban...</string>
   <string name="updater_ok">rendben!</string>
   <string name="updater_fail">nem sikerült!</string>
+  <string name="updater_not_found">nem található</string>
   <string name="updater_update_failed">A frissítés nem sikerült. Újrapróbálod?</string>
+  <string name="updater_no_conn">Leíró letöltése sikertelen. Ellenőrizd az internetkapcsolatot!</string>
   <string name="updater_try_again">Próbálja újra</string>
   <string name="updater_su_updated">su bináris sikeresen frissítve</string>
   <string name="updater_step_download_manifest">Nyilvántartás letöltése...\u0020</string>
@@ -138,6 +156,7 @@
   <string name="updater_step_latest_version">Utolsó verzió =\u0020</string>
   <string name="updater_step_check_installed_version">Telepített verzió ellenőrzése =\u0020</string>
   <string name="updater_step_fix_db">Adatbázis javítása...\u0020</string>
+  <string name="updater_step_find_busybox">Busybox ellenőrzése...\u0020</string>
   <string name="updater_step_download_busybox">Egyéni busybox letöltése...\u0020</string>
   <string name="updater_step_check_md5sum">Md5sum ellenőrzése...\u0020</string>
   <string name="updater_step_check_installed_path">Jelenlegi telepítési útvonal ellenőrzése...\u0020</string>
@@ -152,6 +171,8 @@
   <string name="updater_remount_ro_failed">Nem sikerült a /system csak olvasható csatolása, kérlek indítsd újra a telefont a frissítés befejezéséhez</string>
   <string name="updater_find_su_failed">Nem található a jelenlegi su bináris. A frissítés nem folytatható</string>
   <string name="updater_bad_install_location">Az su bináris jelenleg a /sbin mappába van telepítve. A frissítő nem tudja felülírni. Keress másik szoftvert a készülékedhez!</string>
+  <string name="updater_bad_install_location_explained">A frissítő nem tudja az su binárist frissíteni, mivel az a /sbin mappában található. Ez nem a frissítő hibája, hanem a kernel/ROM fejlesztőé. Folytathatod a Superuser használatát az elavult binárissal.</string>
+  <string name="updater_failed_remount">Ez a frissítő nem tudja az su binárist frissíteni olyan készülékeken, amielyeken valamilyen írásvédelem, pl S-ON van. Folytathatod a Superuser használatát az elavult binárissal, vagy frissítheted azt ROM Manager-el.</string>
   <string name="notification_text_allow">%s Superuser jogokat kapott</string>
   <string name="notification_text_deny">%s Superuser kérelme megtagadva</string>
   <string name="notif_outdated_ticker">Az su bináris elavult</string>
@@ -174,6 +195,10 @@
   <string name="malicious_app_write">engedélyt kér az engedélyszolgáltató módosításához</string>
   <string name="changelog_full_title">Változások</string>
   <string name="changelog_title">Újdonságok</string>
+  <plurals name="restore_complete">
+    <item quantity="one">Egy alkalmazás és beállítások visszaállítva</item>
+    <item quantity="other">%1$d alkalmazás és beállítások visszaállítva</item>
+  </plurals>
   <plurals name="pref_logs_deleted">
     <item quantity="one">Egy log törölve</item>
     <item quantity="other">%1$d log törölve</item>

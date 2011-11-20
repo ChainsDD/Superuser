@@ -3,11 +3,7 @@
 <resources>
   <string name="app_name">Superuser</string>
   <string name="app_name_request">Superuser Anfrage</string>
-  <string name="description_home">Home</string>
-  <string name="description_log">Log</string>
   <string name="description_preferences">Einstellungen</string>
-  <string name="description_extras">Extras</string>
-  <string name="menu_extras">Extras</string>
   <string name="menu_preferences">Einstellungen</string>
   <string name="menu_clear">löschen</string>
   <string name="menu_clear_log">Protokoll löschen</string>
@@ -23,6 +19,7 @@
   <string name="yes">Ja</string>
   <string name="no">Nein</string>
   <string name="ok">Okay</string>
+  <string name="loading">Laden</string>
   <string name="allow">Erlauben</string>
   <string name="cancel">Abbrechen</string>
   <string name="deny">Verweigern</string>
@@ -48,8 +45,6 @@
   <string name="detail_request">Angeforderte UID</string>
   <string name="detail_command">Befehl</string>
   <string name="detail_status">Status</string>
-  <string name="request_message">Die folgenden App fordert Superuser-Zugriff an:</string>
-  <string name="request_app_name">App</string>
   <string name="pref_title">Einstellungen</string>
   <string name="pref_category_security">Sicherheit</string>
   <string name="pref_pin_title">Verwende PIN</string>
@@ -76,7 +71,6 @@
   <string name="pref_applist_show_log_data_title">Zeige Log-Daten</string>
   <string name="pref_applist_show_log_data_summary_on">Zeige Log-Daten in der App-Liste</string>
   <string name="pref_applist_show_log_data_summary_off">Zeige die Log-Daten in der App-Liste nicht an</string>
-  <string name="pref_category_log_title">Log</string>
   <string name="pref_enable_logging_title">Aktiviere Protokoll</string>
   <string name="pref_enable_logging_summary_on">Berechtigungs-Erstellung und Zugriff wird protokolliert</string>
   <string name="pref_enable_logging_summary_off">Berechtigungs-Erstellung und Zugriff wird nicht protokolliert</string>
@@ -105,23 +99,17 @@
   <string name="pref_notifications_type_summary">Art der Benachrichtigung, wenn einer Anwendung su-Berechtigungen erteilt werden</string>
   <string name="pref_toast_location_title">Lage des Hinweises</string>
   <string name="pref_toast_location_summary">Wo die Benachrichtigung auf dem Bildschirm angezeigt wird</string>
-  <string name="pref_category_nfc_title">NFC</string>
   <string name="pref_use_allow_tag_title">Für Erlaubnis NFC-Etikett scannen</string>
   <string name="pref_use_allow_tag_summary_on">Für Erlaubnis PIN eingeben oder Etikett scannen</string>
   <string name="pref_use_allow_tag_summary_off">Zum Erlauben nur PIN eingeben</string>
   <string name="pref_write_allow_tag_title">Beschreibe neues Erlaubnis-Etikett</string>
   <string name="pref_write_allow_tag_summary">Erstelle ein Etikett, das für Erlaubnis verwendet wird</string>
-  <string name="pref_category_info_title">Superuser-Information</string>
-  <string name="pref_version_title">Superuser v%1$s (%2$d)</string>
   <string name="pref_version_summary">Datenbank-Version %s</string>
   <string name="pref_bin_version_title_loading">su-binary version wird geladen</string>
   <string name="pref_bin_version_title">Su binary v%s</string>
   <string name="pref_bin_version_summary">Drücken, um auf Updates zu prüfen</string>
-  <string name="pref_changelog_title">Changelog</string>
   <string name="pref_changelog_summary">Changelog anzeigen</string>
-  <string name="pref_get_elite_title">Go Elite!</string>
   <string name="pref_get_elite_summary">Kaufen Sie Elite, um alle Optionen freizuschalten</string>
-  <string name="updater_title">Binary Updater</string>
   <string name="updater_new_su_found">Neue Version von su binary gefunden. Jetzt aktualisieren?</string>
   <string name="updater_current_installed">Aktuelle Version bereits installiert. Keine Aktion erforderlich.</string>
   <string name="updater_update">Aktualisierung</string>
@@ -138,6 +126,7 @@
   <string name="updater_step_latest_version">Neueste Version =\u0020</string>
   <string name="updater_step_check_installed_version">Überprüfe installierte Version =\u0020</string>
   <string name="updater_step_fix_db">Repariere Datenbank ...\u0020</string>
+  <string name="updater_step_find_busybox">Ueberpruefe busybox...\u0020</string>
   <string name="updater_step_download_busybox">Angepasste Busybox wird heruntergeladen...\u0020</string>
   <string name="updater_step_check_md5sum">md5sum wird überprüft... \u0020</string>
   <string name="updater_step_check_installed_path">Aktueller Installationspfad wird überprüft...\u0020</string>
@@ -172,7 +161,6 @@
   <string name="malicious_app_uid">teilt UID mit Superuser</string>
   <string name="malicious_app_respond">erwartet Erlaubnis für die Anfrage</string>
   <string name="malicious_app_write">erwartet Erlaubnis, um Berechtigunsanbieter zu schreiben</string>
-  <string name="changelog_full_title">Changelog</string>
   <string name="changelog_title">Neue Funktionen</string>
   <plurals name="pref_logs_deleted">
     <item quantity="one">Ein Protokoll gelöscht</item>

@@ -48,7 +48,6 @@
   <string name="detail_request">Requested UID</string>
   <string name="detail_command">Command</string>
   <string name="detail_status">Status</string>
-  <string name="request_message">Följande App begär superuser tillgång:</string>
   <string name="request_app_name">App</string>
   <string name="pref_title">Inställningar</string>
   <string name="pref_category_security">Security</string>
@@ -111,7 +110,6 @@
   <string name="pref_use_allow_tag_summary_off">Ange PIN-kod bara för att tillåta</string>
   <string name="pref_write_allow_tag_title">Skriv ny tillåter tagg</string>
   <string name="pref_write_allow_tag_summary">Skriv en ny tagg som ska användas för att tillåta</string>
-  <string name="pref_category_info_title">Superuser information</string>
   <string name="pref_version_title">Superuser v%1$s (%2$d)</string>
   <string name="pref_version_summary">Databas version %s</string>
   <string name="pref_bin_version_title_loading">Laddar su binär version</string>

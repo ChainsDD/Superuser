@@ -8,7 +8,7 @@
   </string-array>
   <string-array name="pref_status_icon_type_entries">
     <item>圆点</item>
-    <item>符号</item>
+    <item>表情</item>
   </string-array>
   <string-array name="pref_date_format_entries">
     <item>系统默认</item>
@@ -23,7 +23,7 @@
   <string-array name="pref_toast_location_entries">
     <item>默认</item>
     <item>顶部</item>
-    <item>中央</item>
+    <item>中间</item>
     <item>底部</item>
   </string-array>
 </resources>

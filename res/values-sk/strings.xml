@@ -7,6 +7,8 @@
   <string name="description_log">Záznamy</string>
   <string name="description_preferences">Nastavenia</string>
   <string name="description_extras">Extra</string>
+  <string name="page_label_apps">aplikácie</string>
+  <string name="page_label_log">záznam</string>
   <string name="menu_extras">Extra</string>
   <string name="menu_preferences">Nastavenia</string>
   <string name="menu_clear">Vymazať</string>
@@ -23,6 +25,7 @@
   <string name="yes">Áno</string>
   <string name="no">Nie</string>
   <string name="ok">OK</string>
+  <string name="loading">načítavanie</string>
   <string name="allow">Povoliť</string>
   <string name="cancel">Zrušiť</string>
   <string name="deny">Zakázať</string>
@@ -48,7 +51,6 @@
   <string name="detail_request">Požadované UID</string>
   <string name="detail_command">Príkaz</string>
   <string name="detail_status">Stav</string>
-  <string name="request_message">Nasledujúca aplikácia žiada o Root (SU) oprávnenie:</string>
   <string name="request_app_name">Aplikácia</string>
   <string name="pref_title">Nastavenia</string>
   <string name="pref_category_security">Zabezpečenie</string>
@@ -111,7 +113,12 @@
   <string name="pref_use_allow_tag_summary_off">Pre povolenie zadajte PIN </string>
   <string name="pref_write_allow_tag_title">Vytvoriť novú povoľovaciu značku</string>
   <string name="pref_write_allow_tag_summary">Vytvoriť novú značku, ktorá sa bude používať ako povolenie</string>
-  <string name="pref_category_info_title">Informácie Superusera</string>
+  <string name="pref_category_backup_restore_title">Zálohovanie/Obnovenie</string>
+  <string name="pref_backup_title">Zálohovanie apl./nastavenia</string>
+  <string name="backup_complete">Záloha uložená na SD kartu</string>
+  <string name="pref_restore_title">Obnovenie apl./nastavenia</string>
+  <string name="restore_complete_prefs_only">Preferences restored</string>
+  <string name="pref_category_info_title">General</string>
   <string name="pref_version_title">Superuser v%1$s (%2$d)</string>
   <string name="pref_version_summary">Verzia databázy %s</string>
   <string name="pref_bin_version_title_loading">Načítavanie verzie bináru SU</string>
@@ -131,6 +138,7 @@
   <string name="updater_ok">OK!</string>
   <string name="updater_fail">ZLYHANIE!</string>
   <string name="updater_update_failed">Aktualizácia zlyhala. Skúsiť znova?</string>
+  <string name="updater_no_conn">Sťahovanie manifestu zlyhalo. Skontrolujte pripojenie k internetu</string>
   <string name="updater_try_again">Skúste znova</string>
   <string name="updater_su_updated">Binár SU úspešne aktualizovaný</string>
   <string name="updater_step_download_manifest">Sťahovanie manifestu...\u0020</string>
@@ -174,6 +182,10 @@
   <string name="malicious_app_write">vyžaduje povolenie k zápisu poskytovateľovi oprávnení</string>
   <string name="changelog_full_title">Zoznam zmien</string>
   <string name="changelog_title">Čo je nové</string>
+  <plurals name="restore_complete">
+    <item quantity="one">Jedna apl. a nastavenia boli obnovené</item>
+    <item quantity="other">%1$d apl. a nastavenia boli obnovené</item>
+  </plurals>
   <plurals name="pref_logs_deleted">
     <item quantity="one">Jeden záznam vymazaný</item>
     <item quantity="other">%1$d záznamov vymazaných</item>

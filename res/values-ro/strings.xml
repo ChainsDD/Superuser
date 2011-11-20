@@ -48,7 +48,6 @@
   <string name="detail_request">UID solicitat</string>
   <string name="detail_command">Comandă</string>
   <string name="detail_status">Stare</string>
-  <string name="request_message">Următoarea aplicație cere acces de superuser:</string>
   <string name="request_app_name">Aplicație</string>
   <string name="pref_title">Preferințe </string>
   <string name="pref_category_security">Securitate</string>
@@ -111,7 +110,6 @@
   <string name="pref_use_allow_tag_summary_off">Introduceți codul PIN numai pentru a permite</string>
   <string name="pref_write_allow_tag_title">Scrie un nou tag de permitere</string>
   <string name="pref_write_allow_tag_summary">Scrie un nou tag care urmează să fie folosit pentru a permite</string>
-  <string name="pref_category_info_title">Informații Superuser</string>
   <string name="pref_version_title">Superuser v%1$s (%2$d)</string>
   <string name="pref_version_summary">Versiunea bazei de date %s</string>
   <string name="pref_bin_version_title_loading">Se incarca versiunea su</string>
