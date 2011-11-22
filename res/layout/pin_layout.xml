@@ -39,13 +39,13 @@
         android:orientation="horizontal">
         <Button android:id="@+id/pin_1"
             style="@style/PinButton"
-            android:text="1" />
+            android:text="@string/one" />
         <Button android:id="@+id/pin_2"
             style="@style/PinButton"
-            android:text="2" />
+            android:text="@string/two" />
         <Button android:id="@+id/pin_3"
             style="@style/PinButton"
-            android:text="3" />
+            android:text="@string/three" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,13 +53,13 @@
         android:orientation="horizontal">
         <Button android:id="@+id/pin_4"
             style="@style/PinButton"
-            android:text="4" />
+            android:text="@string/four" />
         <Button android:id="@+id/pin_5"
             style="@style/PinButton"
-            android:text="5" />
+            android:text="@string/five" />
         <Button android:id="@+id/pin_6"
             style="@style/PinButton"
-            android:text="6" />
+            android:text="@string/six" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,13 +67,13 @@
         android:orientation="horizontal">
         <Button android:id="@+id/pin_7"
             style="@style/PinButton"
-            android:text="7" />
+            android:text="@string/seven" />
         <Button android:id="@+id/pin_8"
             style="@style/PinButton"
-            android:text="8" />
+            android:text="@string/eight" />
         <Button android:id="@+id/pin_9"
             style="@style/PinButton"
-            android:text="9" />
+            android:text="@string/nine" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,12 +81,12 @@
         android:orientation="horizontal">
         <Button  android:id="@+id/pin_ok"
             style="@style/PinButton"
-            android:text="Allow" />
+            android:text="@string/allow" />
         <Button android:id="@+id/pin_0"
             style="@style/PinButton"
-            android:text="0" />
+            android:text="@string/zero" />
         <Button android:id="@+id/pin_cancel"
             style="@style/PinButton"
-            android:text="Deny" />
+            android:text="@string/deny" />
     </LinearLayout>
 </LinearLayout>

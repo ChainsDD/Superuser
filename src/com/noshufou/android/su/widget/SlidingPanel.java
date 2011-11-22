@@ -71,6 +71,7 @@ public class SlidingPanel extends ViewGroup {
     @Override
     protected void onFinishInflate() {
         mButton = findViewById(mButtonId);
+        ((Button)mButton).setText(">");
         if (mButton == null) {
             throw new IllegalArgumentException("The handle attribute must refer to a child");
         }

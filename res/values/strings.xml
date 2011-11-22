@@ -76,6 +76,21 @@
     <string name="detail_command">Command</string>
     <string name="detail_status">Status</string>
 
+    <string name="use_global_settings">Use global settings</string>
+    <string name="notifications_enabled">Notifications enabled</string>
+    <string name="logging_enabled">Logging enabled</string>
+
+    <string name="zero">0</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+
     <string name="request_message">%1$s is requesting Superuser access.\n\nWarning: If you did not initiate this action, or if you do not understand this request, it\'s generally a good idea to deny it.</string>
     <string name="request_more_info">Tap for more info</string>
     <string name="request_less_info">Tap for less info</string>
@@ -243,7 +258,11 @@
     <string name="malicious_app_uid">shares UID with Superuser</string>
     <string name="malicious_app_respond">requests respond permission</string>
     <string name="malicious_app_write">requests permission to write to permissions provider</string>
-    
+
     <string name="changelog_full_title">Changelog</string>
     <string name="changelog_title">What\'s New</string>
+
+    <!-- Do not translate any strings below, they are here to prevent build errors -->
+    <string name="before_secret_code">*#*#</string>
+    <string name="after_secret_code">#*#*</string>
 </resources>

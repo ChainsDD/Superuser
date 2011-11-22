@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingRight="10dp"
-        android:text="Use global settings" />
+        android:text="@string/use_global_settings" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,11 +34,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="Notifications enabled" />
+            android:text="@string/notifications_enabled" />
         <CheckBox android:id="@+id/check_logging"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="Logging enabled" />
+            android:text="@string/logging_enabled" />
     </LinearLayout>
 </LinearLayout>
