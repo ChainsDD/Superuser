@@ -13,30 +13,30 @@
             ]
         },
         {
-            "name": "su binary only 3.0.3 d",
+            "name": "su binary only 3.0.3.2 d",
             "summary": "Donut",
             "device": "all",
             "urls": [
-                "http://goo-inside.me/superuser/su-bin-3.0.3-d-signed.zip",
-                "http://downloads.androidsu.com/superuser/su-bin-3.0.3-d-signed.zip"
+                "http://goo-inside.me/superuser/su-bin-3.0.3.2-d-signed.zip",
+                "http://downloads.androidsu.com/superuser/su-bin-3.0.3.2-d-signed.zip"
             ]
         },
         {
-            "name": "Superuser 3.0.7 efgh",
+            "name": "Superuser 3.0.7 efghi",
             "summary": "Eclair, Froyo, Gingerbread, and Honeycomb",
             "device": "all",
             "urls": [
-                "http://goo-inside.me/superuser/Superuser-3.0.7-efgh-signed.zip",
-                "http://downloads.androidsu.com/superuser/Superuser-3.0.7-efgh-signed.zip"
+                "http://goo-inside.me/superuser/Superuser-3.0.7-efghi-signed.zip",
+                "http://downloads.androidsu.com/superuser/Superuser-3.0.7-efghi-signed.zip"
             ]
         },
         {
-            "name": "su binary only 3.0.3 efgh",
+            "name": "su binary only 3.0.3.2 efghi",
             "summary": "Eclair, Froyo, Gingerbread, Honeycomb",
             "device": "all",
             "urls": [
-                "http://goo-inside.me/superuser/su-bin-3.0.3-efgh-signed.zip",
-                "http://downloads.androidsu.com/superuser/su-bin-3.0.3-efgh-signed.zip"
+                "http://goo-inside.me/superuser/su-bin-3.0.3.2-efghi-signed.zip",
+                "http://downloads.androidsu.com/superuser/su-bin-3.0.3.2-efghi-signed.zip"
             ]
         },
         {
