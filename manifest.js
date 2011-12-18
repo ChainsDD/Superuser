@@ -47,7 +47,7 @@
                 "http://goo-inside.me/superuser/su-2.3.6.3-efgh-signed.zip",
                 "http://downloads.androidsu.com/superuser/su-2.3.6.3-efgh-signed.zip"
             ]
-        }
+        },
         {
             "name": "Superuser 2.3.6.3 cd",
             "summary": "Cupcake and Donut (no longer supported)",
@@ -56,6 +56,6 @@
                 "http://goo-inside.me/superuser/su-2.3.6.3-cd-signed.zip",
                 "http://downloads.androidsu.com/superuser/su-2.3.6.3-cd-signed.zip"
             ]
-        },
+        }
     ]
 }
