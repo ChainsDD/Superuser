@@ -113,7 +113,9 @@
         <item name="android:background">@drawable/options_divider</item>
     </style>
 
-    <style name="RequestPanel" parent="@android:style/Theme.Panel">
+    <style name="Panel" parent="@android:style/Theme.Panel" />
+    
+    <style name="RequestPanel" parent="@style/Panel">
         <item name="android:windowBackground">@drawable/dialog_background</item>
         <item name="android:windowIsFloating">false</item>
     </style>
