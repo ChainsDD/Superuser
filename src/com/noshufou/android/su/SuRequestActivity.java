@@ -27,7 +27,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
+import android.net.Credentials;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
 import android.nfc.NdefMessage;
@@ -119,6 +122,18 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             mSocket = new LocalSocket();
             mSocket.connect(new LocalSocketAddress(socketPath,
                     LocalSocketAddress.Namespace.FILESYSTEM));
+            Credentials creds= mSocket.getPeerCredentials();
+            ApplicationInfo appInfo;
+            try {
+                appInfo = getPackageManager().getApplicationInfo(getPackageName(), 0);
+            } catch (NameNotFoundException e) {
+                Log.e(TAG, "Divided by zero...");
+                return;
+            }
+            if (creds.getUid() != appInfo.uid || creds.getGid() != appInfo.uid) {
+                throw new SecurityException("Potential forged socket");
+            }
+            readRequestDetails();
         } catch (IOException e) {
             // If we can't connect to the socket, there's no point in
             // being here. Log it and quit
