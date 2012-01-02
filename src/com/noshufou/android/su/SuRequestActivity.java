@@ -51,6 +51,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -89,9 +90,6 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         Intent intent = this.getIntent();
-        mCallerUid = intent.getIntExtra(SuRequestReceiver.EXTRA_CALLERUID, 0);
-        mDesiredUid = intent.getIntExtra(SuRequestReceiver.EXTRA_UID, 0);
-        mDesiredCmd = intent.getStringExtra(SuRequestReceiver.EXTRA_CMD);
         socketPath = intent.getStringExtra(SuRequestReceiver.EXTRA_SOCKET);
         mSuVersionCode = intent.getIntExtra(SuRequestReceiver.EXTRA_VERSION_CODE, 0);
 
@@ -117,7 +115,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             ((Button)findViewById(R.id.allow)).setOnClickListener(this);
             ((Button)findViewById(R.id.deny)).setOnClickListener(this);
         }
-        
+
         try {
             mSocket = new LocalSocket();
             mSocket.connect(new LocalSocketAddress(socketPath,
@@ -260,8 +258,45 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         }
     };
 
+    private void readRequestDetails() throws IOException {
+        DataInputStream is = new DataInputStream(mSocket.getInputStream());
+
+        int protocolVersion = is.readInt();
+        Log.d(TAG, "INT32:PROTO VERSION = " + protocolVersion);
+
+        int exeSizeMax = is.readInt();
+        Log.d(TAG, "UINT32:FIELD7MAX = " + exeSizeMax);
+        int cmdSizeMax = is.readInt();
+        Log.d(TAG, "UINT32:FIELD9MAX = " + cmdSizeMax);
+        mCallerUid = is.readInt();
+        Log.d(TAG, "UINT32:CALLER = " + mCallerUid);
+        mDesiredUid = is.readInt();
+        Log.d(TAG, "UINT32:TO = " + mDesiredUid);
+
+        int exeSize = is.readInt();
+        Log.d(TAG, "UINT32:EXESIZE = " + exeSize);
+        if (exeSize > exeSizeMax) {
+            throw new IOException("Incomming string bigger than allowed");
+        }
+        byte[] buf = new byte[exeSize];
+        is.read(buf);
+        String callerBin = new String(buf, 0, exeSize - 1);
+        Log.d(TAG, "STRING:EXE = " + callerBin);
+
+        int cmdSize = is.readInt();
+        Log.d(TAG, "UINT32:CMDSIZE = " + cmdSize);
+        if (cmdSize > cmdSizeMax) {
+            throw new IOException("Incomming string bigger than allowed");
+        }
+        buf = new byte[cmdSize];
+        is.read(buf);
+        mDesiredCmd = new String(buf, 0, cmdSize - 1);
+        Log.d(TAG, "STRING:CMD = " + mDesiredCmd);
+
+    }
+
     private void sendResult(boolean allow, boolean remember) {
-        String resultCode = allow ? "ALLOW" : "DENY";
+        String resultCode = allow ? "socket:ALLOW" : "socket:DENY";
 
         if (remember) {
             ContentValues values = new ContentValues();
