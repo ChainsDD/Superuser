@@ -15,7 +15,7 @@
  ******************************************************************************/
 package com.noshufou.android.su.provider;
 
-import com.noshufou.android.su.util.Util;
+import java.util.HashMap;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -32,7 +32,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.util.HashMap;
+import com.noshufou.android.su.util.Util;
 
 public class PermissionsProvider extends ContentProvider {
     private static final String TAG = "Su.PermissionsProvider";
