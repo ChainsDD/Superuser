@@ -64,7 +64,6 @@ public class SuRequestActivity extends Activity implements OnClickListener {
     private int mCallerUid = 0;
     private int mDesiredUid = 0;
     private String mDesiredCmd = "";
-    private int mSuVersionCode = 0;
     
     private boolean mUsePin = false;
     private int mAttempts = 3;
