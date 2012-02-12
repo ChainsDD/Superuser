@@ -7,9 +7,9 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
-import android.widget.AbsListView.OnScrollListener;
 
 import com.noshufou.android.su.R;
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
@@ -117,8 +117,7 @@ public class LogAdapter extends CursorAdapter
         } else {
             final int section = getSectionForPosition(position);
             if (getPositionForSection(section) == position) {
-                String title = (String)mIndexer.getSections()[section];
-                view.setSectionHeader(title);
+                view.setSectionHeader(getHeaderTitle(position));
             } else {
                 view.setDividerVisible(false);
                 view.setSectionHeader(null);
@@ -204,10 +203,7 @@ public class LogAdapter extends CursorAdapter
             header.setTag(cache);
         }
 
-        int section = getSectionForPosition(position);
-
-        String title = (String)mIndexer.getSections()[section];
-        cache.titleView.setText(title);
+        cache.titleView.setText(getHeaderTitle(position));
 
         if (alpha == 255) {
             // Opaque, use the default background and original text color
@@ -223,6 +219,14 @@ public class LogAdapter extends CursorAdapter
             cache.titleView.setTextColor(Color.argb(alpha,
                     Color.red(textColor), Color.green(textColor), Color.blue(textColor)));
         }
+    }
+    
+    private String getHeaderTitle(int position) {
+        int savedPosition = mCursor.getPosition();
+    	mCursor.moveToPosition(position);
+    	String title = Util.formatDate(mContext, mCursor.getLong(LOG_COLUMN_DATE));
+    	mCursor.moveToPosition(savedPosition);
+    	return title;
     }
 
 }
