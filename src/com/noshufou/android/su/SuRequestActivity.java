@@ -78,7 +78,6 @@ public class SuRequestActivity extends Activity implements OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        String socketPath;
         super.onCreate(savedInstanceState);
 
         if (this.getCallingPackage() != null) {
@@ -90,8 +89,8 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         Intent intent = this.getIntent();
-        socketPath = intent.getStringExtra(SuRequestReceiver.EXTRA_SOCKET);
-        mSuVersionCode = intent.getIntExtra(SuRequestReceiver.EXTRA_VERSION_CODE, 0);
+        String socketPath = intent.getStringExtra(SuRequestReceiver.EXTRA_SOCKET);
+        int suVersionCode = intent.getIntExtra(SuRequestReceiver.EXTRA_VERSION_CODE, 0);
 
         mUsePin = mPrefs.getBoolean(Preferences.PIN, false);
         if (mUsePin) {
@@ -131,7 +130,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             if (creds.getUid() != appInfo.uid || creds.getGid() != appInfo.uid) {
                 throw new SecurityException("Potential forged socket");
             }
-            readRequestDetails();
+            readRequestDetails(suVersionCode, intent);
         } catch (IOException e) {
             // If we can't connect to the socket, there's no point in
             // being here. Log it and quit
@@ -139,7 +138,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             finish();
         }
 
-        if (mSuVersionCode < 10) {
+        if (suVersionCode < 10) {
             Util.showOutdatedNotification(this);
         }
 
@@ -258,40 +257,46 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         }
     };
 
-    private void readRequestDetails() throws IOException {
-        DataInputStream is = new DataInputStream(mSocket.getInputStream());
+    private void readRequestDetails(int suVersion, Intent intent) throws IOException {
+    	if (suVersion > 15) {
+    		DataInputStream is = new DataInputStream(mSocket.getInputStream());
 
-        int protocolVersion = is.readInt();
-        Log.d(TAG, "INT32:PROTO VERSION = " + protocolVersion);
+    		int protocolVersion = is.readInt();
+    		Log.d(TAG, "INT32:PROTO VERSION = " + protocolVersion);
 
-        int exeSizeMax = is.readInt();
-        Log.d(TAG, "UINT32:FIELD7MAX = " + exeSizeMax);
-        int cmdSizeMax = is.readInt();
-        Log.d(TAG, "UINT32:FIELD9MAX = " + cmdSizeMax);
-        mCallerUid = is.readInt();
-        Log.d(TAG, "UINT32:CALLER = " + mCallerUid);
-        mDesiredUid = is.readInt();
-        Log.d(TAG, "UINT32:TO = " + mDesiredUid);
+    		int exeSizeMax = is.readInt();
+    		Log.d(TAG, "UINT32:FIELD7MAX = " + exeSizeMax);
+    		int cmdSizeMax = is.readInt();
+    		Log.d(TAG, "UINT32:FIELD9MAX = " + cmdSizeMax);
+    		mCallerUid = is.readInt();
+    		Log.d(TAG, "UINT32:CALLER = " + mCallerUid);
+    		mDesiredUid = is.readInt();
+    		Log.d(TAG, "UINT32:TO = " + mDesiredUid);
 
-        int exeSize = is.readInt();
-        Log.d(TAG, "UINT32:EXESIZE = " + exeSize);
-        if (exeSize > exeSizeMax) {
-            throw new IOException("Incomming string bigger than allowed");
-        }
-        byte[] buf = new byte[exeSize];
-        is.read(buf);
-        String callerBin = new String(buf, 0, exeSize - 1);
-        Log.d(TAG, "STRING:EXE = " + callerBin);
+    		int exeSize = is.readInt();
+    		Log.d(TAG, "UINT32:EXESIZE = " + exeSize);
+    		if (exeSize > exeSizeMax) {
+    			throw new IOException("Incomming string bigger than allowed");
+    		}
+    		byte[] buf = new byte[exeSize];
+    		is.read(buf);
+    		String callerBin = new String(buf, 0, exeSize - 1);
+    		Log.d(TAG, "STRING:EXE = " + callerBin);
 
-        int cmdSize = is.readInt();
-        Log.d(TAG, "UINT32:CMDSIZE = " + cmdSize);
-        if (cmdSize > cmdSizeMax) {
-            throw new IOException("Incomming string bigger than allowed");
-        }
-        buf = new byte[cmdSize];
-        is.read(buf);
-        mDesiredCmd = new String(buf, 0, cmdSize - 1);
-        Log.d(TAG, "STRING:CMD = " + mDesiredCmd);
+    		int cmdSize = is.readInt();
+    		Log.d(TAG, "UINT32:CMDSIZE = " + cmdSize);
+    		if (cmdSize > cmdSizeMax) {
+    			throw new IOException("Incomming string bigger than allowed");
+    		}
+    		buf = new byte[cmdSize];
+    		is.read(buf);
+    		mDesiredCmd = new String(buf, 0, cmdSize - 1);
+    		Log.d(TAG, "STRING:CMD = " + mDesiredCmd);
+    	} else {
+    		mCallerUid = intent.getIntExtra(SuRequestReceiver.EXTRA_CALLERUID, 0);
+    		mDesiredUid = intent.getIntExtra(SuRequestReceiver.EXTRA_UID, 0);
+    		mDesiredCmd = intent.getStringExtra(SuRequestReceiver.EXTRA_CMD);
+    	}
 
     }
 
