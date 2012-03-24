@@ -9,7 +9,7 @@
             "device": "all",
             "urls": [
                 "http://goo-inside.me/superuser/Superuser-3.0.7-efghi-signed.zip",
-                "http://downloads.noshufou.netdna-cdn.com/superuser/Superuser-3.0.7-efghi-signed.zip"
+                "http://downloads.androidsu.com/superuser/Superuser-3.0.7-efghi-signed.zip"
             ]
         },
         {
@@ -18,7 +18,7 @@
             "device": "all",
             "urls": [
                 "http://goo-inside.me/superuser/su-bin-3.0.3.2-efghi-signed.zip",
-                "http://downloads.noshufou.netdna-cdn.com/superuser/su-bin-3.0.3.2-efghi-signed.zip"
+                "http://downloads.androidsu.com/superuser/su-bin-3.0.3.2-efghi-signed.zip"
             ]
         },
         {
@@ -27,7 +27,7 @@
             "device": "all",
             "urls": [
                 "http://goo-inside.me/superuser/Superuser-3.0.7-d-signed.zip",
-                "http://downloads.noshufou.netdna-cdn.com/superuser/Superuser-3.0.7-d-signed.zip"
+                "http://downloads.androidsu.com/superuser/Superuser-3.0.7-d-signed.zip"
             ]
         },
         {
@@ -36,7 +36,7 @@
             "device": "all",
             "urls": [
                 "http://goo-inside.me/superuser/su-bin-3.0.3.2-d-signed.zip",
-                "http://downloads.noshufou.netdna-cdn.com/superuser/su-bin-3.0.3.2-d-signed.zip"
+                "http://downloads.androidsu.com/superuser/su-bin-3.0.3.2-d-signed.zip"
             ]
         },
         {
@@ -45,7 +45,7 @@
             "device": "all",
             "urls": [
                 "http://goo-inside.me/superuser/su-2.3.6.3-efgh-signed.zip",
-                "http://downloads.noshufou.netdna-cdn.com/superuser/su-2.3.6.3-efgh-signed.zip"
+                "http://downloads.androidsu.com/superuser/su-2.3.6.3-efgh-signed.zip"
             ]
         },
         {
@@ -54,7 +54,7 @@
             "device": "all",
             "urls": [
                 "http://goo-inside.me/superuser/su-2.3.6.3-cd-signed.zip",
-                "http://downloads.noshufou.netdna-cdn.com/superuser/su-2.3.6.3-cd-signed.zip"
+                "http://downloads.androidsu.com/superuser/su-2.3.6.3-cd-signed.zip"
             ]
         }
     ]
