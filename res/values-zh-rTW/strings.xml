@@ -38,7 +38,7 @@
   <string name="toggled">已切換</string>
   <string name="empty_apps">在清單中沒有應用程式</string>
   <string name="empty_logs">沒有記錄資訊</string>
-  <string name="log_count">顯示％d個項目</string>
+  <string name="log_count">顯示%d個項目</string>
   <string name="detail_package">包封</string>
   <string name="detail_app_uid">應用程序的UID</string>
   <string name="detail_request">請求的 UID</string>
@@ -151,8 +151,8 @@
   <string name="updater_bad_install_location">su 二進位目前安裝於 /sbin 中。此更新程式無法對其進行更新。請尋找適用於您裝置的新的 ROM。</string>
   <string name="updater_bad_install_location_explained">This updater is incapable of updating your su binary since it is installed in /sbin. This is not an error in the updater, it is an error on the behalf of your ROM or kernel developer. You can continue to use Superuser with your outdated binary.</string>
   <string name="updater_failed_remount">This updater cannot update the su binary on phones that have some kind of write protection on the system partition like S-ON. You can continue to use Superuser with your outdated binary, or update su with ROM Manager.</string>
-  <string name="notification_text_allow">％s 已被授予超級用戶權限</string>
-  <string name="notification_text_deny">％s 已被拒絕超級用戶權限</string>
+  <string name="notification_text_allow">%s 已被授予超級用戶權限</string>
+  <string name="notification_text_deny">%s 已被拒絕超級用戶權限</string>
   <string name="notif_outdated_ticker">你的su二進制文件已過時</string>
   <string name="notif_outdated_title">su二進制文件過時</string>
   <string name="notif_outdated_text">點擊以更新su二進制文件</string>
