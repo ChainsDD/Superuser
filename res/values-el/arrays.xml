@@ -7,8 +7,8 @@
     <item>Επιτρέψτε</item>
   </string-array>
   <string-array name="pref_status_icon_type_entries">
-    <item>Τελεία</item>
-    <item>Emoticon</item>
+    <item>Κουκκίδα</item>
+    <item>Εικονίδιο</item>
   </string-array>
   <string-array name="pref_date_format_entries">
     <item>Προεπιλεγμένο</item>
@@ -22,8 +22,8 @@
   </string-array>
   <string-array name="pref_toast_location_entries">
     <item>Προεπιλογή</item>
-    <item>Επάνω μέρος</item>
+    <item>Κορυφή</item>
     <item>Κέντρο</item>
-    <item>Κάτω μέρος</item>
+    <item>Στο τέλος</item>
   </string-array>
 </resources>

@@ -111,9 +111,9 @@
   <string name="pref_write_allow_tag_title">Lagre en ny tillatelseskode</string>
   <string name="pref_write_allow_tag_summary">Lagre en ny kode som skal brukes for å tillate</string>
   <string name="pref_version_title">Superbruker v%1$s (%2$d)</string>
-  <string name="pref_version_summary">Databaseversjon %s</string>
+  <string name="pref_version_summary">Databaseversjon %1$s</string>
   <string name="pref_bin_version_title_loading">Laster inn binærfilen su, versjon</string>
-  <string name="pref_bin_version_title">Su-binærfil v%s</string>
+  <string name="pref_bin_version_title">Su-binærfil v%1$s</string>
   <string name="pref_bin_version_summary">Trykk for å se etter oppdateringer</string>
   <string name="pref_changelog_title">Versjonsendringer</string>
   <string name="pref_changelog_summary">Vis versjonsendringer</string>
@@ -150,8 +150,8 @@
   <string name="updater_remount_ro_failed">Kunne ikke montere systemvolumet igjen som skrivebeskyttet. Vennligst start enheten på nytt for å fullføre oppdateringen.</string>
   <string name="updater_find_su_failed">Klarte ikke å finne en allerede installert binærfil su. Oppdateringen kan ikke fortsette.</string>
   <string name="updater_bad_install_location">Binærfilen su er allerede installert i /sbin. Dette oppdateringsprogrammet kan ikke oppdatere denne. Vennligst finn en ny ROM for din enhet.</string>
-  <string name="notification_text_allow">%s har fått Superbruker-tilgang</string>
-  <string name="notification_text_deny">%s har blitt nektet Superbruker-tilgang</string>
+  <string name="notification_text_allow">%1$s har fått Superbruker-tilgang</string>
+  <string name="notification_text_deny">%1$s har blitt nektet Superbruker-tilgang</string>
   <string name="notif_outdated_ticker">Din versjon av binærfilen su er ikke oppdatert</string>
   <string name="notif_outdated_title">Binærfilen su er ikke oppdatert</string>
   <string name="notif_outdated_text">Trykk for å oppdatere binærfilen su</string>
@@ -166,12 +166,13 @@
   <string name="malicious_apps_uninstall">Avinstaller</string>
   <string name="malicious_apps_ignore">Ignorer</string>
   <string name="malicious_app_notification_ticker">Potensielt skadelig applikasjon oppdaget</string>
-  <string name="malicious_app_notification_text">%s er trolig ondsinnet. Trykk for å avinstallere.</string>
+  <string name="malicious_app_notification_text">%1$s er trolig ondsinnet. Trykk for å avinstallere.</string>
   <string name="malicious_app_uid">deler UID med Superbruker</string>
   <string name="malicious_app_respond">ber om svartilgang</string>
   <string name="malicious_app_write">ber om lov til å skrive til tillatelsesleverandør</string>
   <string name="changelog_full_title">Versjonsendringer</string>
   <string name="changelog_title">Dette er nytt</string>
+  <plurals name="restore_complete"/>
   <plurals name="pref_logs_deleted">
     <item quantity="one">Én logg slettet</item>
     <item quantity="other">%1$d logger slettet</item>

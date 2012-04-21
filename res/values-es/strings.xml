@@ -6,8 +6,10 @@
   <string name="description_home">Inicio</string>
   <string name="description_log">Registro</string>
   <string name="description_preferences">Preferencias</string>
+  <string name="description_extras">Extras</string>
   <string name="page_label_apps">aplicaciones</string>
-  <string name="page_label_log">registro</string>
+  <string name="page_label_log">Registro</string>
+  <string name="menu_extras">Extras</string>
   <string name="menu_preferences">Preferencias</string>
   <string name="menu_clear">Limpiar</string>
   <string name="menu_clear_log">Limpiar registro</string>
@@ -49,6 +51,9 @@
   <string name="detail_request">UID solicitada</string>
   <string name="detail_command">Comando</string>
   <string name="detail_status">Estado</string>
+  <string name="request_message">%1$s esá solicitando acceso de Superusuario.\n\nAtención: Si no has iniciado esta acción, o si no entiendes esta petición, es mejor rechazarla.</string>
+  <string name="request_more_info">Pulsar para más información</string>
+  <string name="request_less_info">Pulsar para menos información</string>
   <string name="request_app_name">App</string>
   <string name="pref_title">Preferencias</string>
   <string name="pref_category_security">Seguridad</string>
@@ -88,7 +93,7 @@
   <string name="pref_log_entries_to_save">Establecer el número de entradas de registro que guardar</string>
   <string name="pref_24_hour_title">Hora en formato 24 horas</string>
   <string name="pref_24_hour_summary_on">Las horas del registro se mostrarán en formato de 24 horas</string>
-  <string name="pref_24_hour_summary_off">Las horas de registro se mostrarán en formato de 12 horas</string>
+  <string name="pref_24_hour_summary_off">Las horas del registro se mostrarán en formato de 12 horas</string>
   <string name="pref_show_seconds_title">Mostrar segundos</string>
   <string name="pref_show_seconds_summary_on">Las horas de registro incluirán segundos</string>
   <string name="pref_show_seconds_summary_off">Las horas de registro no incluirán segundos</string>
@@ -99,7 +104,7 @@
   <string name="pref_clearing_log_summary">Por favor espere</string>
   <string name="pref_category_notification_title">Notificaciones</string>
   <string name="pref_notifications_title">Notificaciones</string>
-  <string name="pref_notifications_summary_on">Mostrar una notificación cuando una aplicación concede permisos de Su</string>
+  <string name="pref_notifications_summary_on">Mostrar una notificación cuando a una aplicación se le conceden permisos de Su</string>
   <string name="pref_notifications_summary_off">No mostrar notificación cuando a una aplicación se le conceden permisos de Su</string>
   <string name="pref_notifications_type_title">Tipo de notificación</string>
   <string name="pref_notifications_type_summary">Tipo de notificación que mostrar cuando una aplicación concede permisos de SU</string>
@@ -115,11 +120,19 @@
   <string name="pref_backup_title">Copiar Aplicaciones/preferencias</string>
   <string name="backup_complete">Copia realizada en la tarjeta sd</string>
   <string name="pref_restore_title">Restaurar Aplicaciones/preferencias</string>
+  <string name="restore_complete_prefs_only">Preferencias restauradas</string>
+  <string name="pref_category_info_title">General</string>
   <string name="pref_version_title">Superusuario v%1$s (%2$d)</string>
-  <string name="pref_version_summary">Versión de la base de datos %s</string>
+  <string name="pref_version_summary">Versión de la base de datos %1$s</string>
   <string name="pref_bin_version_title_loading">Cargando la versión su binaria</string>
-  <string name="pref_bin_version_title">Su binaria v%s</string>
+  <string name="pref_bin_version_title">Su binaria v%1$s</string>
   <string name="pref_bin_version_summary">Pulsar para buscar actualizaciones</string>
+  <string name="pref_outdated_notification_title">Notificación de binario desactualizado</string>
+  <string name="pref_outdated_notification_summary_on">Mostrar una notificación cuando el binario esté desactualizado</string>
+  <string name="pref_outdated_notification_summary_off">No mostrar notificación cuando el binario esté desactualizado</string>
+  <string name="pref_advanced_prompt_title">Usar petición emergente avanzada</string>
+  <string name="pref_advanced_prompt_summary_on">No mostrar advertencia en peticiones emergentes</string>
+  <string name="pref_advanced_prompt_summary_off">Mostrar advertencia en peticiones emergentes</string>
   <string name="pref_changelog_title">Registro de cambios</string>
   <string name="pref_changelog_summary">Mostrar el registro de cambios</string>
   <string name="pref_get_elite_title">¡Cambia a Élite!</string>
@@ -131,8 +144,9 @@
   <string name="updater_update_anyway">Actualizar de todos modos</string>
   <string name="updater_cool">Eso ha estado genial, hazlo de nuevo</string>
   <string name="updater_working">Trabajando...</string>
-  <string name="updater_ok">Correcto!</string>
+  <string name="updater_ok">¡Correcto!</string>
   <string name="updater_fail">Error!</string>
+  <string name="updater_not_found">No encontrado</string>
   <string name="updater_update_failed">Error al actualizar. ¿Volver a intentarlo?</string>
   <string name="updater_no_conn">No se ha podido descargar el listado. Comprueba la conexión a internet.</string>
   <string name="updater_try_again">Reintentar</string>
@@ -142,6 +156,7 @@
   <string name="updater_step_latest_version">Última versión =\u0020</string>
   <string name="updater_step_check_installed_version">Comprobando la versión instalada =\u0020</string>
   <string name="updater_step_fix_db">Fijación de la base de datos...\u0020</string>
+  <string name="updater_step_find_busybox">Buscando busybox...\u0020</string>
   <string name="updater_step_download_busybox">Descargar busybox personalizado...\u0020 </string>
   <string name="updater_step_check_md5sum">Comprobando md5sum...\u0020</string>
   <string name="updater_step_check_installed_path">Comprobando ruta de instalación actual...\u0020</string>
@@ -156,8 +171,10 @@
   <string name="updater_remount_ro_failed">No se pudo montar /system en modo solo-lectura, reinicie el sistema para completar la actualización </string>
   <string name="updater_find_su_failed">El binario "su" no se ha podido encontrar. La actualización no pudo continuar.</string>
   <string name="updater_bad_install_location">El binario "su" está instalado en /sbin y el actualizador no puede actualizarlo. Busque otra ROM para su dispositivo.</string>
-  <string name="notification_text_allow">Se le han concedido permisos de Superusuario a %s</string>
-  <string name="notification_text_deny">Se le han denegado los permisos de Superusuario a %s</string>
+  <string name="updater_bad_install_location_explained">Este actualizador es incapaz de actualizar el su binario ya que está instalado en /sbin. Esto no es un error del actualizador, es un error del desarrollador de su ROM o kernel. Puede seguir usando Superuser con su binario desactualizado.</string>
+  <string name="updater_failed_remount">Este actualizador no puede actualizar el su binario en teléfonos que tienen algún tipo de protección contra escritura en la partición de sistema como S-ON. Puede seguir usando Superuser con su binario desactualizado , o actualizarlo con ROM Manager.</string>
+  <string name="notification_text_allow">Se le han concedido permisos de Superusuario a %1$s</string>
+  <string name="notification_text_deny">Se le han denegado los permisos de Superusuario a %1$s</string>
   <string name="notif_outdated_ticker">Su binario su está desactualizado</string>
   <string name="notif_outdated_title">binario su desactualizado</string>
   <string name="notif_outdated_text">Pulsar para actualizar el binario su</string>
@@ -172,7 +189,7 @@
   <string name="malicious_apps_uninstall">Desinstalar</string>
   <string name="malicious_apps_ignore">Ignorar</string>
   <string name="malicious_app_notification_ticker">Se ha detectado una app potencialmente maliciosa</string>
-  <string name="malicious_app_notification_text">%s es probablemente malicioso. Pulse para desinstalar.</string>
+  <string name="malicious_app_notification_text">%1$s es probablemente malicioso. Pulse para desinstalar.</string>
   <string name="malicious_app_uid">Compartir UID con Superusuario</string>
   <string name="malicious_app_respond">solicitar permiso para responder</string>
   <string name="malicious_app_write">Solicita permiso para escribir en proveedor de permisos</string>
