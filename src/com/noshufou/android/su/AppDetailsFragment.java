@@ -19,7 +19,6 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -29,35 +28,34 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps;
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
 import com.noshufou.android.su.service.ResultService;
 import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.widget.BetterPopupWindow;
+import com.noshufou.android.su.util.Util.MenuId;
 import com.noshufou.android.su.widget.LogAdapter;
 import com.noshufou.android.su.widget.PinnedHeaderListView;
 
-public class AppDetailsFragment extends ListFragment
-    implements LoaderManager.LoaderCallbacks<Cursor>, FragmentWithLog, OnClickListener {
+public class AppDetailsFragment extends SherlockListFragment
+    implements LoaderManager.LoaderCallbacks<Cursor>, FragmentWithLog {
 //    private static final String TAG = "Su.AppDetailsFragment";
 
     private TextView mAppName = null;
@@ -69,30 +67,30 @@ public class AppDetailsFragment extends ListFragment
     private TextView mRequestDetailText = null;
     private TextView mCommandText = null;
     private TextView mStatusText = null;
-    
+
     private boolean mUseAppSettings = true;
     private boolean mNotificationsEnabled = true;
     private boolean mLoggingEnabled = true;
-    
+
     private Button mToggleButton = null;
-    
+
     private static final int DETAILS_LOADER = 1;
     private static final int LOG_LOADER = 2;
-    
+
     private long mShownIndex = -1;
-    
+
     private boolean mReady = false;
     private boolean mDualPane = false;
-    
+
     private int mAllow = -1;
-    
+
     LogAdapter mAdapter = null;
 
     public static final String[] DETAILS_PROJECTION = new String[] {
         Apps._ID, Apps.UID, Apps.PACKAGE, Apps.NAME, Apps.EXEC_UID, Apps.EXEC_CMD, Apps.ALLOW,
         Apps.NOTIFICATIONS, Apps.LOGGING
     };
-    
+
     private static final int DETAILS_COLUMN_UID = 1;
     private static final int DETAILS_COLUMN_PACKAGE = 2;
     private static final int DETAILS_COLUMN_NAME = 3;
@@ -101,6 +99,8 @@ public class AppDetailsFragment extends ListFragment
     private static final int DETAILS_COLUMN_ALLOW = 6;
     private static final int DETAILS_COLUMN_NOTIFICATIONS = 7;
     private static final int DETAILS_COLUMN_LOGGING = 8;
+
+    private static final int MENU_GROUP_OPTIONS = 1;
     
     public static AppDetailsFragment newInstance(long index) {
         AppDetailsFragment fragment = new AppDetailsFragment();
@@ -123,6 +123,12 @@ public class AppDetailsFragment extends ListFragment
     }
     
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         if (container == null) {
@@ -139,20 +145,7 @@ public class AppDetailsFragment extends ListFragment
         mRequestDetailText = (TextView) view.findViewById(R.id.request_detail);
         mCommandText = (TextView) view.findViewById(R.id.command);
         mStatusText = (TextView) view.findViewById(R.id.status);
-        
-        view.findViewById(R.id.toggle_button).setOnClickListener(this);
-        view.findViewById(R.id.forget_button).setOnClickListener(this);
-        view.findViewById(R.id.clear_log_button).setOnClickListener(this);
-        if (Util.elitePresent(getActivity(), true, 2)) {
-            View moreButton = view.findViewById(R.id.more_button);
-            moreButton.setOnClickListener(this);
-            moreButton.setVisibility(View.VISIBLE);
-        }
-        View closeButton = view.findViewById(R.id.close_button);
-        if (closeButton != null) {
-            closeButton.setOnClickListener(this);
-        }
-        
+
         return view;
     }
 
@@ -199,6 +192,71 @@ public class AppDetailsFragment extends ListFragment
         
         list.setOnScrollListener(mAdapter);
     }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (!mReady) return;
+
+        menu.add(Menu.NONE, MenuId.TOGGLE, MenuId.TOGGLE, R.string.menu_toggle)
+                .setIcon(R.drawable.ic_btn_toggle)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        menu.add(Menu.NONE, MenuId.FORGET, MenuId.FORGET, R.string.menu_forget)
+                .setIcon(R.drawable.ic_btn_delete)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        menu.add(Menu.NONE, MenuId.CLEAR_LOG, MenuId.CLEAR_LOG, R.string.menu_clear_log)
+            .setIcon(R.drawable.ic_btn_clear_log)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        menu.add(Menu.NONE, MenuId.USE_APP_SETTINGS, MenuId.USE_APP_SETTINGS, R.string.use_global_settings)
+                .setCheckable(true).setChecked(mUseAppSettings)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
+        menu.add(MENU_GROUP_OPTIONS, MenuId.NOTIFICATIONS, MenuId.NOTIFICATIONS, R.string.notifications_enabled)
+                .setCheckable(true).setChecked(mNotificationsEnabled);
+        menu.add(MENU_GROUP_OPTIONS, MenuId.LOGGING, MenuId.LOGGING, R.string.logging_enabled)
+            .setCheckable(true).setChecked(mLoggingEnabled);
+
+        menu.setGroupEnabled(MENU_GROUP_OPTIONS, !mUseAppSettings);
+        
+        if (menu.findItem(MenuId.PREFERENCES) == null) {
+            menu.add(Menu.NONE, MenuId.PREFERENCES, MenuId.PREFERENCES, R.string.menu_preferences)
+                    .setIcon(R.drawable.ic_menu_preferences);
+        }
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        switch (itemId) {
+            case MenuId.TOGGLE:
+                toggle(null);
+                return true;
+            case MenuId.FORGET:
+                forget(null);
+                return true;
+            case MenuId.CLEAR_LOG:
+                clearLog();
+                return true;
+            case MenuId.USE_APP_SETTINGS:
+            case MenuId.NOTIFICATIONS:
+            case MenuId.LOGGING:
+                setOptions(itemId);
+                return true;
+            case R.id.abs__home:
+            case android.R.id.home:
+                if (mDualPane) {
+                    closeDetails();
+                } else {
+                    Util.goHome(getActivity());
+                }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         if (mShownIndex != -1) {
@@ -208,26 +266,33 @@ public class AppDetailsFragment extends ListFragment
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch(view.getId()) {
-        case R.id.toggle_button:
-                toggle(null);
-            break;
-        case R.id.forget_button:
-                forget(null);
-            break;
-        case R.id.clear_log_button:
-                clearLog();
-            break;
-        case R.id.more_button:
-            MoreOptionsPopup popup = new MoreOptionsPopup(view);
-            popup.show();
-            break;
-        case R.id.close_button:
-            ((HomeActivity)getActivity()).closeDetails();
-            break;
+    private void setOptions(int option) {
+        ContentResolver cr = getActivity().getContentResolver();
+        ContentValues values = new ContentValues();;
+        switch (option) {
+            case MenuId.USE_APP_SETTINGS:
+                mUseAppSettings = !mUseAppSettings;
+                values.put(Apps.NOTIFICATIONS, mUseAppSettings?null:mNotificationsEnabled);
+                values.put(Apps.LOGGING, mUseAppSettings?null:mLoggingEnabled);
+                if (mUseAppSettings) {
+                    SharedPreferences prefs =
+                            PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    mNotificationsEnabled = prefs.getBoolean(Preferences.NOTIFICATIONS, true);
+                    mLoggingEnabled = prefs.getBoolean(Preferences.LOGGING, true);
+                }
+                break;
+            case MenuId.NOTIFICATIONS:
+                mNotificationsEnabled = !mNotificationsEnabled;
+                values.put(Apps.NOTIFICATIONS, mNotificationsEnabled);
+                break;
+            case MenuId.LOGGING:
+                mLoggingEnabled = !mLoggingEnabled;
+                values.put(Apps.LOGGING, mLoggingEnabled);
+                break;
         }
+        cr.update(ContentUris.withAppendedId(Apps.CONTENT_URI, mShownIndex),
+                values, null, null);
+        getActivity().invalidateOptionsMenu();
     }
     
     public void toggle(View view) {
@@ -332,12 +397,19 @@ public class AppDetailsFragment extends ListFragment
                 if (mDetailsContainer != null) {
                     mDetailsContainer.setVisibility(View.VISIBLE);
                 }
-                mAppName.setText(data.getString(DETAILS_COLUMN_NAME));
-                mAppIcon.setImageDrawable(
-                        Util.getAppIcon(getActivity(), data.getInt(DETAILS_COLUMN_UID)));
+
+                getSherlockActivity().getSupportActionBar().setTitle(data.getString(DETAILS_COLUMN_NAME));
+                getSherlockActivity().getSupportActionBar().setSubtitle(data.getString((DETAILS_COLUMN_PACKAGE)));
+                if (mAppName != null) {
+                    mAppName.setText(data.getString(DETAILS_COLUMN_NAME));
+                    mAppIcon.setImageDrawable(
+                            Util.getAppIcon(getActivity(), data.getInt(DETAILS_COLUMN_UID)));
+                }
                 int allow = data.getInt(DETAILS_COLUMN_ALLOW);
-                mStatusIcon.setImageDrawable(Util.getStatusIconDrawable(getActivity(), allow));
-                mStatusIcon.setVisibility(View.VISIBLE);
+                if (mStatusIcon != null) {
+                    mStatusIcon.setImageDrawable(Util.getStatusIconDrawable(getActivity(), allow));
+                    mStatusIcon.setVisibility(View.VISIBLE);
+                }
                 mPackageNameText.setText(data.getString(DETAILS_COLUMN_PACKAGE));
                 mAppUidText.setText(data.getString(DETAILS_COLUMN_UID));
                 mRequestDetailText.setText(
@@ -364,6 +436,7 @@ public class AppDetailsFragment extends ListFragment
                 }
             }
             mReady = true;
+            getSherlockActivity().invalidateOptionsMenu();
             break;
         case LOG_LOADER:
             mAdapter.swapCursor(data);
@@ -377,70 +450,4 @@ public class AppDetailsFragment extends ListFragment
             mAdapter.swapCursor(null);
         }
     }
-    
-    private class MoreOptionsPopup extends BetterPopupWindow implements OnCheckedChangeListener {
-        
-        private CheckBox mUseAppCheckBox;
-        private CheckBox mNotificationsCheckBox;
-        private CheckBox mLoggingCheckBox;
-        
-        public MoreOptionsPopup(View anchor) {
-            super(anchor);
-        }
-
-        @Override
-        protected void onCreate() {
-            LayoutInflater inflater =
-                    (LayoutInflater) this.anchor.getContext()
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            ViewGroup root = (ViewGroup) inflater.inflate(R.layout.more_options, null);
-
-            mUseAppCheckBox = (CheckBox) root.findViewById(R.id.check_use_app);
-            mUseAppCheckBox.setChecked(mUseAppSettings);
-            
-            mNotificationsCheckBox = (CheckBox)root.findViewById(R.id.check_notifications);
-            mNotificationsCheckBox.setChecked(mNotificationsEnabled);
-            mNotificationsCheckBox.setEnabled(!mUseAppSettings);
-            
-            mLoggingCheckBox = (CheckBox)root.findViewById(R.id.check_logging);
-            mLoggingCheckBox.setChecked(mLoggingEnabled);
-            mLoggingCheckBox.setEnabled(!mUseAppSettings);
-
-            mUseAppCheckBox.setOnCheckedChangeListener(this);
-            mNotificationsCheckBox.setOnCheckedChangeListener(this);
-            mLoggingCheckBox.setOnCheckedChangeListener(this);
-
-            this.setContentView(root);
-        }
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            ContentResolver cr = getActivity().getContentResolver();
-            if (buttonView.getId() == R.id.check_use_app) {
-                mUseAppSettings = isChecked;
-                mNotificationsCheckBox.setEnabled(!mUseAppSettings);
-                mLoggingCheckBox.setEnabled(!mUseAppSettings);
-                ContentValues values = new ContentValues();
-                values.put(Apps.NOTIFICATIONS, isChecked?null:mNotificationsEnabled);
-                values.put(Apps.LOGGING, isChecked?null:mLoggingEnabled);
-                cr.update(ContentUris.withAppendedId(Apps.CONTENT_URI, mShownIndex),
-                        values, null, null);
-                if (isChecked) {
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    mNotificationsEnabled = prefs.getBoolean(Preferences.NOTIFICATIONS, true);
-                    mNotificationsCheckBox.setChecked(mNotificationsEnabled);
-                    mLoggingEnabled = prefs.getBoolean(Preferences.LOGGING, true);
-                    mLoggingCheckBox.setChecked(mLoggingEnabled);
-                }
-            } else {
-                ContentValues values = new ContentValues();
-                values.put(Apps.NOTIFICATIONS, mNotificationsCheckBox.isChecked());
-                values.put(Apps.LOGGING, mLoggingCheckBox.isChecked());
-                cr.update(ContentUris.withAppendedId(Apps.CONTENT_URI, mShownIndex),
-                        values, null, null);
-            }
-        }
-    }
-
 }

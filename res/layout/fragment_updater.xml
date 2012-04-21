@@ -21,24 +21,11 @@
     android:layout_height="fill_parent"
     android:background="@android:color/white">
 
-    <LinearLayout style="@style/TitleBar">
-        <ImageButton style="@style/TitleBarAction"
-            android:id="@+id/home_button"
-            android:contentDescription="@string/description_home"
-            android:src="@drawable/ic_title_home" />
-
-        <ImageView style="@style/TitleBarSeparator" />
-        <TextView style="@style/TitleBarText" />
-        <ProgressBar style="@style/TitleBarProgressIndicator"
-            android:id="@+id/title_refresh_progress"
-            android:visibility="invisible" />
-    </LinearLayout>
-
     <TextView android:id="@+id/status"
         style="@android:style/TextAppearance.Large"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title_container"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:text="@string/updater_working" />
@@ -46,12 +33,12 @@
     <ListView android:id="@android:id/list"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_below="@id/title_container"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/button_bar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="70dip"
-        android:layout_marginBottom="60dip"
+        android:layout_marginBottom="20dip"
         android:layout_marginLeft="20dip"
         android:layout_marginRight="20dip"
         android:padding="3dp"
@@ -60,17 +47,6 @@
         android:cacheColorHint="@color/console_background"
         android:background="@color/console_background"
         android:transcriptMode="alwaysScroll" />
-
-    <ProgressBar android:id="@+id/progress_bar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/button_bar"
-        android:layout_marginRight="20dip"
-        android:layout_marginLeft="20dip"
-        android:layout_marginBottom="20dip"
-        android:max="14"
-        android:visibility="visible" />
 
     <LinearLayout android:id="@id/button_bar"
         android:layout_width="fill_parent"
@@ -82,7 +58,7 @@
         android:paddingLeft="4dip"
         android:paddingRight="4dip"
         android:paddingBottom="1dip"
-        android:background="@drawable/bottom_bar">
+        android:background="@color/title_split_background">
         <Button android:id="@+id/action_button"
             android:layout_width="0dip"
             android:layout_height="wrap_content"

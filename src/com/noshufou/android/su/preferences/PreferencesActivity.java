@@ -15,18 +15,6 @@
  ******************************************************************************/
 package com.noshufou.android.su.preferences;
 
-import com.noshufou.android.su.PinActivity;
-import com.noshufou.android.su.R;
-import com.noshufou.android.su.TagWriterActivity;
-import com.noshufou.android.su.UpdaterActivity;
-import com.noshufou.android.su.UpdaterFragment;
-import com.noshufou.android.su.provider.PermissionsProvider.Logs;
-import com.noshufou.android.su.service.ResultService;
-import com.noshufou.android.su.util.BackupUtil;
-import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.widget.ChangeLog;
-import com.noshufou.android.su.widget.NumberPickerDialog;
-
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -45,20 +33,29 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PreferencesActivity extends PreferenceActivity implements OnClickListener,
-        OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
+import com.noshufou.android.su.PinActivity;
+import com.noshufou.android.su.R;
+import com.noshufou.android.su.TagWriterActivity;
+import com.noshufou.android.su.UpdaterActivity;
+import com.noshufou.android.su.UpdaterFragment;
+import com.noshufou.android.su.provider.PermissionsProvider.Logs;
+import com.noshufou.android.su.service.ResultService;
+import com.noshufou.android.su.util.BackupUtil;
+import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.widget.ChangeLog;
+import com.noshufou.android.su.widget.NumberPickerDialog;
+
+public class PreferencesActivity extends SherlockPreferenceActivity
+implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
     private static final String TAG = "Su.PreferencesActivity";
 
     private static final int REQUEST_ENABLE_PIN = 1;
@@ -85,16 +82,16 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         super.onCreate(savedInstanceState);
+        setSupportProgressBarIndeterminateVisibility(false);
+
         setContentView(R.layout.activity_preferences);
 
         addPreferencesFromResource(R.xml.preferences);
 
         mContext = getApplicationContext();
-
-        // Set up the titlebar
-        ((TextView)findViewById(R.id.title_text)).setText(R.string.pref_title);
-        ((ImageButton)findViewById(R.id.home_button)).setOnClickListener(this);
 
         PreferenceScreen prefScreen = getPreferenceScreen();
         mPrefs = prefScreen.getSharedPreferences();
@@ -161,15 +158,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
         super.onPause();
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()) {
-        case R.id.home_button:
-            goHome();
-            break;
-        }
     }
 
     @Override
@@ -430,7 +418,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
 
         @Override
         protected void onPreExecute() {
-            ((ProgressBar)findViewById(R.id.title_refresh_progress)).setVisibility(View.VISIBLE);
+            setSupportProgressBarIndeterminateVisibility(true);
         }
 
         @Override
@@ -440,7 +428,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
 
         @Override
         protected void onPostExecute(Boolean result) {
-            ((ProgressBar)findViewById(R.id.title_refresh_progress)).setVisibility(View.GONE);
+            setSupportProgressBarIndeterminateVisibility(false);
             if (result) {
                 Toast.makeText(getApplicationContext(),
                         getString(R.string.backup_complete), Toast.LENGTH_SHORT).show();
@@ -452,7 +440,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
 
         @Override
         protected void onPreExecute() {
-            ((ProgressBar)findViewById(R.id.title_refresh_progress)).setVisibility(View.VISIBLE);
+            setSupportProgressBarIndeterminateVisibility(true);
         }
 
         @Override
@@ -462,7 +450,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
 
         @Override
         protected void onPostExecute(Integer result) {
-            ((ProgressBar)findViewById(R.id.title_refresh_progress)).setVisibility(View.GONE);
+            setSupportProgressBarIndeterminateVisibility(false);
             if (result > -1) {
                 String message = result > 0 ?
                         getResources().getQuantityString(R.plurals.restore_complete, result, result):

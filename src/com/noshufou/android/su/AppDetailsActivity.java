@@ -18,12 +18,12 @@ package com.noshufou.android.su;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.noshufou.android.su.util.Util;
 
-public class AppDetailsActivity extends FragmentActivity {
+public class AppDetailsActivity extends SherlockFragmentActivity {
 //    private static final String TAG = "Su.AppDetailsActivity";
     
     @Override

@@ -94,6 +94,17 @@ public class Util {
         sSystemUids.put(9998, "misc");
         sSystemUids.put(9999, "nobody");
     }
+    
+    public static class MenuId {
+        public static final int ELITE = 0;
+        public static final int TOGGLE = 1;
+        public static final int FORGET = 2;
+        public static final int CLEAR_LOG = 3;
+        public static final int USE_APP_SETTINGS = 4;
+        public static final int NOTIFICATIONS = 5;
+        public static final int LOGGING = 6;
+        public static final int PREFERENCES = 7;
+    }
 
     public static String getAppName(Context c, int uid, boolean withUid) {
         if (sSystemUids.containsKey(uid)) {

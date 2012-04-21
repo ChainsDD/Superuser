@@ -45,4 +45,5 @@
     
     <!--  Dimensions for PagerHeaders -->
     <dimen name="pager_header_height">32dp</dimen>
+
 </resources>

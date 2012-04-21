@@ -17,38 +17,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp"
-        android:paddingRight="20dp"
-        android:orientation="vertical"
-        android:background="@drawable/panel_content">
-        <TextView android:id="@+id/log_count"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right" />
-        <TextView android:id="@android:id/empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_logs" />
-        <com.noshufou.android.su.widget.PinnedHeaderListView
-            android:id="@android:id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-    <LinearLayout android:id="@+id/options_container"
-        android:layout_width="64dp"
-        android:layout_height="match_parent"
-        android:paddingTop="24px"
-        android:orientation="vertical"
-        android:background="@drawable/right_panel_background">
-        <ImageButton android:id="@+id/clear_log_button"
-            style="@style/OptionsButton"
-            android:src="@drawable/ic_btn_clear_log" />
-        <ImageView style="@style/OptionsDivider" />
-    </LinearLayout>
+    android:paddingLeft="20dp"
+    android:paddingTop="20dp"
+    android:paddingRight="20dp"
+    android:orientation="vertical"
+    android:background="@drawable/panel_content">
+    <TextView android:id="@+id/log_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right" />
+    <TextView android:id="@android:id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_logs" />
+    <com.noshufou.android.su.widget.PinnedHeaderListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
