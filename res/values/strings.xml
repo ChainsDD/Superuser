@@ -66,7 +66,7 @@
 
     <string name="empty_apps">No apps in list</string>
     <string name="empty_logs">No log information</string>
-    <string name="log_count">Showing %d entries</string>
+    <string name="log_count">Showing %1$d entries</string>
     <string name="log_last_accessed">Last accessed on %1$s at %2$s</string>
     <string name="log_last_allowed">Last allowed on %1$s at %2$s</string>
     <string name="log_last_denied">Last denied on %1$s at %2$s</string>
@@ -171,9 +171,9 @@
     <string name="restore_complete_prefs_only">Preferences restored</string>
     <string name="pref_category_info_title">General</string>
     <string name="pref_version_title">Superuser v%1$s (%2$d)</string>
-    <string name="pref_version_summary">Database version %s</string>
+    <string name="pref_version_summary">Database version %1$s</string>
     <string name="pref_bin_version_title_loading">Loading su binary version</string>
-    <string name="pref_bin_version_title">Su binary v%s</string>
+    <string name="pref_bin_version_title">Su binary v%1$s</string>
     <string name="pref_bin_version_summary">Tap to check for updates</string>
     <string name="pref_outdated_notification_title">Outdated binary notification</string>
     <string name="pref_outdated_notification_summary_on">Show notification when binary is outdated</string>
@@ -227,8 +227,8 @@
     <string name="updater_bad_install_location_explained">This updater is incapable of updating your su binary since it is installed in /sbin. This is not an error in the updater, it is an error on the behalf of your ROM or kernel developer. You can continue to use Superuser with your outdated binary.</string>
     <string name="updater_failed_remount">This updater cannot update the su binary on phones that have some kind of write protection on the system partition like S-ON. You can continue to use Superuser with your outdated binary, or update su with ROM Manager.</string>
 
-    <string name="notification_text_allow">%s has been granted Superuser permissions</string>
-    <string name="notification_text_deny">%s has been denied Superuser permissions</string>
+    <string name="notification_text_allow">%1$s has been granted Superuser permissions</string>
+    <string name="notification_text_deny">%1$s has been denied Superuser permissions</string>
 
     <string name="notif_outdated_ticker">Your su binary is outdated</string>
     <string name="notif_outdated_title">su binary outdated</string>
@@ -240,7 +240,7 @@
     <string name="pin_mismatch">PINs don\'t match, try again</string>
     <plurals name="pin_incorrect_try">
         <item quantity="one">Last chance</item>
-        <item quantity="other">Nope - %d tries left</item>
+        <item quantity="other">Nope - %1$d tries left</item>
     </plurals>
     <string name="pin_enter_secret_code">Enter secret code</string>
     
@@ -255,7 +255,7 @@
     <string name="malicious_apps_uninstall">Uninstall</string>
     <string name="malicious_apps_ignore">Ignore</string>
     <string name="malicious_app_notification_ticker">Potentially malicious app detected</string>
-    <string name="malicious_app_notification_text">%s is probably malicious. Tap to uninstall.</string>
+    <string name="malicious_app_notification_text">%1$s is probably malicious. Tap to uninstall.</string>
     <string name="malicious_app_uid">shares UID with Superuser</string>
     <string name="malicious_app_respond">requests respond permission</string>
     <string name="malicious_app_write">requests permission to write to permissions provider</string>

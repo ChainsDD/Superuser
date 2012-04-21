@@ -17,7 +17,7 @@
     <item>2011/12/31</item>
   </string-array>
   <string-array name="pref_notifications_type_entries">
-    <item>Toast</item>
+    <item>提示訊息</item>
     <item>狀態列</item>
   </string-array>
   <string-array name="pref_toast_location_entries">
