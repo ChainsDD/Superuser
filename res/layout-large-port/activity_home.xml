@@ -20,13 +20,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout style="@style/TitleBar">
-        <ImageView android:id="@android:id/home"
-            style="@style/TitleBarLogo"
-            android:src="@drawable/title_logo" />
-        
-    </LinearLayout>
-
     <com.noshufou.android.su.widget.SlidingPanel android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,33 +1,5 @@
 package com.noshufou.android.su;
 
-import com.noshufou.android.su.util.Util;
-
-import org.apache.http.util.ByteArrayBuffer;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
-import android.os.Build.VERSION;
-import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.text.Spannable;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -39,15 +11,42 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class UpdaterFragment extends ListFragment implements OnClickListener {
+import org.apache.http.util.ByteArrayBuffer;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.noshufou.android.su.util.Util;
+
+public class UpdaterFragment extends SherlockListFragment implements OnClickListener {
     private static final String TAG = "Su.UpdaterFragment";
     
     public static final int NOTIFICATION_ID = 42;
     
-    private String MANIFEST_URL;
+    private final String MANIFEST_URL = "http://downloads.androidsu.com/superuser/su/manifestv2.json";
     private int CONSOLE_GREY;
     private int CONSOLE_RED;
     private int CONSOLE_GREEN;
@@ -65,8 +64,20 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
         public String busyboxUrl;
         public String busyboxMd5;
         
-        public boolean populate(JSONObject manifest) {
+        public boolean populate(JSONArray jsonArray) {
             try {
+                int myVersionCode = getActivity().getPackageManager()
+                        .getPackageInfo(getActivity().getPackageName(), 0).versionCode;
+                JSONObject manifest = null;
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    manifest = jsonArray.getJSONObject(i);
+                    if (manifest.getInt("min-apk-version") <= myVersionCode)
+                        break;
+                }
+
+                if (manifest == null)
+                    return false;
+
                 version = manifest.getString("version");
                 versionCode = manifest.getInt("version-code");
                 binaryUrl = manifest.getString("binary");
@@ -74,6 +85,10 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                 busyboxUrl = manifest.getString("busybox");
                 busyboxMd5 = manifest.getString("busybox-md5sum");
             } catch (JSONException e) {
+                return false;
+            } catch (NameNotFoundException e) {
+                // This should never happen
+                Log.e(TAG, "Divided by zero...", e);
                 return false;
             }
 
@@ -91,8 +106,8 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
     private String mBusyboxPath = "";
     private Step mCurrentStep = Step.DOWNLOAD_MANIFEST;
     
-    private ProgressBar mTitleProgress;
-    private ProgressBar mProgressBar;
+//    private ProgressBar mTitleProgress;
+//    private ProgressBar mProgressBar;
     private TextView mStatusText;
     private Button mActionButton;
     
@@ -101,17 +116,15 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        MANIFEST_URL = getString(Integer.parseInt(VERSION.SDK) < 5?
-                R.string.updater_manifest_legacy:R.string.updater_manifest);
         CONSOLE_GREY = getActivity().getResources().getColor(R.color.console_grey);
         CONSOLE_RED = getActivity().getResources().getColor(R.color.console_red);
         CONSOLE_GREEN = getActivity().getResources().getColor(R.color.console_green);
 
         View view = inflater.inflate(R.layout.fragment_updater, container, false);
         
-        ((TextView)view.findViewById(R.id.title_text)).setText(R.string.updater_title);
-        mTitleProgress = (ProgressBar) view.findViewById(R.id.title_refresh_progress);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+//        ((TextView)view.findViewById(R.id.title_text)).setText(R.string.updater_title);
+//        mTitleProgress = (ProgressBar) view.findViewById(R.id.title_refresh_progress);
+//        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         mStatusText = (TextView) view.findViewById(R.id.status);
         mActionButton = (Button) view.findViewById(R.id.action_button);
         mActionButton.setOnClickListener(this);
@@ -123,7 +136,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setListAdapter(new ConsoleAdapter(getActivity()));
-        mProgressBar.setInterpolator(getActivity(), android.R.anim.accelerate_decelerate_interpolator);
+//        mProgressBar.setInterpolator(getActivity(), android.R.anim.accelerate_decelerate_interpolator);
         mUpdateTask = new UpdateTask();
         mUpdateTask.execute();
     }
@@ -161,7 +174,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
 
         @Override
         protected void onPreExecute() {
-            mTitleProgress.setVisibility(View.VISIBLE);
+//            mTitleProgress.setVisibility(View.VISIBLE);
             mStatusText.setText(R.string.updater_working);
             mActionButton.setText(R.string.updater_working);
             mActionButton.setEnabled(false);
@@ -586,9 +599,11 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                 return;
             }
             getListAdapter().notifyDataSetChanged();
-            mProgressBar.setMax((Integer)values[0]);
-            mProgressBar.setProgress((Integer)values[1]);
-            mProgressBar.setSecondaryProgress((Integer)values[2]);
+//            mProgressBar.setMax((Integer)values[0]);
+//            mProgressBar.setProgress((Integer)values[1]);
+//            mProgressBar.setSecondaryProgress((Integer)values[2]);
+            getSherlockActivity().setSupportProgress((10000 * (Integer)values[1]) / (Integer)values[0]);
+            getSherlockActivity().setSupportSecondaryProgress((10000 * (Integer)values[2]) / (Integer)values[0]);
             if (values.length == 4) {
                 addConsoleEntry((Integer)values[3]);
             } else if (values.length == 5) {
@@ -604,7 +619,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
 
         @Override
         protected void onPostExecute(Integer result) {
-            mTitleProgress.setVisibility(View.GONE);
+//            mTitleProgress.setVisibility(View.GONE);
             mActionButton.setEnabled(true);
             switch (result) {
             case STATUS_AWAITING_ACTION:
@@ -674,7 +689,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                 } else if (localName.equals("manifest")) {
                     try {
                         mManifest = new Manifest();
-                        return mManifest.populate(new JSONObject(new String(baf.toByteArray())));
+                        return mManifest.populate(new JSONArray(new String(baf.toByteArray())));
                     } catch (JSONException e) {
                         Log.e(TAG, "Malformed manifest file", e);
                         return false;

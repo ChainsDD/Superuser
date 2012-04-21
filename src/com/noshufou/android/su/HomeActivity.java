@@ -1,15 +1,13 @@
 package com.noshufou.android.su;
 
-import com.noshufou.android.su.preferences.Preferences;
-import com.noshufou.android.su.provider.PermissionsProvider.Logs;
-import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.widget.ChangeLog;
-import com.noshufou.android.su.widget.PagerHeader;
+import java.util.ArrayList;
 
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -20,37 +18,38 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuCompat;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 
-import java.util.ArrayList;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.util.Util.MenuId;
+import com.noshufou.android.su.widget.ChangeLog;
+import com.noshufou.android.su.widget.PagerHeader;
 
-public class HomeActivity extends FragmentActivity {
-//    private static final String TAG = "Su.HomeActivity";
-
-    private static final int MENU_ELITE = 0;
-    private static final int MENU_GET_ELITE = 1;
-    private static final int MENU_CLEAR_LOG = 2;
-    private static final int MENU_PREFERENCES = 3;
+public class HomeActivity extends SherlockFragmentActivity {
+    private static final String TAG = "Su.HomeActivity";
 
     private static final String STATE_SHOW_DETAILS = "show_details";
 
     public boolean mDualPane = false;
     private boolean mLoggingEnabled = true;
+    private boolean mElite = false;
 
     private ViewPager mPager;
-    private TransitionDrawable mTitleLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate()");
 
         setContentView(R.layout.activity_home);
+        Log.d(TAG, "after setContentView()");
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         mLoggingEnabled = prefs.getBoolean(Preferences.LOGGING, true);
@@ -74,7 +73,7 @@ public class HomeActivity extends FragmentActivity {
         } else {
             mPager = (ViewPager)findViewById(R.id.pager);
             mPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.page_margin));
-//            mPager.setPageMarginDrawable(new ColorDrawable(0xff5e5e5e));
+            mPager.setPageMarginDrawable(new ColorDrawable(0xff5e5e5e));
             PagerHeader pagerHeader = (PagerHeader) findViewById(R.id.pager_header);
             PagerAdapter pagerAdapter = new PagerAdapter(this, mPager, pagerHeader);
 
@@ -83,7 +82,6 @@ public class HomeActivity extends FragmentActivity {
                 pagerAdapter.addPage(LogFragment.class, R.string.page_label_log);
             } else {
                 pagerHeader.setVisibility(View.GONE);
-
             }
 
             // DEBUG
@@ -94,8 +92,6 @@ public class HomeActivity extends FragmentActivity {
             // END DEBUG
         }
 
-        mTitleLogo = 
-                (TransitionDrawable) ((ImageView)findViewById(android.R.id.home)).getDrawable();
         new EliteCheck().execute();
 
         ChangeLog cl = new ChangeLog(this);
@@ -106,30 +102,16 @@ public class HomeActivity extends FragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem item;
-        if (Util.elitePresent(this, false, 0)) {
-            item = menu.add(Menu.NONE, MENU_ELITE,
-                    MENU_ELITE, R.string.menu_extras);
-            item.setIcon(R.drawable.ic_menu_star);
-            MenuCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        } else {
-            item = menu.add(Menu.NONE, MENU_GET_ELITE,
-                    MENU_GET_ELITE, R.string.pref_get_elite_title);
-            item.setIcon(R.drawable.ic_menu_star);
-            MenuCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        }
+        mElite = Util.elitePresent(this, false, 0);
+        menu.add(Menu.NONE, MenuId.ELITE,
+                MenuId.ELITE, mElite?R.string.menu_extras:R.string.pref_get_elite_title)
+                .setIcon(R.drawable.ic_menu_star)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
-        if (mLoggingEnabled) {
-            item = menu.add(Menu.NONE, MENU_CLEAR_LOG,
-                    MENU_CLEAR_LOG, R.string.menu_clear_log);
-            item.setIcon(R.drawable.ic_menu_clear_log);
-            MenuCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        }
-
-        item = menu.add(Menu.NONE, MENU_PREFERENCES,
-                MENU_PREFERENCES, R.string.menu_preferences);
-        item.setIcon(R.drawable.ic_menu_preferences);
-        MenuCompat.setShowAsAction(item, MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menu.add(Menu.NONE, MenuId.PREFERENCES,
+                MenuId.PREFERENCES, R.string.menu_preferences)
+                .setIcon(R.drawable.ic_menu_preferences)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         return true;
     }
@@ -137,21 +119,18 @@ public class HomeActivity extends FragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case MENU_ELITE:
+        case MenuId.ELITE:
             Intent eliteIntent = new Intent();
-            eliteIntent.setComponent(new ComponentName("com.noshufou.android.su.elite",
-                    "com.noshufou.android.su.elite.FeaturedAppsActivity"));
+            if (mElite) {
+                eliteIntent.setComponent(new ComponentName("com.noshufou.android.su.elite",
+                        "com.noshufou.android.su.elite.FeaturedAppsActivity"));
+            } else {
+                eliteIntent = new Intent(Intent.ACTION_VIEW);
+                eliteIntent.setData(Uri.parse("market://details?id=com.noshufou.android.su.elite"));
+            }
             startActivity(eliteIntent);
             break;
-        case MENU_GET_ELITE:
-            Intent mktIntent = new Intent(Intent.ACTION_VIEW);
-            mktIntent.setData(Uri.parse("market://details?id=com.noshufou.android.su.elite"));
-            startActivity(mktIntent);
-            break;
-        case MENU_CLEAR_LOG:
-            getContentResolver().delete(Logs.CONTENT_URI, null, null);
-            break;
-        case MENU_PREFERENCES:
+        case MenuId.PREFERENCES:
             Util.launchPreferences(this);
             break;
         }
@@ -284,17 +263,24 @@ public class HomeActivity extends FragmentActivity {
 
     }
 
-    private class EliteCheck extends AsyncTask<Void, Void, Boolean> {
+    private class EliteCheck extends AsyncTask<Void, Void, Drawable> {
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            return Util.elitePresent(HomeActivity.this, false, 0);
+        protected Drawable doInBackground(Void... params) {
+            if (Util.elitePresent(HomeActivity.this, false, 0)) {
+                return new TransitionDrawable(
+                        new Drawable[] { getResources().getDrawable(R.drawable.ic_logo),
+                                getResources().getDrawable(R.drawable.ic_logo_elite) });
+            } else {
+                return getResources().getDrawable(R.drawable.ic_logo);
+            }
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
-            if (result) {
-                mTitleLogo.startTransition(1000);
+        protected void onPostExecute(Drawable result) {
+            getSupportActionBar().setLogo(result);
+            if (result instanceof TransitionDrawable) {
+                ((TransitionDrawable)result).startTransition(1000);
             }
         }
     }

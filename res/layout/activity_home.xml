@@ -21,12 +21,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout style="@style/TitleBar">
-        <ImageView android:id="@android:id/home"
-            style="@style/TitleBarLogo"
-            android:src="@drawable/title_logo" />
-    </LinearLayout>
-    
     <com.noshufou.android.su.widget.PagerHeader
         android:id="@+id/pager_header"
         android:layout_width="match_parent"

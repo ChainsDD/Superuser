@@ -30,6 +30,9 @@
     <string name="menu_preferences">Preferences</string>
     <string name="menu_clear">Clear</string>
     <string name="menu_clear_log">Clear log</string>
+    <string name="menu_toggle">Toggle</string>
+    <string name="menu_forget">Forget</string>
+    <string name="menu_options">Options</string>
 
     <string name="permgrouplab_superuser">Superuser Permissions</string>
     <string name="permgroupdesc_superuser">Permissions related to Superuser</string>
@@ -77,8 +80,8 @@
     <string name="detail_status">Status</string>
 
     <string name="use_global_settings">Use global settings</string>
-    <string name="notifications_enabled">Notifications enabled</string>
-    <string name="logging_enabled">Logging enabled</string>
+    <string name="notifications_enabled">\u0020\u0020\u0020\u0020Notifications enabled</string>
+    <string name="logging_enabled">\u0020\u0020\u0020\u0020Logging enabled</string>
 
     <string name="zero">0</string>
     <string name="one">1</string>
@@ -194,8 +197,6 @@
     <string name="updater_update_anyway">Update anyway</string>
     <string name="updater_cool">That was cool, do it again</string>
     <string name="updater_working">Working...</string>
-    <string name="updater_manifest_legacy">http://downloads.androidsu.com/superuser/su/manifest-legacy.json</string>
-    <string name="updater_manifest">http://downloads.androidsu.com/superuser/su/manifest.json</string>
     <string name="updater_ok">okay!</string>
     <string name="updater_fail">fail!</string>
     <string name="updater_not_found">not found</string>

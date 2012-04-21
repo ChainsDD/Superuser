@@ -15,22 +15,51 @@
   limitations under the License.
 -->
 <resources>
-    <!-- Base application theme is the default theme -->
-    <style name="Theme" parent="android:Theme" />
+<!--     Base application theme is the default theme -->
+<!--     <style name="Theme" parent="android:Theme" /> -->
 
-    <!-- Variation on the Light theme that turns off the title -->
-    <style name="Theme.Superuser" parent="android:style/Theme.Light">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-       <item name="android:windowBackground">@color/title_background</item>
+<!--     Variation on the Light theme that turns off the title -->
+<!--     <style name="Theme.Superuser" parent="android:style/Theme.Light"> -->
+<!--         <item name="android:windowNoTitle">true</item> -->
+<!--         <item name="android:windowContentOverlay">@null</item> -->
+<!--        <item name="android:windowBackground">@color/title_background</item> -->
+<!--     </style> -->
+
+    <style name="Theme.Superuser" parent="Theme.Sherlock.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/Widget.Superuser.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Widget.Superuser.ActionBar</item>
+        <item name="absForceOverflow">true</item>
     </style>
     
+    <style name="Theme.Superuser.Details">
+        <item name="actionBarStyle">@style/Widget.Superuser.ActionBar.Details</item>
+        <item name="android:actionBarStyle">@style/Widget.Superuser.ActionBar.Details</item>
+    </style>
+    
+    <style name="Widget.Superuser.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/title_background</item>
+        <item name="android:background">@color/title_background</item>
+        <item name="backgroundSplit">@color/title_split_background</item>
+        <item name="android:backgroundSplit">@color/title_split_background</item>
+        <item name="displayOptions">useLogo|showHome</item>
+        <item name="android:displayOptions">useLogo|showHome</item>
+    </style>
+    
+    <style name="Widget.Superuser.ActionBar.Details" parent="Widget.Superuser.ActionBar">
+        <item name="icon">@drawable/ic_title_home</item>
+        <item name="android:icon">@drawable/ic_title_home</item>
+        <item name="displayOptions">showHome|showTitle|homeAsUp</item>
+        <item name="android:displayOptions">showHome|showTitle|homeAsUp</item>
+        </style>
+
     <style name="Theme.Superuser.Preferences" parent="style/Theme.Superuser">
         <item name="android:windowBackground">@android:color/white</item>
+        <item name="actionBarStyle">@style/Widget.Superuser.ActionBar.Details</item>
+        <item name="android:actionBarStyle">@style/Widget.Superuser.ActionBar.Details</item>
     </style>
     
     <style name="Dialog" parent="android:style/Theme.Dialog" />
-    
+
     <style name="Theme.Dialog.Alert" parent="android:Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowTitleStyle">@style/DialogWindowTitle</item>
@@ -44,63 +73,6 @@
         <item name="android:textAppearance">@android:style/TextAppearance.DialogWindowTitle</item>
     </style>
 
-    <style name="TitleBar">
-        <item name="android:id">@id/title_container</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">@dimen/title_height</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:background">@color/title_background</item>
-    </style>
-
-    <style name="TitleBarAction">
-        <item name="android:layout_width">@dimen/title_height</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:background">@drawable/title_button</item>
-    </style>
-
-    <style name="TitleBarSeparator">
-        <item name="android:layout_width">1px</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:background">@color/title_separator</item>
-    </style>
-
-    <style name="TitleBarLogo">
-        <item name="android:id">@id/title_logo</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:clickable">true</item>
-    </style>
-
-    <style name="TitleBarSpring">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_weight">1</item>
-    </style>
-
-    <style name="TitleBarText">
-        <item name="android:id">@id/title_text</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/text_size_medium</item>
-        <item name="android:paddingLeft">12dip</item>
-        <item name="android:paddingRight">12dip</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/title_text</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-
-    <style name="TitleBarProgressIndicator" parent="@android:style/Widget.ProgressBar.Small">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">14dip</item>
-        <item name="android:layout_marginRight">15dip</item>
-        <item name="android:layout_marginTop">14dip</item>
-        <item name="android:indeterminate">true</item>
-    </style>
-    
     <style name="OptionsButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">64px</item>

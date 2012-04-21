@@ -20,8 +20,9 @@
       android:versionName="3.0.7">
     <application android:label="@string/app_name"
         android:icon="@drawable/icon"
-        android:logo="@drawable/title_logo"
-        android:hardwareAccelerated="true">
+        android:logo="@drawable/ic_logo"
+        android:hardwareAccelerated="true"
+        android:debuggable="true">
         <activity android:name="HomeActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Superuser"
@@ -36,13 +37,11 @@
             </intent-filter>
         </activity-alias>
         <activity android:name="AppDetailsActivity"
-            android:theme="@style/Theme.Superuser"
-            android:label="Details" />
+            android:theme="@style/Theme.Superuser.Details"
+            android:label="Details"
+            android:uiOptions="splitActionBarWhenNarrow" />
         <activity android:name=".preferences.PreferencesActivity"
             android:theme="@style/Theme.Superuser.Preferences"
-            android:label="Preferences" />
-        <activity android:name="preferences.PreferencesActivityHC"
-            android:theme="@style/Theme.Superuser"
             android:label="Preferences" />
         <activity android:name="UpdaterActivity"
             android:theme="@style/Theme.Superuser"
@@ -117,7 +116,7 @@
             android:writePermission="com.noshufou.android.su.provider.WRITE" />
     </application>
     
-    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="11"/>
+    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="11"/>
 
     <uses-feature android:name="android.hardware.nfc" android:required="false" />
     

@@ -1,13 +1,6 @@
 package com.noshufou.android.su;
 
-import com.noshufou.android.su.preferences.Preferences;
-import com.noshufou.android.su.provider.PermissionsProvider.Apps;
-import com.noshufou.android.su.provider.PermissionsProvider.Logs;
-import com.noshufou.android.su.service.ResultService;
-import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.widget.AppListItem;
-import com.noshufou.android.su.widget.PinnedHeaderListView;
-import com.noshufou.android.su.widget.PinnedHeaderListView.PinnedHeaderCache;
+import java.util.HashMap;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -20,26 +13,32 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
-import android.widget.AbsListView.OnScrollListener;
 
-import java.util.HashMap;
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.provider.PermissionsProvider.Apps;
+import com.noshufou.android.su.provider.PermissionsProvider.Logs;
+import com.noshufou.android.su.service.ResultService;
+import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.widget.AppListItem;
+import com.noshufou.android.su.widget.PinnedHeaderListView;
+import com.noshufou.android.su.widget.PinnedHeaderListView.PinnedHeaderCache;
 
-public class AppListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
-    private static final String TAG = "Su.AppListFragment";
+public class AppListFragment extends SherlockListFragment implements LoaderCallbacks<Cursor> {
+//    private static final String TAG = "Su.AppListFragment";
     
     private boolean mShowStatusIcons = true;
     private boolean mShowLogData = true;
