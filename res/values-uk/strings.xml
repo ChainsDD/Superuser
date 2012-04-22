@@ -143,7 +143,7 @@
   <string name="updater_update">Оновлення</string>
   <string name="updater_update_anyway">Оновити</string>
   <string name="updater_cool">Це було круто, оновити знову</string>
-  <string name="updater_working">Працює...</string>
+  <string name="updater_working">Працює…</string>
   <string name="updater_ok">готово</string>
   <string name="updater_fail">помилка</string>
   <string name="updater_not_found">не знайдено</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">Не вдалося завантажити файл маніфесту. Перевірте підключення до Інтернету</string>
   <string name="updater_try_again">Повторити</string>
   <string name="updater_su_updated">su успішно оновлено</string>
-  <string name="updater_step_download_manifest">Завантаження маніфесту...\u0020</string>
-  <string name="updater_step_parse_manifest">Аналіз маніфесту...\u0020</string>
+  <string name="updater_step_download_manifest">Завантаження маніфесту…\u0020</string>
+  <string name="updater_step_parse_manifest">Аналіз маніфесту…\u0020</string>
   <string name="updater_step_latest_version">Остання версія =\u0020</string>
   <string name="updater_step_check_installed_version">Перевірка встановленої версії =\u0020</string>
-  <string name="updater_step_fix_db">Виправлення бази даних...\u0020</string>
-  <string name="updater_step_find_busybox">Перевірка BusyBox...\u0020</string>
-  <string name="updater_step_download_busybox">Завантаження BusyBox...\u0020</string>
-  <string name="updater_step_check_md5sum">Перевірка md5sum...\u0020</string>
-  <string name="updater_step_check_installed_path">Перевірка поточного місця установки ... \ u0020</string>
-  <string name="updater_step_download_su">Завантаження нової двійкової програми...\u0020</string>
-  <string name="updater_step_get_root">Одержання root доступу...\u0020</string>
-  <string name="updater_step_remount_rw">Монтування /system для запису...\u0020</string>
-  <string name="updater_step_cp">Копіювання su до /system...\u0020</string>
-  <string name="updater_step_chmod">Зміна прав для su файлу на 06755...\u0020</string>
-  <string name="updater_step_mv">Переміщення su до кінцевого розташування...\u0020</string>
-  <string name="updater_step_remount_ro">Монтування /system для читання...\u0020</string>
-  <string name="updater_step_clean_up">Прибирання...\u0020</string>
+  <string name="updater_step_fix_db">Виправлення бази даних…\u0020</string>
+  <string name="updater_step_find_busybox">Перевірка BusyBox…\u0020</string>
+  <string name="updater_step_download_busybox">Завантаження BusyBox…\u0020</string>
+  <string name="updater_step_check_md5sum">Перевірка md5sum…\u0020</string>
+  <string name="updater_step_check_installed_path">Перевірка поточного місця установки … \ u0020</string>
+  <string name="updater_step_download_su">Завантаження нової двійкової програми…\u0020</string>
+  <string name="updater_step_get_root">Одержання root доступу…\u0020</string>
+  <string name="updater_step_remount_rw">Монтування /system для запису…\u0020</string>
+  <string name="updater_step_cp">Копіювання su до /system…\u0020</string>
+  <string name="updater_step_chmod">Зміна прав для su файлу на 06755…\u0020</string>
+  <string name="updater_step_mv">Переміщення su до кінцевого розташування…\u0020</string>
+  <string name="updater_step_remount_ro">Монтування /system для читання…\u0020</string>
+  <string name="updater_step_clean_up">Прибирання…\u0020</string>
   <string name="updater_remount_ro_failed">Не вдалося перемонтувати систему тільки для читання, будь ласка, перезавантажте пристрій для завершення оновлення.</string>
   <string name="updater_find_su_failed">Не вдалося знайти двійковий файл su. Оновлення неможливе.</string>
   <string name="updater_bad_install_location">Двійковий файл su знаходиться в каталозі /sbin. Програма оновлення не може його оновити. Будь ласка, знайдіть нову прошивку для свого пристрою.</string>

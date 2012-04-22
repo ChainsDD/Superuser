@@ -15,6 +15,7 @@
  ******************************************************************************/
 package com.noshufou.android.su.preferences;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -80,6 +81,7 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
     private Context mContext;
     private boolean mElite = false;
 
+    @TargetApi(10)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);

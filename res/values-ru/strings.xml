@@ -143,7 +143,7 @@
   <string name="updater_update">Обновление</string>
   <string name="updater_update_anyway">Обновить все равно</string>
   <string name="updater_cool">Это было круто, сделать снова</string>
-  <string name="updater_working">Процесс...</string>
+  <string name="updater_working">Процесс…</string>
   <string name="updater_ok">выполнено!</string>
   <string name="updater_fail">ошибка!</string>
   <string name="updater_not_found">не нааэ</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">Не удалось загрузить манифест. Проверьте подключение к Интернету</string>
   <string name="updater_try_again">Повторить</string>
   <string name="updater_su_updated">ресурсы su обновлены успешно</string>
-  <string name="updater_step_download_manifest">Загрузка manifest...\u0020</string>
-  <string name="updater_step_parse_manifest">Анализ manifest...\u0020</string>
+  <string name="updater_step_download_manifest">Загрузка manifest…\u0020</string>
+  <string name="updater_step_parse_manifest">Анализ manifest…\u0020</string>
   <string name="updater_step_latest_version">Последняя версия =\u0020</string>
   <string name="updater_step_check_installed_version">Проверка установленной версии =\u0020</string>
-  <string name="updater_step_fix_db">Исправление базы данных...\u0020</string>
-  <string name="updater_step_find_busybox">Проверка busybox...\u0020</string>
-  <string name="updater_step_download_busybox">Загрузка busybox...\u0020</string>
-  <string name="updater_step_check_md5sum">Проверка md5sum...\u0020</string>
-  <string name="updater_step_check_installed_path">Проверка текущего пути установки...\u0020</string>
-  <string name="updater_step_download_su">Загрузка новых ресурсов...\u0020</string>
-  <string name="updater_step_get_root">Получение корневого доступа...\u0020</string>
-  <string name="updater_step_remount_rw">Переподключение каталога /system в режим записи...\u0020</string>
-  <string name="updater_step_cp">Копирование su в каталог /system...\u0020</string>
-  <string name="updater_step_chmod">Изменение режимa файла su на 06755...\u0020</string>
-  <string name="updater_step_mv">Ресурсы перемещаются в окончательный адрес...\u0020</string>
-  <string name="updater_step_remount_ro">Переподключение каталога /system в режим чтения...\u0020</string>
-  <string name="updater_step_clean_up">Очистка...\u0020</string>
+  <string name="updater_step_fix_db">Исправление базы данных…\u0020</string>
+  <string name="updater_step_find_busybox">Проверка busybox…\u0020</string>
+  <string name="updater_step_download_busybox">Загрузка busybox…\u0020</string>
+  <string name="updater_step_check_md5sum">Проверка md5sum…\u0020</string>
+  <string name="updater_step_check_installed_path">Проверка текущего пути установки…\u0020</string>
+  <string name="updater_step_download_su">Загрузка новых ресурсов…\u0020</string>
+  <string name="updater_step_get_root">Получение корневого доступа…\u0020</string>
+  <string name="updater_step_remount_rw">Переподключение каталога /system в режим записи…\u0020</string>
+  <string name="updater_step_cp">Копирование su в каталог /system…\u0020</string>
+  <string name="updater_step_chmod">Изменение режимa файла su на 06755…\u0020</string>
+  <string name="updater_step_mv">Ресурсы перемещаются в окончательный адрес…\u0020</string>
+  <string name="updater_step_remount_ro">Переподключение каталога /system в режим чтения…\u0020</string>
+  <string name="updater_step_clean_up">Очистка…\u0020</string>
   <string name="updater_remount_ro_failed">Не удалось подключить каталог /system в режиме чтения. Пожалуйста, перезагрузите для завершения обновления.</string>
   <string name="updater_find_su_failed">Не удалось найти ресурсы суперпользователя. Обновление не может быть продолжено</string>
   <string name="updater_bad_install_location">ресурсы суперпользователя сейчас установлены в /sbin. Программа не может их обновить. Пожалуйста, смените прошивку вашего устройства.</string>

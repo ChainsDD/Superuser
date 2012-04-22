@@ -143,7 +143,7 @@
   <string name="updater_update">Päivitä</string>
   <string name="updater_update_anyway">Päivitä kuitenkin</string>
   <string name="updater_cool">Se oli siistiä, tee se uudelleen</string>
-  <string name="updater_working">Työskentelee...</string>
+  <string name="updater_working">Työskentelee…</string>
   <string name="updater_ok">Oukkidoukki!</string>
   <string name="updater_fail">epäonnistui!</string>
   <string name="updater_not_found">ei löytynyt</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">Luettelon lataaminen epäonnistui. Tarkista verkkoyhteys</string>
   <string name="updater_try_again">Yritä uudelleen</string>
   <string name="updater_su_updated">Superuser on päivitetty onnistuneesti</string>
-  <string name="updater_step_download_manifest">Ladataan ilmoitusta...\u0020</string>
-  <string name="updater_step_parse_manifest">Ilmoituksen jäsennys...\u0020</string>
+  <string name="updater_step_download_manifest">Ladataan ilmoitusta…\u0020</string>
+  <string name="updater_step_parse_manifest">Ilmoituksen jäsennys…\u0020</string>
   <string name="updater_step_latest_version">Viimeisin versio =\u0020</string>
   <string name="updater_step_check_installed_version">Tarkistetaan asennettu versio =\u0020</string>
-  <string name="updater_step_fix_db">Vahvistaminen tietokantaa...\u0020</string>
-  <string name="updater_step_find_busybox">Tarkistetaan busybox...\u0020</string>
-  <string name="updater_step_download_busybox">Ladataan mukautettua busyboxia...\u0020</string>
-  <string name="updater_step_check_md5sum">tarkistetaan md5sum...\u0020</string>
-  <string name="updater_step_check_installed_path">Tarkistetaan nykyistä asennuspolkua...\u0020</string>
-  <string name="updater_step_download_su">Ladataan uutta binääripakettia...\u0020</string>
-  <string name="updater_step_get_root">Haetaan pääkäyttäjän oikeuksia...\u0020</string>
-  <string name="updater_step_remount_rw">Kytketään /system ilman kirjoitusestoa...\u0020</string>
-  <string name="updater_step_cp">Kopioidaan Superuser kansioon /system...\u0020</string>
-  <string name="updater_step_chmod">Superuserin tiedostotila muutetaan 06755:ksi...\u0020</string>
-  <string name="updater_step_mv">Siirretään Superuser lopulliseen sijoituspaikkaansa...\u0020</string>
-  <string name="updater_step_remount_ro">Kytketään /system kirjoitussuojattuna...\u0020</string>
-  <string name="updater_step_clean_up">Poistetaan...\u0020</string>
+  <string name="updater_step_fix_db">Vahvistaminen tietokantaa…\u0020</string>
+  <string name="updater_step_find_busybox">Tarkistetaan busybox…\u0020</string>
+  <string name="updater_step_download_busybox">Ladataan mukautettua busyboxia…\u0020</string>
+  <string name="updater_step_check_md5sum">tarkistetaan md5sum…\u0020</string>
+  <string name="updater_step_check_installed_path">Tarkistetaan nykyistä asennuspolkua…\u0020</string>
+  <string name="updater_step_download_su">Ladataan uutta binääripakettia…\u0020</string>
+  <string name="updater_step_get_root">Haetaan pääkäyttäjän oikeuksia…\u0020</string>
+  <string name="updater_step_remount_rw">Kytketään /system ilman kirjoitusestoa…\u0020</string>
+  <string name="updater_step_cp">Kopioidaan Superuser kansioon /system…\u0020</string>
+  <string name="updater_step_chmod">Superuserin tiedostotila muutetaan 06755:ksi…\u0020</string>
+  <string name="updater_step_mv">Siirretään Superuser lopulliseen sijoituspaikkaansa…\u0020</string>
+  <string name="updater_step_remount_ro">Kytketään /system kirjoitussuojattuna…\u0020</string>
+  <string name="updater_step_clean_up">Poistetaan…\u0020</string>
   <string name="updater_remount_ro_failed">Järjestelmän muuttaminen kirjoitussuojatuksi epäonnistui, käynnistä uudelleen päivityksen viimeistelemiseksi</string>
   <string name="updater_find_su_failed">Ei löytynyt asennettua Superuseria. Päivitystä ei voi jatkaa</string>
   <string name="updater_bad_install_location">Superuser on tällä hetkellä asennettu kansioon /sbin. Päivitysohjelma ei kykene päivittämään sitä. Etsi uusin ROM laitteellesi.</string>

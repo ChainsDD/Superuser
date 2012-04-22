@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:singleLine="true"
+        android:inputType="number"
         style="?android:attr/textAppearanceLargeInverse"
         android:textColor="@android:color/primary_text_light"
         android:textSize="30sp"

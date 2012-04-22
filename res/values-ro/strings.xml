@@ -143,7 +143,7 @@
   <string name="updater_update">Actualizare</string>
   <string name="updater_update_anyway">Actualizează oricum</string>
   <string name="updater_cool">Ce tare! Mai fă odată</string>
-  <string name="updater_working">Lucrează...</string>
+  <string name="updater_working">Lucrează…</string>
   <string name="updater_ok">OK!</string>
   <string name="updater_fail">Eșuat!</string>
   <string name="updater_not_found">nu s-a găsit</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">Nu s-a putut descărca manifestul. Verificaţi conexiunea la internet</string>
   <string name="updater_try_again">Încercați din nou</string>
   <string name="updater_su_updated">su a fost actualizat cu succes</string>
-  <string name="updater_step_download_manifest">Descarc manifestul...\u0020</string>
-  <string name="updater_step_parse_manifest">Parsare manifest...\u0020</string>
+  <string name="updater_step_download_manifest">Descarc manifestul…\u0020</string>
+  <string name="updater_step_parse_manifest">Parsare manifest…\u0020</string>
   <string name="updater_step_latest_version">Ultima versiune =\u0020</string>
   <string name="updater_step_check_installed_version">Se verifică versiunea instalată =\u0020</string>
-  <string name="updater_step_fix_db">Se repara baza de date...\u0020</string>
-  <string name="updater_step_find_busybox">Caut dupa busybox...\u0020</string>
-  <string name="updater_step_download_busybox">Se descarcă busybox personalizat ...\u0020</string>
-  <string name="updater_step_check_md5sum">Se verifica md5sum...\u0020</string>
-  <string name="updater_step_check_installed_path">Se verifica calea de instalare actuala...\u0020</string>
-  <string name="updater_step_download_su">Se descarca su nou...\u0020</string>
-  <string name="updater_step_get_root">Se obtine acces root...\u0020</string>
-  <string name="updater_step_remount_rw">Se remontează /system ca rw...\u0020</string>
-  <string name="updater_step_cp">Se copiază su la /system...\u0020</string>
-  <string name="updater_step_chmod">Schimbarea modului fișierului su la 06755...\u0020</string>
-  <string name="updater_step_mv">Su este mutat la locația finală...\u0020</string>
-  <string name="updater_step_remount_ro">Se remontează /system ca ro...\u0020</string>
-  <string name="updater_step_clean_up">Se curăță...\u0020</string>
+  <string name="updater_step_fix_db">Se repara baza de date…\u0020</string>
+  <string name="updater_step_find_busybox">Caut dupa busybox…\u0020</string>
+  <string name="updater_step_download_busybox">Se descarcă busybox personalizat …\u0020</string>
+  <string name="updater_step_check_md5sum">Se verifica md5sum…\u0020</string>
+  <string name="updater_step_check_installed_path">Se verifica calea de instalare actuala…\u0020</string>
+  <string name="updater_step_download_su">Se descarca su nou…\u0020</string>
+  <string name="updater_step_get_root">Se obtine acces root…\u0020</string>
+  <string name="updater_step_remount_rw">Se remontează /system ca rw…\u0020</string>
+  <string name="updater_step_cp">Se copiază su la /system…\u0020</string>
+  <string name="updater_step_chmod">Schimbarea modului fișierului su la 06755…\u0020</string>
+  <string name="updater_step_mv">Su este mutat la locația finală…\u0020</string>
+  <string name="updater_step_remount_ro">Se remontează /system ca ro…\u0020</string>
+  <string name="updater_step_clean_up">Se curăță…\u0020</string>
   <string name="updater_remount_ro_failed">Sistemul nu s-a putut remonta ca read-only, vă rugăm reporniți aparatul pentru a termina actualizarea.</string>
   <string name="updater_find_su_failed">Su nu a fost găsit. Actualizarea nu poate continua</string>
   <string name="updater_bad_install_location">su este instalat in /sbin. Acest actualizator nu este capabil de actualizare. Va rugam gasiti un nou ROM pentru aparatul dvs.</string>

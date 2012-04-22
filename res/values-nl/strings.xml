@@ -143,7 +143,7 @@
   <string name="updater_update">Update</string>
   <string name="updater_update_anyway">Toch updaten</string>
   <string name="updater_cool">Dat was gaaf, doe het opnieuw </string>
-  <string name="updater_working">Bezig ...</string>
+  <string name="updater_working">Bezig …</string>
   <string name="updater_ok">Okey!</string>
   <string name="updater_fail">mislukt!</string>
   <string name="updater_not_found">niet gevonden</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">Mislukt om manifest te downloaden. Controleer internet verbinding</string>
   <string name="updater_try_again">Probeer opnieuw</string>
   <string name="updater_su_updated">su binaire succesvol bijgewerkt</string>
-  <string name="updater_step_download_manifest">Manifest downloaden...\u0020</string>
-  <string name="updater_step_parse_manifest">Manifest aan het verwerken ... \ u0020</string>
+  <string name="updater_step_download_manifest">Manifest downloaden…\u0020</string>
+  <string name="updater_step_parse_manifest">Manifest aan het verwerken … \ u0020</string>
   <string name="updater_step_latest_version">Laatste versie = \ u0020</string>
   <string name="updater_step_check_installed_version">Geïnstalleerde versie controleren =\u0020</string>
-  <string name="updater_step_fix_db">Databank herstellen...\u0020</string>
-  <string name="updater_step_find_busybox">Controleren op busybox...\u0020</string>
-  <string name="updater_step_download_busybox">Aangepaste busybox downloaden ... \ u0020</string>
-  <string name="updater_step_check_md5sum">md5sum controleren ... \ u0020</string>
-  <string name="updater_step_check_installed_path">Huidig installatie-pad controleren...\u0020</string>
-  <string name="updater_step_download_su">Nieuwe applicatie downloaden ... \ u0020</string>
-  <string name="updater_step_get_root">Root-toegang verkrijgen ... \ u0020</string>
-  <string name="updater_step_remount_rw">/sytem als rw heraansluiten...\u0020</string>
-  <string name="updater_step_cp">su kopiëren naar /system ... \ u0020</string>
-  <string name="updater_step_chmod">Bestandpermissie su wijzigen naar 06755... \ u0020</string>
-  <string name="updater_step_mv">Su verhuizen naar definitieve locatie...\u0020</string>
-  <string name="updater_step_remount_ro">/system als ro heraansluiten...\u0020</string>
-  <string name="updater_step_clean_up">Opruimen...\u0020</string>
+  <string name="updater_step_fix_db">Databank herstellen…\u0020</string>
+  <string name="updater_step_find_busybox">Controleren op busybox…\u0020</string>
+  <string name="updater_step_download_busybox">Aangepaste busybox downloaden … \ u0020</string>
+  <string name="updater_step_check_md5sum">md5sum controleren … \ u0020</string>
+  <string name="updater_step_check_installed_path">Huidig installatie-pad controleren…\u0020</string>
+  <string name="updater_step_download_su">Nieuwe applicatie downloaden … \ u0020</string>
+  <string name="updater_step_get_root">Root-toegang verkrijgen … \ u0020</string>
+  <string name="updater_step_remount_rw">/sytem als rw heraansluiten…\u0020</string>
+  <string name="updater_step_cp">su kopiëren naar /system … \ u0020</string>
+  <string name="updater_step_chmod">Bestandpermissie su wijzigen naar 06755… \ u0020</string>
+  <string name="updater_step_mv">Su verhuizen naar definitieve locatie…\u0020</string>
+  <string name="updater_step_remount_ro">/system als ro heraansluiten…\u0020</string>
+  <string name="updater_step_clean_up">Opruimen…\u0020</string>
   <string name="updater_remount_ro_failed">Kon het systeem niet in alleen-lezen modus aansluiten, gelieve uw toestel te herstarten om de update succesvol te beëindigen</string>
   <string name="updater_find_su_failed">Fout: kan geïnstalleerde su programma niet vinden. Update kan niet doorgaan</string>
   <string name="updater_bad_install_location">su binaire is momenteel geïnstalleerd in / sbin. Deze updater is niet in staat om deze bij te werken. Gelieve een nieuwe ROM te zoeken voor uw toestel</string>

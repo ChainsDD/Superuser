@@ -143,7 +143,7 @@
   <string name="updater_update">Aktualizovať</string>
   <string name="updater_update_anyway">Aj tak aktualizovať</string>
   <string name="updater_cool">To bolo super, urobiť to znovu</string>
-  <string name="updater_working">Pracujem...</string>
+  <string name="updater_working">Pracujem…</string>
   <string name="updater_ok">OK!</string>
   <string name="updater_fail">ZLYHANIE!</string>
   <string name="updater_not_found">nenájdené</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">Sťahovanie manifestu zlyhalo. Skontrolujte pripojenie k internetu</string>
   <string name="updater_try_again">Skúste znova</string>
   <string name="updater_su_updated">Binár SU úspešne aktualizovaný</string>
-  <string name="updater_step_download_manifest">Sťahovanie manifestu...\u0020</string>
-  <string name="updater_step_parse_manifest">Analýza manifestu...\u0020</string>
+  <string name="updater_step_download_manifest">Sťahovanie manifestu…\u0020</string>
+  <string name="updater_step_parse_manifest">Analýza manifestu…\u0020</string>
   <string name="updater_step_latest_version">Najnovšia verzia =\u0020</string>
   <string name="updater_step_check_installed_version">Kontroluje sa nainštalovaná verzia =\u0020</string>
-  <string name="updater_step_fix_db">Oprava databázy...\u0020</string>
-  <string name="updater_step_find_busybox">Kontrolujem busybox...\u0020</string>
-  <string name="updater_step_download_busybox">Sťahuje sa užívateľský busybox...\u0020</string>
-  <string name="updater_step_check_md5sum">Kontroluje sa md5sum...\u0020</string>
-  <string name="updater_step_check_installed_path">Kontrolujem aktuálnu inštalačnú cestu...\u0020</string>
-  <string name="updater_step_download_su">Sťahuje sa nový binár...\u0020</string>
-  <string name="updater_step_get_root">Získava sa Root prístup...\u0020</string>
-  <string name="updater_step_remount_rw">Pripájanie systému ako RW...\u0020</string>
-  <string name="updater_step_cp">Kopírovanie SU do systému...\u0020</string>
-  <string name="updater_step_chmod">Zmena práv SU súborov na 06755...\u0020</string>
-  <string name="updater_step_mv">Presúvam SU do cieľového umiestnenia...\u0020</string>
-  <string name="updater_step_remount_ro">Pripájanie systému ako RO...\u0020</string>
-  <string name="updater_step_clean_up">Vymazávanie...\u0020</string>
+  <string name="updater_step_fix_db">Oprava databázy…\u0020</string>
+  <string name="updater_step_find_busybox">Kontrolujem busybox…\u0020</string>
+  <string name="updater_step_download_busybox">Sťahuje sa užívateľský busybox…\u0020</string>
+  <string name="updater_step_check_md5sum">Kontroluje sa md5sum…\u0020</string>
+  <string name="updater_step_check_installed_path">Kontrolujem aktuálnu inštalačnú cestu…\u0020</string>
+  <string name="updater_step_download_su">Sťahuje sa nový binár…\u0020</string>
+  <string name="updater_step_get_root">Získava sa Root prístup…\u0020</string>
+  <string name="updater_step_remount_rw">Pripájanie systému ako RW…\u0020</string>
+  <string name="updater_step_cp">Kopírovanie SU do systému…\u0020</string>
+  <string name="updater_step_chmod">Zmena práv SU súborov na 06755…\u0020</string>
+  <string name="updater_step_mv">Presúvam SU do cieľového umiestnenia…\u0020</string>
+  <string name="updater_step_remount_ro">Pripájanie systému ako RO…\u0020</string>
+  <string name="updater_step_clean_up">Vymazávanie…\u0020</string>
   <string name="updater_remount_ro_failed">Pripájanie systému v RO (iba na čítanie) zlyhalo, pre dokončenie aktualizácie prosím reštartujte</string>
   <string name="updater_find_su_failed">Nepodarilo sa nájsť nainštalovaný binár SU. Aktualizácia nemôže pokračovať</string>
   <string name="updater_bad_install_location">Binár SU je nainštalovaný v /sbin. Tento aktualizátor ho nedokáže aktualizovať. Nájdite novú ROM pre vaše zariadenie.</string>

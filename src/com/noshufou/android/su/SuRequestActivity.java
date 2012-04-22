@@ -20,6 +20,7 @@ import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps;
 import com.noshufou.android.su.util.Util;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ContentValues;
@@ -37,6 +38,8 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.Ndef;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
@@ -171,10 +174,12 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         }
     }
 
+    @TargetApi(10)
     @Override
     protected void onResume() {
         super.onResume();
-        if (mPrefs.getBoolean(Preferences.USE_ALLOW_TAG, false)) {
+        if (mPrefs.getBoolean(Preferences.USE_ALLOW_TAG, false)
+                && VERSION.SDK_INT > VERSION_CODES.GINGERBREAD) {
             mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
             PendingIntent pendingIntent = PendingIntent.getActivity(
                     this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
@@ -193,6 +198,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         }
     }
 
+    @TargetApi(10)
     @Override
     protected void onPause() {
         super.onPause();
@@ -336,6 +342,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         finish();
     }
     
+    @TargetApi(9)
     @Override
     public void onNewIntent(Intent intent) {
         Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);

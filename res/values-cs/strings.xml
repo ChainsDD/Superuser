@@ -145,7 +145,7 @@
   <string name="updater_update">Aktualizovat</string>
   <string name="updater_update_anyway">Přesto aktualizovat</string>
   <string name="updater_cool">To bylo skvělé, udělej to znovu</string>
-  <string name="updater_working">Probíhá zpracování...</string>
+  <string name="updater_working">Probíhá zpracování…</string>
   <string name="updater_ok">v pořádku!</string>
   <string name="updater_fail">Chyba!</string>
   <string name="updater_not_found">nenalezeno</string>
@@ -153,23 +153,23 @@
   <string name="updater_no_conn">Nepodařilo se stáhnout manifest. Zkontrolujte připojení k Internetu</string>
   <string name="updater_try_again">Zkusit znovu</string>
   <string name="updater_su_updated">Su binární úspěšně aktualizován</string>
-  <string name="updater_step_download_manifest">Stahuji manifest...\u0020</string>
-  <string name="updater_step_parse_manifest">Analyzuji manifest...\u0020</string>
+  <string name="updater_step_download_manifest">Stahuji manifest…\u0020</string>
+  <string name="updater_step_parse_manifest">Analyzuji manifest…\u0020</string>
   <string name="updater_step_latest_version">Nejnovější verze =\u0020</string>
   <string name="updater_step_check_installed_version">Kontrola nainstalované verze =\u0020</string>
-  <string name="updater_step_fix_db">Opravuji databázi...\u0020</string>
+  <string name="updater_step_fix_db">Opravuji databázi…\u0020</string>
   <string name="updater_step_find_busybox">Kontrola aplikace busybox\u2026\u0020</string>
-  <string name="updater_step_download_busybox">Stahuji vlastní busybox...\u0020</string>
-  <string name="updater_step_check_md5sum">Kontroluji md5sum...\u0020</string>
+  <string name="updater_step_download_busybox">Stahuji vlastní busybox…\u0020</string>
+  <string name="updater_step_check_md5sum">Kontroluji md5sum…\u0020</string>
   <string name="updater_step_check_installed_path">Kontroluji aktuální instalační cestu\u2026\u0020</string>
-  <string name="updater_step_download_su">Stahuji nové soubory...\u0020</string>
-  <string name="updater_step_get_root">Získávám root povolení...\u0020</string>
-  <string name="updater_step_remount_rw">Přepojení /system jako rw...\u0020</string>
-  <string name="updater_step_cp">Kopírování su do /system...\u0020</string>
-  <string name="updater_step_chmod">Změna režimu souboru su na 06755...\u0020</string>
+  <string name="updater_step_download_su">Stahuji nové soubory…\u0020</string>
+  <string name="updater_step_get_root">Získávám root povolení…\u0020</string>
+  <string name="updater_step_remount_rw">Přepojení /system jako rw…\u0020</string>
+  <string name="updater_step_cp">Kopírování su do /system…\u0020</string>
+  <string name="updater_step_chmod">Změna režimu souboru su na 06755…\u0020</string>
   <string name="updater_step_mv">Přesouvám su na konečnou polohu\u2026\u0020</string>
-  <string name="updater_step_remount_ro">Přepojení /system jako ro...\u0020</string>
-  <string name="updater_step_clean_up">Uklízím...\u0020</string>
+  <string name="updater_step_remount_ro">Přepojení /system jako ro…\u0020</string>
+  <string name="updater_step_clean_up">Uklízím…\u0020</string>
   <string name="updater_remount_ro_failed">Nepodařilo se připojit /system pouze pro čtení, restartujte k dokončení aktualizace.</string>
   <string name="updater_find_su_failed">Nepodařilo se najít aktuálně nainstalované binární su. Aktualizace nemůže pokračovat.</string>
   <string name="updater_bad_install_location">su binární je v současné době nainstalován v /sbin. Tento aktualizátor není schopen jeho aktualizaci provést. Najděte prosím novou ROM pro vaše zařízení.</string>

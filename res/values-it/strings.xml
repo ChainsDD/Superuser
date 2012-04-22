@@ -143,7 +143,7 @@
   <string name="updater_update">Aggiornamento</string>
   <string name="updater_update_anyway">Aggiorna comunque</string>
   <string name="updater_cool">Ripeti</string>
-  <string name="updater_working">Attendi...</string>
+  <string name="updater_working">Attendi…</string>
   <string name="updater_ok">OK!</string>
   <string name="updater_fail">non riuscito!</string>
   <string name="updater_not_found">Non trovato</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">Download manifest fallito. Controlla la connessione internet</string>
   <string name="updater_try_again">Riprova</string>
   <string name="updater_su_updated">Binario su aggiornato con successo</string>
-  <string name="updater_step_download_manifest">Download manifest...\u0020</string>
-  <string name="updater_step_parse_manifest">Analisi manifest...\u0020</string>
+  <string name="updater_step_download_manifest">Download manifest…\u0020</string>
+  <string name="updater_step_parse_manifest">Analisi manifest…\u0020</string>
   <string name="updater_step_latest_version">Ultima versione=\u0020</string>
   <string name="updater_step_check_installed_version">Controllo versione installata =\u0020</string>
-  <string name="updater_step_fix_db">Riparazione database...\u0020</string>
-  <string name="updater_step_find_busybox">Controllo BusyBox...\u0020</string>
-  <string name="updater_step_download_busybox">Download custom busybox...\u0020</string>
-  <string name="updater_step_check_md5sum">Verifica md5sum...\u0020</string>
-  <string name="updater_step_check_installed_path">Verifica del percorso di installazione attuale...\u0020</string>
-  <string name="updater_step_download_su">Download nuovo binario...\u0020</string>
-  <string name="updater_step_get_root">Accesso root...\u0020</string>
-  <string name="updater_step_remount_rw">Mount /system in lettura/scrittura...\u0020</string>
-  <string name="updater_step_cp">Copia su in /system...\u0020</string>
-  <string name="updater_step_chmod">Modalità file su 06755...\u0020</string>
-  <string name="updater_step_mv">Spostamento di su nella sua posizione finale...\u0020</string>
-  <string name="updater_step_remount_ro">Mount /system in sola lettura...\u0020</string>
-  <string name="updater_step_clean_up">Pulizia...\u0020</string>
+  <string name="updater_step_fix_db">Riparazione database…\u0020</string>
+  <string name="updater_step_find_busybox">Controllo BusyBox…\u0020</string>
+  <string name="updater_step_download_busybox">Download custom busybox…\u0020</string>
+  <string name="updater_step_check_md5sum">Verifica md5sum…\u0020</string>
+  <string name="updater_step_check_installed_path">Verifica del percorso di installazione attuale…\u0020</string>
+  <string name="updater_step_download_su">Download nuovo binario…\u0020</string>
+  <string name="updater_step_get_root">Accesso root…\u0020</string>
+  <string name="updater_step_remount_rw">Mount /system in lettura/scrittura…\u0020</string>
+  <string name="updater_step_cp">Copia su in /system…\u0020</string>
+  <string name="updater_step_chmod">Modalità file su 06755…\u0020</string>
+  <string name="updater_step_mv">Spostamento di su nella sua posizione finale…\u0020</string>
+  <string name="updater_step_remount_ro">Mount /system in sola lettura…\u0020</string>
+  <string name="updater_step_clean_up">Pulizia…\u0020</string>
   <string name="updater_remount_ro_failed">Mount della partizione /system in sola lettura fallito, riavviare per completare l\'aggiornamento</string>
   <string name="updater_find_su_failed">Impossibile trovare il binario su installato. L\'aggiornamento non può proseguire</string>
   <string name="updater_bad_install_location">il binario su è attualmente installato in /sbin, dove è impossibile aggiornarlo. Si prega di cambiare ROM al dispositivo.</string>

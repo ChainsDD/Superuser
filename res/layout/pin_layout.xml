@@ -27,7 +27,7 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:gravity="center"
-        android:password="true"
+        android:inputType="numberPassword"
         android:textColor="@android:color/white"
         android:cursorVisible="false"
         android:hint="@string/pin_enter_pin"

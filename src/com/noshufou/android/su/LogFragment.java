@@ -88,7 +88,7 @@ public class LogFragment extends SherlockListFragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.add(Menu.NONE, MenuId.CLEAR_LOG, MenuId.CLEAR_LOG, R.string.menu_clear_log)
-                .setIcon(R.drawable.ic_menu_clear_log)
+                .setIcon(R.drawable.ic_action_clear_log)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
     }
 

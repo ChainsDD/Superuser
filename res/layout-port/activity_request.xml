@@ -27,7 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
-        android:src="@drawable/icon" />
+        android:src="@drawable/icon"
+        android:contentDescription="@string/app_name_request" />
 
     <TextView android:id="@+id/title"
         android:layout_width="wrap_content"

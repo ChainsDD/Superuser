@@ -15,13 +15,17 @@
  ******************************************************************************/
 package com.noshufou.android.su.util;
 
-import com.noshufou.android.su.HomeActivity;
-import com.noshufou.android.su.R;
-import com.noshufou.android.su.UpdaterActivity;
-import com.noshufou.android.su.UpdaterFragment;
-import com.noshufou.android.su.preferences.Preferences;
-import com.noshufou.android.su.preferences.PreferencesActivity;
-import com.noshufou.android.su.service.PermissionsDbService;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -38,18 +42,15 @@ import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.util.SparseArray;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import com.noshufou.android.su.HomeActivity;
+import com.noshufou.android.su.R;
+import com.noshufou.android.su.UpdaterActivity;
+import com.noshufou.android.su.UpdaterFragment;
+import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.preferences.PreferencesActivity;
+import com.noshufou.android.su.service.PermissionsDbService;
 
 public class Util {
     private static final String TAG = "Su.Util";
@@ -59,7 +60,7 @@ public class Util {
     public static final int MALICIOUS_RESPOND = 2;
     public static final int MALICIOUS_PROVIDER_WRITE = 3;
     
-    private static final HashMap<Integer, String> sSystemUids = new HashMap<Integer, String>();
+    private static final SparseArray<String> sSystemUids = new SparseArray<String>(32);
     static {
         sSystemUids.put(0, "root");
         sSystemUids.put(1000, "system");
@@ -107,7 +108,7 @@ public class Util {
     }
 
     public static String getAppName(Context c, int uid, boolean withUid) {
-        if (sSystemUids.containsKey(uid)) {
+        if (sSystemUids.get(uid) != null) {
             return sSystemUids.get(uid);
         }
 
@@ -144,7 +145,7 @@ public class Util {
     }
 
     public static String getAppPackage(Context c, int uid) {
-        if (sSystemUids.containsKey(uid)) {
+        if (sSystemUids.get(uid) != null) {
             return sSystemUids.get(uid);
         }
 

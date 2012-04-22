@@ -143,7 +143,7 @@
   <string name="updater_update">Mettre à jour</string>
   <string name="updater_update_anyway">Mettre à jour malgré tout</string>
   <string name="updater_cool">C\'était cool, réessayons</string>
-  <string name="updater_working">En traitement ...</string>
+  <string name="updater_working">En traitement …</string>
   <string name="updater_ok">Okay !</string>
   <string name="updater_fail">Echec !</string>
   <string name="updater_not_found">introuvable</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">Impossible de télécharger le manifeste. Vérifiez la connexion internet</string>
   <string name="updater_try_again">Réessayer</string>
   <string name="updater_su_updated">L\'exécutable "su" a été mis à jour</string>
-  <string name="updater_step_download_manifest">Téléchargement du "manifest" ...\u0020</string>
-  <string name="updater_step_parse_manifest">Analyse du "manifest" ...\u0020</string>
+  <string name="updater_step_download_manifest">Téléchargement du "manifest" …\u0020</string>
+  <string name="updater_step_parse_manifest">Analyse du "manifest" …\u0020</string>
   <string name="updater_step_latest_version">Dernière version =\u0020</string>
   <string name="updater_step_check_installed_version">Vérification de la version installée =\u0020</string>
-  <string name="updater_step_fix_db">Correction de la base de données ...\u0020</string>
-  <string name="updater_step_find_busybox">Vérification de busybox...\u0020</string>
-  <string name="updater_step_download_busybox">Téléchargement du BusyBox "maison" ...\u0020</string>
-  <string name="updater_step_check_md5sum">Vérification de l\'intégrité MD5 ...\u0020</string>
-  <string name="updater_step_check_installed_path">Vérification du chemin d\'installation en cours... \u0020</string>
-  <string name="updater_step_download_su">Téléchargement du nouvel exécutable ...\u0020</string>
-  <string name="updater_step_get_root">Obtention de l\'accès root ...\u0020</string>
-  <string name="updater_step_remount_rw">Remontage de /system en lecture-écriture ...\u0020</string>
-  <string name="updater_step_cp">Copie de "su" vers /system ...\u0020</string>
-  <string name="updater_step_chmod">Changement du mode du fichier "su" à 06755 ...\u0020</string>
-  <string name="updater_step_mv">Déplacement de su vers son emplacement final... \u0020</string>
-  <string name="updater_step_remount_ro">Remontage de /system en lecture seule ...\u0020</string>
-  <string name="updater_step_clean_up">Nettoyage ...\u0020</string>
+  <string name="updater_step_fix_db">Correction de la base de données …\u0020</string>
+  <string name="updater_step_find_busybox">Vérification de busybox…\u0020</string>
+  <string name="updater_step_download_busybox">Téléchargement du BusyBox "maison" …\u0020</string>
+  <string name="updater_step_check_md5sum">Vérification de l\'intégrité MD5 …\u0020</string>
+  <string name="updater_step_check_installed_path">Vérification du chemin d\'installation en cours… \u0020</string>
+  <string name="updater_step_download_su">Téléchargement du nouvel exécutable …\u0020</string>
+  <string name="updater_step_get_root">Obtention de l\'accès root …\u0020</string>
+  <string name="updater_step_remount_rw">Remontage de /system en lecture-écriture …\u0020</string>
+  <string name="updater_step_cp">Copie de "su" vers /system …\u0020</string>
+  <string name="updater_step_chmod">Changement du mode du fichier "su" à 06755 …\u0020</string>
+  <string name="updater_step_mv">Déplacement de su vers son emplacement final… \u0020</string>
+  <string name="updater_step_remount_ro">Remontage de /system en lecture seule …\u0020</string>
+  <string name="updater_step_clean_up">Nettoyage …\u0020</string>
   <string name="updater_remount_ro_failed">Impossible de remonter le système en lecture seule, veuillez redémarrer pour terminer la mise à jour</string>
   <string name="updater_find_su_failed">Impossible de trouver les binaires su installés. La mise à jour ne peut pas continuer</string>
   <string name="updater_bad_install_location">Le binaire su est actuellement installé dans /sbin. Le logiciel n\'est pas capable de le mettre à jour. Veuillez trouver une nouvelle ROM pour votre appareil.</string>

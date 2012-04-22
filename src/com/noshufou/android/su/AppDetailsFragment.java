@@ -198,15 +198,15 @@ public class AppDetailsFragment extends SherlockListFragment
         if (!mReady) return;
 
         menu.add(Menu.NONE, MenuId.TOGGLE, MenuId.TOGGLE, R.string.menu_toggle)
-                .setIcon(R.drawable.ic_btn_toggle)
+                .setIcon(R.drawable.ic_action_toggle)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         menu.add(Menu.NONE, MenuId.FORGET, MenuId.FORGET, R.string.menu_forget)
-                .setIcon(R.drawable.ic_btn_delete)
+                .setIcon(R.drawable.ic_action_delete)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         menu.add(Menu.NONE, MenuId.CLEAR_LOG, MenuId.CLEAR_LOG, R.string.menu_clear_log)
-            .setIcon(R.drawable.ic_btn_clear_log)
+            .setIcon(R.drawable.ic_action_clear_log)
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         menu.add(Menu.NONE, MenuId.USE_APP_SETTINGS, MenuId.USE_APP_SETTINGS, R.string.use_global_settings)

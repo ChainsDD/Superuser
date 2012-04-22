@@ -100,7 +100,7 @@
   <string name="pref_date_format_title">Válassza ki a dátumformátumot</string>
   <string name="pref_date_format_summary">Napló dátumformátuma</string>
   <string name="pref_clear_log_title">Napló törlése</string>
-  <string name="pref_clearing_log_title">Napló törlése...</string>
+  <string name="pref_clearing_log_title">Napló törlése…</string>
   <string name="pref_clearing_log_summary">Kérem várjon</string>
   <string name="pref_category_notification_title">Értesítések</string>
   <string name="pref_notifications_title">Értesítések</string>
@@ -143,7 +143,7 @@
   <string name="updater_update">Frissítés</string>
   <string name="updater_update_anyway">Frissítse mindenképp</string>
   <string name="updater_cool">Ez jó volt, csináld újra</string>
-  <string name="updater_working">Folyamatban...</string>
+  <string name="updater_working">Folyamatban…</string>
   <string name="updater_ok">rendben!</string>
   <string name="updater_fail">nem sikerült!</string>
   <string name="updater_not_found">nem található</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">Leíró letöltése sikertelen. Ellenőrizd az internetkapcsolatot!</string>
   <string name="updater_try_again">Próbálja újra</string>
   <string name="updater_su_updated">su bináris sikeresen frissítve</string>
-  <string name="updater_step_download_manifest">Nyilvántartás letöltése...\u0020</string>
-  <string name="updater_step_parse_manifest">Nyilvántartás feldolgozása...\u0020</string>
+  <string name="updater_step_download_manifest">Nyilvántartás letöltése…\u0020</string>
+  <string name="updater_step_parse_manifest">Nyilvántartás feldolgozása…\u0020</string>
   <string name="updater_step_latest_version">Utolsó verzió =\u0020</string>
   <string name="updater_step_check_installed_version">Telepített verzió ellenőrzése =\u0020</string>
-  <string name="updater_step_fix_db">Adatbázis javítása...\u0020</string>
-  <string name="updater_step_find_busybox">Busybox ellenőrzése...\u0020</string>
-  <string name="updater_step_download_busybox">Egyéni busybox letöltése...\u0020</string>
-  <string name="updater_step_check_md5sum">Md5sum ellenőrzése...\u0020</string>
-  <string name="updater_step_check_installed_path">Jelenlegi telepítési útvonal ellenőrzése...\u0020</string>
-  <string name="updater_step_download_su">Új bináris letöltése...\u0020</string>
-  <string name="updater_step_get_root">Root jog megszerzése...\u0020</string>
-  <string name="updater_step_remount_rw">/system olvasható újracsatolása...\u0020</string>
-  <string name="updater_step_cp">su másolása a /system partícióra...\u0020</string>
-  <string name="updater_step_chmod">Su filemód írása 06755-re...\u0020</string>
-  <string name="updater_step_mv">Su mozgatása a végső helyére...\u0020</string>
-  <string name="updater_step_remount_ro">/system újracsatolása csak olvasható módban...\u0020</string>
-  <string name="updater_step_clean_up">Takarítás...\u0020</string>
+  <string name="updater_step_fix_db">Adatbázis javítása…\u0020</string>
+  <string name="updater_step_find_busybox">Busybox ellenőrzése…\u0020</string>
+  <string name="updater_step_download_busybox">Egyéni busybox letöltése…\u0020</string>
+  <string name="updater_step_check_md5sum">Md5sum ellenőrzése…\u0020</string>
+  <string name="updater_step_check_installed_path">Jelenlegi telepítési útvonal ellenőrzése…\u0020</string>
+  <string name="updater_step_download_su">Új bináris letöltése…\u0020</string>
+  <string name="updater_step_get_root">Root jog megszerzése…\u0020</string>
+  <string name="updater_step_remount_rw">/system olvasható újracsatolása…\u0020</string>
+  <string name="updater_step_cp">su másolása a /system partícióra…\u0020</string>
+  <string name="updater_step_chmod">Su filemód írása 06755-re…\u0020</string>
+  <string name="updater_step_mv">Su mozgatása a végső helyére…\u0020</string>
+  <string name="updater_step_remount_ro">/system újracsatolása csak olvasható módban…\u0020</string>
+  <string name="updater_step_clean_up">Takarítás…\u0020</string>
   <string name="updater_remount_ro_failed">Nem sikerült az írásvédett rendszert újracsatlakoztatni, indítsa újra a frissítés befejezéséhez</string>
   <string name="updater_find_su_failed">Nem található a jelenlegi su bináris fájl. A frissítés nem folytatható</string>
   <string name="updater_bad_install_location">Az su bináris jelenleg a /sbin mappába van telepítve. A frissítő nem tudja felülírni. Keress másik szoftvert a készülékedhez!</string>

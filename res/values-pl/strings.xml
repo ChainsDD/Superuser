@@ -100,7 +100,7 @@
   <string name="pref_date_format_title">Wybierz format daty</string>
   <string name="pref_date_format_summary">Format używany do wyświetlania daty w dzienniku</string>
   <string name="pref_clear_log_title">Wyczyść dziennik</string>
-  <string name="pref_clearing_log_title">Czyszczenie dziennika...</string>
+  <string name="pref_clearing_log_title">Czyszczenie dziennika…</string>
   <string name="pref_clearing_log_summary">Proszę czekać</string>
   <string name="pref_category_notification_title">Powiadomienia</string>
   <string name="pref_notifications_title">Powiadomienia</string>
@@ -143,7 +143,7 @@
   <string name="updater_update">Aktualizuj</string>
   <string name="updater_update_anyway">Aktualizuj mimo wszystko</string>
   <string name="updater_cool">To było fajne, zrób to jeszcze raz</string>
-  <string name="updater_working">Pracuje...</string>
+  <string name="updater_working">Pracuje…</string>
   <string name="updater_ok">okej!</string>
   <string name="updater_fail">porażka!</string>
   <string name="updater_not_found">nie znaleziono</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">Nie udało się pobrać manifestu. Sprawdź połączenie internetowe</string>
   <string name="updater_try_again">Spróbuj ponownie</string>
   <string name="updater_su_updated">SU zaktualizowane pomyślnie</string>
-  <string name="updater_step_download_manifest">Pobieranie pliku manifest...\u0020</string>
-  <string name="updater_step_parse_manifest">Przetwarzanie pliku manifest...\u0020</string>
+  <string name="updater_step_download_manifest">Pobieranie pliku manifest…\u0020</string>
+  <string name="updater_step_parse_manifest">Przetwarzanie pliku manifest…\u0020</string>
   <string name="updater_step_latest_version">Najnowsza wersja =\u0020</string>
   <string name="updater_step_check_installed_version">Sprawdzanie zainstalowanej wersji =\u0020</string>
-  <string name="updater_step_fix_db">Przygotowywanie bazy danych...\u0020</string>
-  <string name="updater_step_find_busybox">Sprawdzanie busybox...\u0020</string>
-  <string name="updater_step_download_busybox">Pobieranie niestandardowego pakietu busybox...\u0020</string>
-  <string name="updater_step_check_md5sum">Sprawdzanie sumy md5...\u0020</string>
-  <string name="updater_step_check_installed_path">Sprawdzanie bieżącej ścieżki instalacji...\u0020</string>
-  <string name="updater_step_download_su">Pobieranie nowego pliku...\u0020</string>
-  <string name="updater_step_get_root">Uzyskiwanie dostępu do uprawnień administratora...\u0020</string>
-  <string name="updater_step_remount_rw">Ponowne montowanie katalogu /system w trybie zapisu...\u0020</string>
-  <string name="updater_step_cp">Kopiowanie SU do /system...\u0020</string>
-  <string name="updater_step_chmod">Zmiana trybu pliku SU do 06755...\u0020</string>
-  <string name="updater_step_mv">Przenoszenie SU do swojej ostatecznej lokalizacji...\u0020</string>
-  <string name="updater_step_remount_ro">Montowanie /system w trybie tylko do odczytu ...\u0020</string>
-  <string name="updater_step_clean_up">Czyszczenie...\u0020</string>
+  <string name="updater_step_fix_db">Przygotowywanie bazy danych…\u0020</string>
+  <string name="updater_step_find_busybox">Sprawdzanie busybox…\u0020</string>
+  <string name="updater_step_download_busybox">Pobieranie niestandardowego pakietu busybox…\u0020</string>
+  <string name="updater_step_check_md5sum">Sprawdzanie sumy md5…\u0020</string>
+  <string name="updater_step_check_installed_path">Sprawdzanie bieżącej ścieżki instalacji…\u0020</string>
+  <string name="updater_step_download_su">Pobieranie nowego pliku…\u0020</string>
+  <string name="updater_step_get_root">Uzyskiwanie dostępu do uprawnień administratora…\u0020</string>
+  <string name="updater_step_remount_rw">Ponowne montowanie katalogu /system w trybie zapisu…\u0020</string>
+  <string name="updater_step_cp">Kopiowanie SU do /system…\u0020</string>
+  <string name="updater_step_chmod">Zmiana trybu pliku SU do 06755…\u0020</string>
+  <string name="updater_step_mv">Przenoszenie SU do swojej ostatecznej lokalizacji…\u0020</string>
+  <string name="updater_step_remount_ro">Montowanie /system w trybie tylko do odczytu …\u0020</string>
+  <string name="updater_step_clean_up">Czyszczenie…\u0020</string>
   <string name="updater_remount_ro_failed">Nie udało się ponownie zamontować system w trybie tylko do odczytu, należy powtórnie uruchomić, aby zakończyć aktualizację</string>
   <string name="updater_find_su_failed">Nie udało się znaleźć obecnie zainstalowanego SU. Aktualizacja nie może być kontynuowana</string>
   <string name="updater_bad_install_location">SU jest aktualnie zainstalowane w katalogu /sbin. Ta aplikacja nie jest w stanie go aktualizować. Proszę znaleźć nowy ROM dla swojego urządzenia. </string>

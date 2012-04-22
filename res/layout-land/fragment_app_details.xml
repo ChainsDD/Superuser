@@ -17,14 +17,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:baselineAligned="false">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-        
     <LinearLayout style="@style/AppDetailsLayout"
         android:id="@+id/details_layout"
         android:layout_width="0dp"
@@ -70,31 +65,28 @@
             <TextView style="@style/DetailsInfo"
                 android:id="@+id/status" />
         </LinearLayout>
-        </LinearLayout>
-
-    <LinearLayout style="@style/AppDetailsLayout"
-        android:id="@+id/details_layout"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-        <LinearLayout style="@style/AppDetailsRow"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-            <TextView style="@style/DetailsLabel"
-                android:id="@+id/recent_activity_label"
-                android:text="@string/recent_activity" />
-            <TextView style="@style/DetailsInfo"
-                android:id="@android:id/empty"
-                android:text="@string/empty_logs" />
-            <com.noshufou.android.su.widget.PinnedHeaderListView
-                android:id="@android:id/list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:scrollbarStyle="outsideOverlay" />
-        </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout style="@style/AppDetailsLayout"
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:paddingTop="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_weight="1">
+        <TextView style="@style/DetailsLabel"
+            android:id="@+id/recent_activity_label"
+            android:text="@string/recent_activity"
+            android:background="@drawable/app_icon_header_background" />
+        <TextView style="@style/DetailsInfo"
+            android:id="@android:id/empty"
+            android:text="@string/empty_logs" />
+        <com.noshufou.android.su.widget.PinnedHeaderListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:scrollbarStyle="outsideOverlay" />
     </LinearLayout>
 
 </LinearLayout>

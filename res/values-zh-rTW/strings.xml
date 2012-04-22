@@ -25,7 +25,7 @@
   <string name="yes">是</string>
   <string name="no">否</string>
   <string name="ok">確定</string>
-  <string name="loading">載入中...</string>
+  <string name="loading">載入中…</string>
   <string name="allow">允許</string>
   <string name="cancel">取消</string>
   <string name="deny">拒絕</string>
@@ -121,7 +121,7 @@
   <string name="pref_category_info_title">一般</string>
   <string name="pref_version_title">超級使用者 v%1$s (%2$d)</string>
   <string name="pref_version_summary">資料庫版本 %1$s</string>
-  <string name="pref_bin_version_title_loading">正在載入二進制文件版本...</string>
+  <string name="pref_bin_version_title_loading">正在載入二進制文件版本…</string>
   <string name="pref_bin_version_title">Su 二進制文件 v%1$s</string>
   <string name="pref_bin_version_summary">點擊以檢查新版本</string>
   <string name="pref_outdated_notification_title">過時的二進制通知</string>
@@ -140,7 +140,7 @@
   <string name="updater_update">更新</string>
   <string name="updater_update_anyway">還是更新</string>
   <string name="updater_cool">不錯喔！再做一次。</string>
-  <string name="updater_working">工作中...</string>
+  <string name="updater_working">工作中…</string>
   <string name="updater_ok">完成！</string>
   <string name="updater_fail">失敗！</string>
   <string name="updater_not_found">找不到</string>
@@ -148,23 +148,23 @@
   <string name="updater_no_conn">無法下載清單。請檢查網路連接</string>
   <string name="updater_try_again">再試一次</string>
   <string name="updater_su_updated">su二進制更新成功</string>
-  <string name="updater_step_download_manifest">下載manifest...\u0020</string>
-  <string name="updater_step_parse_manifest">解析 manifest...\u0020</string>
+  <string name="updater_step_download_manifest">下載manifest…\u0020</string>
+  <string name="updater_step_parse_manifest">解析 manifest…\u0020</string>
   <string name="updater_step_latest_version">最新版本 =\u0020</string>
   <string name="updater_step_check_installed_version">檢查已安裝的版本 =\u0020</string>
-  <string name="updater_step_fix_db">修復資料庫...\u0020</string>
-  <string name="updater_step_find_busybox">檢查 busybox...\u0020</string>
-  <string name="updater_step_download_busybox">下載自訂 busybox...\u0020</string>
-  <string name="updater_step_check_md5sum">檢查 md5sum...\u0020</string>
-  <string name="updater_step_check_installed_path">正在檢查目前安裝路徑...\u0020</string>
-  <string name="updater_step_download_su">正在下載新的二進制文件...\u0020</string>
-  <string name="updater_step_get_root">獲得 root 權限 ... \u0020</string>
-  <string name="updater_step_remount_rw">重新掛載 /system 為 RW ... \u0020</string>
-  <string name="updater_step_cp">複製 su 到/system ... \u0020</string>
-  <string name="updater_step_chmod">su檔權限改為 06755...\u0020</string>
-  <string name="updater_step_mv">正在將 su 移至其最終位置...\u0020</string>
-  <string name="updater_step_remount_ro">重新掛載 /system 為只可讀 ... \u0020</string>
-  <string name="updater_step_clean_up">清理中... \u0020</string>
+  <string name="updater_step_fix_db">修復資料庫…\u0020</string>
+  <string name="updater_step_find_busybox">檢查 busybox…\u0020</string>
+  <string name="updater_step_download_busybox">下載自訂 busybox…\u0020</string>
+  <string name="updater_step_check_md5sum">檢查 md5sum…\u0020</string>
+  <string name="updater_step_check_installed_path">正在檢查目前安裝路徑…\u0020</string>
+  <string name="updater_step_download_su">正在下載新的二進制文件…\u0020</string>
+  <string name="updater_step_get_root">獲得 root 權限 … \u0020</string>
+  <string name="updater_step_remount_rw">重新掛載 /system 為 RW … \u0020</string>
+  <string name="updater_step_cp">複製 su 到/system … \u0020</string>
+  <string name="updater_step_chmod">su檔權限改為 06755…\u0020</string>
+  <string name="updater_step_mv">正在將 su 移至其最終位置…\u0020</string>
+  <string name="updater_step_remount_ro">重新掛載 /system 為只可讀 … \u0020</string>
+  <string name="updater_step_clean_up">清理中… \u0020</string>
   <string name="updater_remount_ro_failed">重新將系統掛載為唯讀失敗。請重新開機以便完成更新</string>
   <string name="updater_find_su_failed">無法找到目前已安裝的 su 二進制文件。更新無法繼續</string>
   <string name="updater_bad_install_location">su 二進位目前安裝於 /sbin 中。此更新程式無法對其進行更新。請尋找適用於您裝置的新的 ROM。</string>
