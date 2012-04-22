@@ -139,7 +139,7 @@
   <string name="updater_update">Posodobitev</string>
   <string name="updater_update_anyway">Vseeno posodobi</string>
   <string name="updater_cool">To je bilo kul, še enkrat</string>
-  <string name="updater_working">Delam...</string>
+  <string name="updater_working">Delam…</string>
   <string name="updater_ok">v redu!</string>
   <string name="updater_fail">spodletelo!</string>
   <string name="updater_not_found">ni mogoče najti</string>
@@ -147,23 +147,23 @@
   <string name="updater_no_conn">Napaka pri prenosu manifesta. Preverite internetno povezavo</string>
   <string name="updater_try_again">Poskusi znova</string>
   <string name="updater_su_updated">su binary uspešno posodobljena</string>
-  <string name="updater_step_download_manifest">Prenos manifest...\u0020</string>
-  <string name="updater_step_parse_manifest">Razčlenjevanje manifest...\u0020</string>
+  <string name="updater_step_download_manifest">Prenos manifest…\u0020</string>
+  <string name="updater_step_parse_manifest">Razčlenjevanje manifest…\u0020</string>
   <string name="updater_step_latest_version">Najnovejša različica =\u0020</string>
   <string name="updater_step_check_installed_version">Preverjam nameščeno različico =\u0020</string>
-  <string name="updater_step_fix_db">Popravljam zbirko podatkov...\u0020</string>
-  <string name="updater_step_find_busybox">Preverjam busybox...\u0020</string>
-  <string name="updater_step_download_busybox">Prenašam busybox po meri...\u0020</string>
-  <string name="updater_step_check_md5sum">Preverjam md5sum...\u0020</string>
-  <string name="updater_step_check_installed_path">Preverjam trenutno namestitveno pot...\u0020</string>
-  <string name="updater_step_download_su">Prenašam nov binary...\u0020</string>
-  <string name="updater_step_get_root">Pridobivam root dostop...\u0020</string>
-  <string name="updater_step_remount_rw">Ponovno vpenjam /system kot rw...\u0020</string>
-  <string name="updater_step_cp">Kopiram su v /system...\u0020</string>
-  <string name="updater_step_chmod">Spreminjam su datotečni način v 06755...\u0020</string>
-  <string name="updater_step_mv">Premikam su na končno lokacijo...\u0020</string>
-  <string name="updater_step_remount_ro">Ponovno vpenjam /system kot ro...\u0020</string>
-  <string name="updater_step_clean_up">Čistim...\u0020</string>
+  <string name="updater_step_fix_db">Popravljam zbirko podatkov…\u0020</string>
+  <string name="updater_step_find_busybox">Preverjam busybox…\u0020</string>
+  <string name="updater_step_download_busybox">Prenašam busybox po meri…\u0020</string>
+  <string name="updater_step_check_md5sum">Preverjam md5sum…\u0020</string>
+  <string name="updater_step_check_installed_path">Preverjam trenutno namestitveno pot…\u0020</string>
+  <string name="updater_step_download_su">Prenašam nov binary…\u0020</string>
+  <string name="updater_step_get_root">Pridobivam root dostop…\u0020</string>
+  <string name="updater_step_remount_rw">Ponovno vpenjam /system kot rw…\u0020</string>
+  <string name="updater_step_cp">Kopiram su v /system…\u0020</string>
+  <string name="updater_step_chmod">Spreminjam su datotečni način v 06755…\u0020</string>
+  <string name="updater_step_mv">Premikam su na končno lokacijo…\u0020</string>
+  <string name="updater_step_remount_ro">Ponovno vpenjam /system kot ro…\u0020</string>
+  <string name="updater_step_clean_up">Čistim…\u0020</string>
   <string name="updater_remount_ro_failed">Ponovno vpetje sistema samo za branje ni uspelo, prosimo ponovno zaženite telefon za dokončanje posodobitve</string>
   <string name="updater_find_su_failed">Ni bilo mogoče najti trenutno nameščen su binary. Posodobitve ni mogoče nadaljevati</string>
   <string name="updater_bad_install_location">su binary je trenutno nameščen v /sbin. Ni možno izvesti posodobitve. Prosimo poiščite nov ROM za vašo napravo.</string>

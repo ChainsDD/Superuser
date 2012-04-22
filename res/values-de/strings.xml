@@ -143,7 +143,7 @@
   <string name="updater_update">Aktualisierung</string>
   <string name="updater_update_anyway">Trotzdem aktualisieren</string>
   <string name="updater_cool">Das war cool, mach es nochmal</string>
-  <string name="updater_working">Wird bearbeitet...</string>
+  <string name="updater_working">Wird bearbeitet…</string>
   <string name="updater_ok">okay!</string>
   <string name="updater_fail">Fehlgeschlagen!</string>
   <string name="updater_not_found">nicht gefunden</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">Fehler beim Herunterladen des Manifests. Internetverbindung überprüfen</string>
   <string name="updater_try_again">Erneut versuchen</string>
   <string name="updater_su_updated">su-Binary erfolgreich aktualisiert</string>
-  <string name="updater_step_download_manifest">Manifest wird heruntergeladen...\u0020</string>
-  <string name="updater_step_parse_manifest">Analysiere Manifest...\u0020</string>
+  <string name="updater_step_download_manifest">Manifest wird heruntergeladen…\u0020</string>
+  <string name="updater_step_parse_manifest">Analysiere Manifest…\u0020</string>
   <string name="updater_step_latest_version">Neueste Version =\u0020</string>
   <string name="updater_step_check_installed_version">Überprüfe installierte Version =\u0020</string>
-  <string name="updater_step_fix_db">Repariere Datenbank ...\u0020</string>
-  <string name="updater_step_find_busybox">Ueberpruefe busybox...\u0020</string>
-  <string name="updater_step_download_busybox">Angepasste Busybox wird heruntergeladen...\u0020</string>
-  <string name="updater_step_check_md5sum">md5sum wird überprüft... \u0020</string>
-  <string name="updater_step_check_installed_path">Aktueller Installationspfad wird überprüft...\u0020</string>
-  <string name="updater_step_download_su">Neue binary wird heruntergeladen...\u0020</string>
-  <string name="updater_step_get_root">Erhalte root-Zugriff...\u0020</string>
-  <string name="updater_step_remount_rw">Aktiviere Schreibzugriff auf /system...\u0020</string>
-  <string name="updater_step_cp">Kopiere su nach /system...\u0020</string>
-  <string name="updater_step_chmod">Ändere su-Dateiattribute auf \u0020...</string>
-  <string name="updater_step_mv">su wird zur endgültigen Ablage verschoben...\u0020</string>
-  <string name="updater_step_remount_ro">Aktiviere Lesezugriff auf /system...\u0020</string>
-  <string name="updater_step_clean_up">Aufräumen ... \ u0020</string>
+  <string name="updater_step_fix_db">Repariere Datenbank …\u0020</string>
+  <string name="updater_step_find_busybox">Ueberpruefe busybox…\u0020</string>
+  <string name="updater_step_download_busybox">Angepasste Busybox wird heruntergeladen…\u0020</string>
+  <string name="updater_step_check_md5sum">md5sum wird überprüft… \u0020</string>
+  <string name="updater_step_check_installed_path">Aktueller Installationspfad wird überprüft…\u0020</string>
+  <string name="updater_step_download_su">Neue binary wird heruntergeladen…\u0020</string>
+  <string name="updater_step_get_root">Erhalte root-Zugriff…\u0020</string>
+  <string name="updater_step_remount_rw">Aktiviere Schreibzugriff auf /system…\u0020</string>
+  <string name="updater_step_cp">Kopiere su nach /system…\u0020</string>
+  <string name="updater_step_chmod">Ändere su-Dateiattribute auf \u0020…</string>
+  <string name="updater_step_mv">su wird zur endgültigen Ablage verschoben…\u0020</string>
+  <string name="updater_step_remount_ro">Aktiviere Lesezugriff auf /system…\u0020</string>
+  <string name="updater_step_clean_up">Aufräumen … \ u0020</string>
   <string name="updater_remount_ro_failed">Aktivieren des Lesezugriffs fehlgeschlagen, bitte starten sie ihr Gerät neu um die Aktualisierung abzuschließen</string>
   <string name="updater_find_su_failed">Su-Binary wurde nicht gefunden. Aktualisierung kann nicht fortgesetzt werden.</string>
   <string name="updater_bad_install_location">su-Binary ist derzeit unter /sbin installiert. Dieser Updater ist nicht in der Lage, su-Binary zu aktualisieren. Bitte suchen Sie ein neues ROM für ihr Gerät.</string>

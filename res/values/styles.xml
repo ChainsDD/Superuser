@@ -29,6 +29,7 @@
         <item name="actionBarStyle">@style/Widget.Superuser.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Superuser.ActionBar</item>
         <item name="absForceOverflow">true</item>
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
     
     <style name="Theme.Superuser.Details">

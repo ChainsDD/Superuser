@@ -143,31 +143,40 @@
   <string name="updater_update">アップデート</string>
   <string name="updater_update_anyway">とにかく更新</string>
   <string name="updater_cool">気に入った、もう一回</string>
-  <string name="updater_working">処理中...</string>
-  <string name="updater_ok">OK!</string>
+  <string name="updater_working">処理中…</string>
+  <string name="updater_ok">Fixed layout on non-Honeycomb tablets
+Better handling of fragments on tablets
+Compatibility for Donut restored
+Fixed bug that caused unpredictable results when an app is remembered that was previously allowed
+Backup/restore of apps and preferences
+Fix for Superuser thinking the binary is outdated when it’s not
+Major speed increase for notifications and logging
+Show seconds in log defaults to off now
+Fix FC when trying to swipe left/right in HomeActivity
+Fix changelog version tracking, only show what’s changed since the last time the changelog was displayed on launch</string>
   <string name="updater_fail">失敗しました！</string>
   <string name="updater_not_found">見つかりません</string>
   <string name="updater_update_failed">アップデートに失敗しました。再試行しますか？</string>
   <string name="updater_no_conn">manifestのダウンロードに失敗しました。\nインターネット接続を確認してください。</string>
   <string name="updater_try_again">再試行してください</string>
   <string name="updater_su_updated">SUバイナリが正常に更新されました</string>
-  <string name="updater_step_download_manifest">Manifest...\u0020 をダウンロード</string>
-  <string name="updater_step_parse_manifest">Manifest...\u0020 の解析</string>
+  <string name="updater_step_download_manifest">Manifest…\u0020 をダウンロード</string>
+  <string name="updater_step_parse_manifest">Manifest…\u0020 の解析</string>
   <string name="updater_step_latest_version">最新バージョン=\u0020</string>
   <string name="updater_step_check_installed_version">インストール済みのバージョンをチェックしています version =\u0020</string>
-  <string name="updater_step_fix_db">データベースを修正しています...\u0020</string>
-  <string name="updater_step_find_busybox">Busybox...\u0020 をチェック</string>
-  <string name="updater_step_download_busybox">カスタムbusyboxをダウンロードしています...\u0020</string>
-  <string name="updater_step_check_md5sum">md5sumをチェックしています...\u0020</string>
-  <string name="updater_step_check_installed_path">現在のインストールパスをチェックしています...\u0020</string>
-  <string name="updater_step_download_su">新しいバイナリをダウンロードしています...\u0020</string>
-  <string name="updater_step_get_root">rootアクセス権を取得しています...\u0020</string>
-  <string name="updater_step_remount_rw">読み書き出来るように/systemを再マウントしています...\u0020</string>
-  <string name="updater_step_cp">/systemにSUをコピーしています...\u0020</string>
-  <string name="updater_step_chmod">SU​​のファイル権限を変更しています...\u0020</string>
-  <string name="updater_step_mv">SUを最後の場所に移動しています...\u0020</string>
-  <string name="updater_step_remount_ro">/systemを読み取り専用として再マウントしています...\u0020</string>
-  <string name="updater_step_clean_up">クリーニングしています...\u0020</string>
+  <string name="updater_step_fix_db">データベースを修正しています…\u0020</string>
+  <string name="updater_step_find_busybox">Busybox…\u0020 をチェック</string>
+  <string name="updater_step_download_busybox">カスタムbusyboxをダウンロードしています…\u0020</string>
+  <string name="updater_step_check_md5sum">md5sumをチェックしています…\u0020</string>
+  <string name="updater_step_check_installed_path">現在のインストールパスをチェックしています…\u0020</string>
+  <string name="updater_step_download_su">新しいバイナリをダウンロードしています…\u0020</string>
+  <string name="updater_step_get_root">rootアクセス権を取得しています…\u0020</string>
+  <string name="updater_step_remount_rw">読み書き出来るように/systemを再マウントしています…\u0020</string>
+  <string name="updater_step_cp">/systemにSUをコピーしています…\u0020</string>
+  <string name="updater_step_chmod">SU​​のファイル権限を変更しています…\u0020</string>
+  <string name="updater_step_mv">SUを最後の場所に移動しています…\u0020</string>
+  <string name="updater_step_remount_ro">/systemを読み取り専用として再マウントしています…\u0020</string>
+  <string name="updater_step_clean_up">クリーニングしています…\u0020</string>
   <string name="updater_remount_ro_failed">読み取り専用としてシステムを再マウントしようとして失敗しました。アップデートを完了するために再起動してください</string>
   <string name="updater_find_su_failed">現在インストールされているSUコマンドバイナリを見つけることができませんでした。アップデートを続行することはできません</string>
   <string name="updater_bad_install_location">SUコマンドのバイナリは現在、/sbinにインストールされています。このアップデータでは更新できません。お使いのデバイス用の新しいROMを見つけてください。</string>

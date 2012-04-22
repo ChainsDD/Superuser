@@ -6,7 +6,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
@@ -73,7 +72,7 @@ public class HomeActivity extends SherlockFragmentActivity {
         } else {
             mPager = (ViewPager)findViewById(R.id.pager);
             mPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.page_margin));
-            mPager.setPageMarginDrawable(new ColorDrawable(0xff5e5e5e));
+//            mPager.setPageMarginDrawable(new ColorDrawable(0xff5e5e5e));
             PagerHeader pagerHeader = (PagerHeader) findViewById(R.id.pager_header);
             PagerAdapter pagerAdapter = new PagerAdapter(this, mPager, pagerHeader);
 
@@ -105,12 +104,12 @@ public class HomeActivity extends SherlockFragmentActivity {
         mElite = Util.elitePresent(this, false, 0);
         menu.add(Menu.NONE, MenuId.ELITE,
                 MenuId.ELITE, mElite?R.string.menu_extras:R.string.pref_get_elite_title)
-                .setIcon(R.drawable.ic_menu_star)
+                .setIcon(R.drawable.ic_action_extras)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
         menu.add(Menu.NONE, MenuId.PREFERENCES,
                 MenuId.PREFERENCES, R.string.menu_preferences)
-                .setIcon(R.drawable.ic_menu_preferences)
+                .setIcon(R.drawable.ic_action_settings)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         return true;

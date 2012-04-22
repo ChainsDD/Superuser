@@ -10,8 +10,8 @@
   <string name="remember">זכור</string>
   <string name="pref_write_allow_tag_summary">כתוב תג חדש לשימוש כדי לאפשר</string>
   <string name="updater_ok">אישור!</string>
-  <string name="updater_step_check_installed_path">מעביר את Superuser למיקום הסופי...\u0020</string>
-  <string name="updater_step_mv">מעביר את Superuser למיקום הסופי...\u0020</string>
+  <string name="updater_step_check_installed_path">מעביר את Superuser למיקום הסופי…\u0020</string>
+  <string name="updater_step_mv">מעביר את Superuser למיקום הסופי…\u0020</string>
   <string name="updater_remount_ro_failed">נכשל בטעינה מחדש של המערכת לקריאה בלבד, אנא הפעל מחדש כדי לסיים את העדכון</string>
   <string name="updater_find_su_failed">נכשל במציאת Superuser בינארי הנוכחית המותקנת כעת. העדכון לא יכול להמשיך</string>
   <string name="updater_bad_install_location">Superuser בינארי מותקנת כעת ב- /sbin. המעדכן הזה אינו מסוגל לעדכן אותה. אנא מצא ROM חדש עבור ההתקן שלך.</string>

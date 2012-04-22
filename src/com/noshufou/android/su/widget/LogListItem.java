@@ -173,7 +173,7 @@ public class LogListItem extends ViewGroup {
     private void ensureHorizontalDivider() {
         if (mHorizontalDividerDrawable == null) {
             mHorizontalDividerDrawable = mContext.getResources().getDrawable(
-                    R.drawable.divider_horizontal_bright_opaque);
+                    R.drawable.app_list_divider);
             mHorizontalDividerHeight = mHorizontalDividerDrawable.getIntrinsicHeight();
         }
     }

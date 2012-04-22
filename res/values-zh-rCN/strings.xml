@@ -157,8 +157,8 @@
   <string name="updater_no_conn">无法下载清单。请检查互联网连接</string>
   <string name="updater_try_again">重试</string>
   <string name="updater_su_updated">su 程序更新成功</string>
-  <string name="updater_step_download_manifest">正在下载 manifest...\u0020</string>
-  <string name="updater_step_parse_manifest">正在解析 manifest...\u0020</string>
+  <string name="updater_step_download_manifest">正在下载 manifest…\u0020</string>
+  <string name="updater_step_parse_manifest">正在解析 manifest…\u0020</string>
   <string name="updater_step_latest_version">"最新版本 = "</string>
   <string name="updater_step_check_installed_version">"正在检查已安装的版本 = "</string>
   <string name="updater_step_fix_db">"正在修复数据库… "</string>

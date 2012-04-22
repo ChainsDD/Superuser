@@ -143,7 +143,7 @@
   <string name="updater_update">Actualizar</string>
   <string name="updater_update_anyway">Actualizar na mesma</string>
   <string name="updater_cool">Que fixe! Actualizar novamente?</string>
-  <string name="updater_working">A trabalhar...</string>
+  <string name="updater_working">A trabalhar…</string>
   <string name="updater_ok">Ok!</string>
   <string name="updater_fail">Falhou!</string>
   <string name="updater_not_found">não encontrado</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">O download do manifest falhou. Verifique a ligação à internet</string>
   <string name="updater_try_again">Tentar novamente</string>
   <string name="updater_su_updated">O binário SU foi actualizado com sucesso</string>
-  <string name="updater_step_download_manifest">A descarregar o manifest...\u0020</string>
-  <string name="updater_step_parse_manifest">A anlisar o manifest...\u0020</string>
+  <string name="updater_step_download_manifest">A descarregar o manifest…\u0020</string>
+  <string name="updater_step_parse_manifest">A anlisar o manifest…\u0020</string>
   <string name="updater_step_latest_version">Última versão =\u0020</string>
   <string name="updater_step_check_installed_version">Versão instalada =\u0020</string>
-  <string name="updater_step_fix_db">A corrigir a base de dados...\u0020</string>
-  <string name="updater_step_find_busybox">Checando a busybox...\u0020</string>
-  <string name="updater_step_download_busybox">A descarregar o custom busybox...\u0020</string>
-  <string name="updater_step_check_md5sum">A verificaar md5sum...\u0020</string>
-  <string name="updater_step_check_installed_path">A verificar o caminho actual de instalação...\u0020</string>
-  <string name="updater_step_download_su">A descarregar o novo binário...\u0020</string>
-  <string name="updater_step_get_root">A adquirir acesso root ...\u0020</string>
-  <string name="updater_step_remount_rw">A montar /system no modo de leitura/escrita...\u0020</string>
-  <string name="updater_step_cp">A copiar su para /system...\u0020</string>
-  <string name="updater_step_chmod">A mudar o modo do ficheiro su para 06755...\u0020</string>
-  <string name="updater_step_mv">A mover su para a localização final...\u0020</string>
-  <string name="updater_step_remount_ro">A montar /system no modo de leitura...\u0020</string>
-  <string name="updater_step_clean_up">Efectuando uma limpeza...\u0020</string>
+  <string name="updater_step_fix_db">A corrigir a base de dados…\u0020</string>
+  <string name="updater_step_find_busybox">Checando a busybox…\u0020</string>
+  <string name="updater_step_download_busybox">A descarregar o custom busybox…\u0020</string>
+  <string name="updater_step_check_md5sum">A verificaar md5sum…\u0020</string>
+  <string name="updater_step_check_installed_path">A verificar o caminho actual de instalação…\u0020</string>
+  <string name="updater_step_download_su">A descarregar o novo binário…\u0020</string>
+  <string name="updater_step_get_root">A adquirir acesso root …\u0020</string>
+  <string name="updater_step_remount_rw">A montar /system no modo de leitura/escrita…\u0020</string>
+  <string name="updater_step_cp">A copiar su para /system…\u0020</string>
+  <string name="updater_step_chmod">A mudar o modo do ficheiro su para 06755…\u0020</string>
+  <string name="updater_step_mv">A mover su para a localização final…\u0020</string>
+  <string name="updater_step_remount_ro">A montar /system no modo de leitura…\u0020</string>
+  <string name="updater_step_clean_up">Efectuando uma limpeza…\u0020</string>
   <string name="updater_remount_ro_failed">Impossível montar o sistema em modo de leitura, por favor reinicie para concluir a actualização</string>
   <string name="updater_find_su_failed">Falha ao localizar o binário su actualmente instalado. A actualização não pode continuar</string>
   <string name="updater_bad_install_location">O binário su encontra-se instalado em /sbin impossibilitando a sua actualização. Procure uma nova ROM para o seu equipamento, por favor.</string>

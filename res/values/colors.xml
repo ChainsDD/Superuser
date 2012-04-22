@@ -17,10 +17,6 @@
 <resources>
     <color name="title_background">#ff5e5e5e</color>
     <color name="title_split_background">#ff919191</color>
-    <color name="title_text">#ffffffff</color>
-    <color name="title_separator">#40ffffff</color>
-    
-    <color name="pinned_header_background">#ffcccccc</color>
     
     <color name="dim_foreground_light">#323232</color>
 

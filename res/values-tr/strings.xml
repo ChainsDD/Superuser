@@ -143,7 +143,7 @@
   <string name="updater_update">Güncelle</string>
   <string name="updater_update_anyway">Yine de güncelle</string>
   <string name="updater_cool">Güzeldi, tekrar yap</string>
-  <string name="updater_working">Çalışıyor ...</string>
+  <string name="updater_working">Çalışıyor …</string>
   <string name="updater_ok">tamam!</string>
   <string name="updater_fail">başarısız!</string>
   <string name="updater_not_found">bulunamadı</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">Manifesto indirilemedi. İnternet bağlantısını kontrol edin</string>
   <string name="updater_try_again">Tekrar deneyin</string>
   <string name="updater_su_updated">su dosyası başarıyla güncelleştirildi</string>
-  <string name="updater_step_download_manifest">Bildiri indiriliyor...\u0020</string>
-  <string name="updater_step_parse_manifest">Bildiri ayrıştırılıyor...\u0020</string>
+  <string name="updater_step_download_manifest">Bildiri indiriliyor…\u0020</string>
+  <string name="updater_step_parse_manifest">Bildiri ayrıştırılıyor…\u0020</string>
   <string name="updater_step_latest_version">Son sürüm =\u0020</string>
   <string name="updater_step_check_installed_version">Yüklü versiyon =\u0020</string>
-  <string name="updater_step_fix_db">Veritabanı düzeltiliyor...\u0020</string>
-  <string name="updater_step_find_busybox">Busybox kontrol ediliyor...\u0020</string>
-  <string name="updater_step_download_busybox">Özel busybox indiriliyor...\u0020</string>
-  <string name="updater_step_check_md5sum">md5 kontrol ediliyor...\u0020</string>
-  <string name="updater_step_check_installed_path">Geçerli yükle konumu kontrol ediliyor...\u0020</string>
-  <string name="updater_step_download_su">Yeni dosya indiriliyor...\u0020</string>
-  <string name="updater_step_get_root">Root izni alınıyor...\u0020</string>
-  <string name="updater_step_remount_rw">/system yazılabilir olarak ayarlanıyor...\u0020</string>
-  <string name="updater_step_cp">Su /system dizinine kopyalanıyor...\u0020</string>
-  <string name="updater_step_chmod">Su dosya modu 06755\'e değiştiriliyor...\u0020</string>
-  <string name="updater_step_mv">Su son konumuna taşınıyor...\u0020</string>
-  <string name="updater_step_remount_ro">/system saltokunur olarak ayarlanıyor...\u0020</string>
-  <string name="updater_step_clean_up">Temizleniyor...\u0020</string>
+  <string name="updater_step_fix_db">Veritabanı düzeltiliyor…\u0020</string>
+  <string name="updater_step_find_busybox">Busybox kontrol ediliyor…\u0020</string>
+  <string name="updater_step_download_busybox">Özel busybox indiriliyor…\u0020</string>
+  <string name="updater_step_check_md5sum">md5 kontrol ediliyor…\u0020</string>
+  <string name="updater_step_check_installed_path">Geçerli yükle konumu kontrol ediliyor…\u0020</string>
+  <string name="updater_step_download_su">Yeni dosya indiriliyor…\u0020</string>
+  <string name="updater_step_get_root">Root izni alınıyor…\u0020</string>
+  <string name="updater_step_remount_rw">/system yazılabilir olarak ayarlanıyor…\u0020</string>
+  <string name="updater_step_cp">Su /system dizinine kopyalanıyor…\u0020</string>
+  <string name="updater_step_chmod">Su dosya modu 06755\'e değiştiriliyor…\u0020</string>
+  <string name="updater_step_mv">Su son konumuna taşınıyor…\u0020</string>
+  <string name="updater_step_remount_ro">/system saltokunur olarak ayarlanıyor…\u0020</string>
+  <string name="updater_step_clean_up">Temizleniyor…\u0020</string>
   <string name="updater_remount_ro_failed">Sistem salt okunur olarak ayarlanamadı, güncellemeyi tamamlamak için yeniden başlatın</string>
   <string name="updater_find_su_failed">Yüklenmiş su dosyası bulunamıyor. Güncelleme devam edemez</string>
   <string name="updater_bad_install_location">Bu güncelleyici su dosyaları /sbin klasöründe yüklü olduğu için güncelleme yapamıyor. Lütfen cihazınız için yeni bir ROM bulun.</string>

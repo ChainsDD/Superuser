@@ -100,8 +100,8 @@
   <string name="pref_date_format_title">날짜 형식 선택</string>
   <string name="pref_date_format_summary">모든 로그에 표시될 날짜 형식</string>
   <string name="pref_clear_log_title">로그 삭제</string>
-  <string name="pref_clearing_log_title">로그를 지우는 중...</string>
-  <string name="pref_clearing_log_summary">기다려 주십시오...</string>
+  <string name="pref_clearing_log_title">로그를 지우는 중…</string>
+  <string name="pref_clearing_log_summary">기다려 주십시오…</string>
   <string name="pref_category_notification_title">알림</string>
   <string name="pref_notifications_title">알림</string>
   <string name="pref_notifications_summary_on">슈퍼유저 권한 부여시 알림 표시</string>
@@ -124,7 +124,7 @@
   <string name="pref_category_info_title">일반</string>
   <string name="pref_version_title">슈퍼유저 v%1$s (%2$d)</string>
   <string name="pref_version_summary">데이터베이스 버전 - %1$s</string>
-  <string name="pref_bin_version_title_loading">슈퍼유저 바이너리의 버전을 로드 중...</string>
+  <string name="pref_bin_version_title_loading">슈퍼유저 바이너리의 버전을 로드 중…</string>
   <string name="pref_bin_version_title">슈퍼유저 바이너리 v%1$s</string>
   <string name="pref_bin_version_summary">터치하여 업데이트 확인</string>
   <string name="pref_outdated_notification_title">바이너리 업데이트 권고</string>
@@ -143,7 +143,7 @@
   <string name="updater_update">업데이트</string>
   <string name="updater_update_anyway">지금 업데이트</string>
   <string name="updater_cool">멋지군요. 또 해봐요!</string>
-  <string name="updater_working">작업 중...</string>
+  <string name="updater_working">작업 중…</string>
   <string name="updater_ok">완료!</string>
   <string name="updater_fail">실패!</string>
   <string name="updater_not_found">찾을 수 없음</string>
@@ -151,23 +151,23 @@
   <string name="updater_no_conn">매니페스트를 다운로드할 수 없습니다.\n인터넷 연결상태를 확인하십시오.</string>
   <string name="updater_try_again">다시 시도</string>
   <string name="updater_su_updated">슈퍼유저 바이너리가 업데이트되었습니다.</string>
-  <string name="updater_step_download_manifest">매니페스트 다운로드 중...\u0020</string>
-  <string name="updater_step_parse_manifest">매니페스트 구문 분석 중...\u0020</string>
+  <string name="updater_step_download_manifest">매니페스트 다운로드 중…\u0020</string>
+  <string name="updater_step_parse_manifest">매니페스트 구문 분석 중…\u0020</string>
   <string name="updater_step_latest_version">최신 버전 =\u0020</string>
   <string name="updater_step_check_installed_version">설치된 버전 확인 중 =\u0020</string>
-  <string name="updater_step_fix_db">데이터베이스 수정 중...\u0020</string>
-  <string name="updater_step_find_busybox">BusyBox 검사 중...\u0020</string>
-  <string name="updater_step_download_busybox">커스텀 BusyBox 다운로드 중...\u0020</string>
-  <string name="updater_step_check_md5sum">md5sum 확인 중...\u0020</string>
-  <string name="updater_step_check_installed_path">현재 설치 경로 확인 중...\u0020</string>
-  <string name="updater_step_download_su">새 바이너리 다운로드 중...\u0020</string>
-  <string name="updater_step_get_root">루트 권한 얻는 중...\u0020</string>
-  <string name="updater_step_remount_rw">읽기/쓰기 모드로 system 폴더를 다시 마운트...\u0020</string>
-  <string name="updater_step_cp">슈퍼유저를 system 폴더로 복사 중...\u0020</string>
-  <string name="updater_step_chmod">슈퍼유저 파일의 퍼미션을 06755로 변경 중...\u0020</string>
-  <string name="updater_step_mv">슈퍼유저를 최종 위치로 이동 중...\u0020</string>
-  <string name="updater_step_remount_ro">읽기 전용 모드로 system 폴더를 다시 마운트...\u0020</string>
-  <string name="updater_step_clean_up">정리 중...\u0020</string>
+  <string name="updater_step_fix_db">데이터베이스 수정 중…\u0020</string>
+  <string name="updater_step_find_busybox">BusyBox 검사 중…\u0020</string>
+  <string name="updater_step_download_busybox">커스텀 BusyBox 다운로드 중…\u0020</string>
+  <string name="updater_step_check_md5sum">md5sum 확인 중…\u0020</string>
+  <string name="updater_step_check_installed_path">현재 설치 경로 확인 중…\u0020</string>
+  <string name="updater_step_download_su">새 바이너리 다운로드 중…\u0020</string>
+  <string name="updater_step_get_root">루트 권한 얻는 중…\u0020</string>
+  <string name="updater_step_remount_rw">읽기/쓰기 모드로 system 폴더를 다시 마운트…\u0020</string>
+  <string name="updater_step_cp">슈퍼유저를 system 폴더로 복사 중…\u0020</string>
+  <string name="updater_step_chmod">슈퍼유저 파일의 퍼미션을 06755로 변경 중…\u0020</string>
+  <string name="updater_step_mv">슈퍼유저를 최종 위치로 이동 중…\u0020</string>
+  <string name="updater_step_remount_ro">읽기 전용 모드로 system 폴더를 다시 마운트…\u0020</string>
+  <string name="updater_step_clean_up">정리 중…\u0020</string>
   <string name="updater_remount_ro_failed">system 폴더를 읽기 전용으로 재마운트하지 못했습니다. 업데이트를 완료하려면 기기를 다시 시작하십시오.</string>
   <string name="updater_find_su_failed">현재 설치된 슈퍼유저 바이너리가 검색되지 않아 업데이트를 진행할 수 없습니다.</string>
   <string name="updater_bad_install_location">현재 슈퍼유저 바이너리가 /sbin 경로에 설치되어 있으므로 이 업데이터로는 업데이트할 수 없습니다. 사용자의 기기에 맞는 새로운 롬을 찾으시기 바랍니다.</string>

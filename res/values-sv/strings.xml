@@ -75,14 +75,14 @@
   <string name="updater_new_su_found">Ny version av su binärfil hittades. Uppdatera nu?</string>
   <string name="updater_current_installed">Aktuella versionen redan installerad. Ingen åtgärd krävs.</string>
   <string name="updater_update">Uppdatera</string>
-  <string name="updater_working">Arbetar...</string>
+  <string name="updater_working">Arbetar…</string>
   <string name="updater_ok">okej!</string>
   <string name="updater_fail">misslyckades!</string>
   <string name="updater_update_failed">Uppdateringen misslyckades. Försök igen?</string>
   <string name="updater_try_again">Försök igen</string>
   <string name="updater_su_updated">su binärfil uppdaterades</string>
-  <string name="updater_step_check_installed_path">Kontrollerar nuvarande installationssökväg ... \ u0020</string>
-  <string name="updater_step_mv">Flyttar su till sin rätta plats...\u0020</string>
+  <string name="updater_step_check_installed_path">Kontrollerar nuvarande installationssökväg … \ u0020</string>
+  <string name="updater_step_mv">Flyttar su till sin rätta plats…\u0020</string>
   <string name="updater_remount_ro_failed">Misslyckades med att montera systemet som skrivskyddad, var vänlig starta om för att slutföra uppdateringen</string>
   <string name="updater_find_su_failed">Det gick inte att hitta någon installerad su binär. Uppdateringen kan inte fortsätta</string>
   <string name="updater_bad_install_location">su binära är installerad i /sbin. Denna uppdateringsfil kan inte uppdatera den. Vänligen hitta en ny ROM för din enhet.</string>

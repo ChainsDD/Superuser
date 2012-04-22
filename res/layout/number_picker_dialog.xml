@@ -32,7 +32,6 @@
 
     <view class="com.noshufou.android.su.widget.NumberPickerDialog$NonWrapNumberPicker"
         android:id="@+id/number_picker"
-        android:layout_centerInParent="true"
         android:layout_width="100dip"
         android:layout_height="fill_parent" />
 

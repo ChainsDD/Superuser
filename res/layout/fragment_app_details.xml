@@ -15,71 +15,68 @@
   limitations under the License.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/details_layout"
+    style="@style/AppDetailsLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout style="@style/AppDetailsLayout"
-        android:id="@+id/details_layout"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-    
-        <LinearLayout style="@style/AppDetailsRow">
-            <TextView style="@style/DetailsLabel"
-                android:id="@+id/package_name_label"
-                android:text="@string/detail_package" />
-            <TextView style="@style/DetailsInfo"
-                android:id="@+id/package_name" />
-        </LinearLayout>
-        
-        <LinearLayout style="@style/AppDetailsRow">
-            <TextView style="@style/DetailsLabel"
-                android:id="@+id/app_uid_label"
-                android:text="@string/detail_app_uid" />
-            <TextView style="@style/DetailsInfo"
-                android:id="@+id/app_uid" />
-        </LinearLayout>
-        
-        <LinearLayout style="@style/AppDetailsRow">
-            <TextView style="@style/DetailsLabel"
-                android:id="@+id/request_detail_label"
-                android:text="@string/detail_request" />
-            <TextView style="@style/DetailsInfo"
-                android:id="@+id/request_detail" />
-        </LinearLayout>
-        
-        <LinearLayout style="@style/AppDetailsRow">
-            <TextView style="@style/DetailsLabel"
-                android:id="@+id/command_label"
-                android:text="@string/detail_command" />
-            <TextView style="@style/DetailsInfo"
-                android:id="@+id/command" />
-        </LinearLayout>
-    
-        <LinearLayout style="@style/AppDetailsRow">
-            <TextView style="@style/DetailsLabel"
-                android:id="@+id/status_label"
-                android:text="@string/detail_status" />
-            <TextView style="@style/DetailsInfo"
-                android:id="@+id/status" />
-        </LinearLayout>
+    <LinearLayout style="@style/AppDetailsRow">
+        <TextView style="@style/DetailsLabel"
+            android:id="@+id/package_name_label"
+            android:text="@string/detail_package" />
+        <TextView style="@style/DetailsInfo"
+            android:id="@+id/package_name" />
+    </LinearLayout>
 
-        <LinearLayout style="@style/AppDetailsRow"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-            <TextView style="@style/DetailsLabel"
-                android:id="@+id/recent_activity_label"
-                android:text="@string/recent_activity" />
-            <TextView style="@style/DetailsInfo"
-                android:id="@android:id/empty"
-                android:text="@string/empty_logs" />
-            <com.noshufou.android.su.widget.PinnedHeaderListView
-                android:id="@android:id/list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:scrollbarStyle="outsideOverlay" />
-        </LinearLayout>
+    <LinearLayout style="@style/AppDetailsRow">
+        <TextView style="@style/DetailsLabel"
+            android:id="@+id/app_uid_label"
+            android:text="@string/detail_app_uid" />
+        <TextView style="@style/DetailsInfo"
+            android:id="@+id/app_uid" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/AppDetailsRow">
+        <TextView style="@style/DetailsLabel"
+            android:id="@+id/request_detail_label"
+            android:text="@string/detail_request" />
+        <TextView style="@style/DetailsInfo"
+            android:id="@+id/request_detail" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/AppDetailsRow">
+        <TextView style="@style/DetailsLabel"
+            android:id="@+id/command_label"
+            android:text="@string/detail_command" />
+        <TextView style="@style/DetailsInfo"
+            android:id="@+id/command" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/AppDetailsRow">
+        <TextView style="@style/DetailsLabel"
+            android:id="@+id/status_label"
+            android:text="@string/detail_status" />
+        <TextView style="@style/DetailsInfo"
+            android:id="@+id/status" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/AppDetailsRow"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1">
+        <TextView style="@style/DetailsLabel"
+            android:id="@+id/recent_activity_label"
+            android:text="@string/recent_activity" />
+        <TextView style="@style/DetailsInfo"
+            android:id="@android:id/empty"
+            android:text="@string/empty_logs" />
+        <com.noshufou.android.su.widget.PinnedHeaderListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:scrollbarStyle="outsideOverlay" />
     </LinearLayout>
 
 </LinearLayout>
