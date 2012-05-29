@@ -76,6 +76,9 @@
         <activity android:name=".preferences.PreferencesActivity"
             android:theme="@style/Theme.Superuser.Preferences"
             android:label="Preferences" />
+        <activity android:name=".preferences.PreferencesActivityHC"
+            android:theme="@style/Theme.Superuser.Preferences"
+            android:label="Preferences" />
         <activity android:name="UpdaterActivity"
             android:theme="@style/Theme.Superuser.Preferences"
             android:label="Updater"
@@ -141,6 +144,7 @@
         
         <service android:name=".service.ResultService" />
         <service android:name=".service.PermissionsDbService" />
+        <service android:name=".service.UpdaterService" />
         
         <provider android:name=".provider.PermissionsProvider"
             android:authorities="com.noshufou.android.su.provider"
