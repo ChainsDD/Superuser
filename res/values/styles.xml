@@ -53,15 +53,14 @@
         <item name="android:displayOptions">showHome|showTitle|homeAsUp</item>
         </style>
 
-    <style name="Theme.Superuser.Preferences" parent="style/Theme.Superuser">
-        <item name="android:windowBackground">@android:color/white</item>
+    <style name="Theme.Superuser.Preferences" parent="Theme.Superuser">
         <item name="actionBarStyle">@style/Widget.Superuser.ActionBar.Details</item>
         <item name="android:actionBarStyle">@style/Widget.Superuser.ActionBar.Details</item>
     </style>
     
     <style name="Dialog" parent="android:style/Theme.Dialog" />
 
-    <style name="Theme.Dialog.Alert" parent="android:Theme.Dialog">
+    <style name="Theme.Dialog.Alert" parent="Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowTitleStyle">@style/DialogWindowTitle</item>
         <item name="android:windowIsFloating">true</item>

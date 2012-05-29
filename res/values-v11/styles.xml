@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <resources>
-    <style name="Dialog" parent="android:style/Theme.Holo.Dialog" />
+    <style name="Dialog" parent="android:style/Theme.Holo.Light.Dialog" />
     
     <style name="TitleBar">
         <item name="android:id">@id/title_container</item>
@@ -26,4 +26,9 @@
     
     <style name="Panel" parent="@android:style/Theme.Holo.Panel" />
 
+    <style name="Theme.Superuser.Preferences" parent="Theme.Superuser">
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="actionBarStyle">@style/Widget.Superuser.ActionBar.Details</item>
+        <item name="android:actionBarStyle">@style/Widget.Superuser.ActionBar.Details</item>
+    </style>
 </resources>

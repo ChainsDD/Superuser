@@ -22,9 +22,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.noshufou.android.su.R;
@@ -32,7 +32,7 @@ import com.noshufou.android.su.R;
 /**
  * A dialog that prompts the user for the message deletion limits.
  */
-public class NumberPickerDialog extends AlertDialog implements OnClickListener {
+public class AncientNumberPickerDialog extends AlertDialog implements OnClickListener {
 
     private static final String NUMBER = "number";
 
@@ -45,28 +45,26 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
         /**
          * @param number The number that was set.
          */
-        void onNumberSet(int dialogId, int number);
+        void onNumberSet(int number);
     }
 
-    private final NumberPicker mNumberPicker;
+    private final AncientNumberPicker mNumberPicker;
     private final OnNumberSetListener mCallback;
-    private final int mDialogId;
 
     /**
      * @param context Parent.
      * @param callBack How parent is notified.
      * @param number The initial number.
      */
-    public NumberPickerDialog(Context context,
+    public AncientNumberPickerDialog(Context context,
             OnNumberSetListener callBack,
             int number,
             int rangeMin,
             int rangeMax,
             int title,
-            int units,
-            int dialogId) {
+            int units) {
         this(context, R.style.Theme_Dialog_Alert,
-                callBack, number, rangeMin, rangeMax, title, units, dialogId);
+                callBack, number, rangeMin, rangeMax, title, units);
     }
 
     /**
@@ -75,28 +73,28 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
      * @param callBack How parent is notified.
      * @param number The initial number.
      */
-    public NumberPickerDialog(Context context,
+    public AncientNumberPickerDialog(Context context,
             int theme,
             OnNumberSetListener callBack,
             int number,
             int rangeMin,
             int rangeMax,
             int title,
-            int units,
-            int dialogId) {
+            int units) {
         super(context, theme);
         mCallback = callBack;
-        mDialogId = dialogId;
 
         setTitle(title);
 
         setButton(DialogInterface.BUTTON_POSITIVE, context.getText(R.string.set), this);
+        setButton(DialogInterface.BUTTON_NEGATIVE, context.getText(R.string.cancel),
+                (OnClickListener) null);
 
         LayoutInflater inflater =
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.number_picker_dialog, null);
+        View view = inflater.inflate(R.layout.ancient_number_picker_dialog, null);
         setView(view);
-        mNumberPicker = (NumberPicker) view.findViewById(R.id.number_picker);
+        mNumberPicker = (AncientNumberPicker) view.findViewById(R.id.number_picker);
 
         if (units != 0) {
             TextView unit = (TextView) view.findViewById(R.id.unit);
@@ -105,15 +103,16 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
         }
 
         // initialize state
-        mNumberPicker.setMinValue(rangeMin);
-        mNumberPicker.setMaxValue(rangeMax);
-        mNumberPicker.setValue(number);
+        mNumberPicker.setRange(rangeMin, rangeMax);
+        mNumberPicker.setCurrent(number);
+        mNumberPicker.setSpeed(150);    // make the repeat rate twice as fast as normal since the
+                                        // range is so large.
     }
 
     public void onClick(DialogInterface dialog, int which) {
         if (mCallback != null) {
             mNumberPicker.clearFocus();
-            mCallback.onNumberSet(mDialogId, mNumberPicker.getValue());
+            mCallback.onNumberSet(mNumberPicker.getCurrent());
             dialog.dismiss();
         }
     }
@@ -121,7 +120,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
     @Override
     public Bundle onSaveInstanceState() {
         Bundle state = super.onSaveInstanceState();
-        state.putInt(NUMBER, mNumberPicker.getValue());
+        state.putInt(NUMBER, mNumberPicker.getCurrent());
         return state;
     }
 
@@ -129,6 +128,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         int number = savedInstanceState.getInt(NUMBER);
-        mNumberPicker.setValue(number);
+        mNumberPicker.setCurrent(number);
     }
+
 }

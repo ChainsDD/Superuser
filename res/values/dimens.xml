@@ -19,6 +19,8 @@
 
     <dimen name="page_margin">10dp</dimen>
 
+    <dimen name="action_bar_switch_padding">16dip</dimen>
+
     <!-- Dimensions for an app list item -->
     <dimen name="list_item_perferred_height">64dip</dimen>
     <dimen name="list_item_padding_top">4dip</dimen>

@@ -38,7 +38,7 @@ import com.noshufou.android.su.R;
  * For a dialog using this view, see {@link android.app.TimePickerDialog}.
  * @hide
  */
-public class NumberPicker extends LinearLayout {
+public class AncientNumberPicker extends LinearLayout {
 
     /**
      * The callback interface used to indicate the number value has been adjusted.
@@ -49,7 +49,7 @@ public class NumberPicker extends LinearLayout {
          * @param oldVal The previous value.
          * @param newVal The new value.
          */
-        void onChanged(NumberPicker picker, int oldVal, int newVal);
+        void onChanged(AncientNumberPicker picker, int oldVal, int newVal);
     }
 
     /**
@@ -65,8 +65,8 @@ public class NumberPicker extends LinearLayout {
      * most efficient way to do this; it avoids creating temporary objects
      * on every call to format().
      */
-    public static final NumberPicker.Formatter TWO_DIGIT_FORMATTER =
-            new NumberPicker.Formatter() {
+    public static final AncientNumberPicker.Formatter TWO_DIGIT_FORMATTER =
+            new AncientNumberPicker.Formatter() {
                 final StringBuilder mBuilder = new StringBuilder();
                 final java.util.Formatter mFmt = new java.util.Formatter(mBuilder);
                 final Object[] mArgs = new Object[1];
@@ -126,7 +126,7 @@ public class NumberPicker extends LinearLayout {
      * Create a new number picker
      * @param context the application environment
      */
-    public NumberPicker(Context context) {
+    public AncientNumberPicker(Context context) {
         this(context, null);
     }
 
@@ -135,12 +135,12 @@ public class NumberPicker extends LinearLayout {
      * @param context the application environment
      * @param attrs a collection of attributes
      */
-    public NumberPicker(Context context, AttributeSet attrs) {
+    public AncientNumberPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOrientation(VERTICAL);
         LayoutInflater inflater =
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.number_picker, this, true);
+        inflater.inflate(R.layout.ancient_number_picker, this, true);
         mHandler = new Handler();
 
         OnClickListener clickListener = new OnClickListener() {
@@ -171,7 +171,7 @@ public class NumberPicker extends LinearLayout {
 
         OnLongClickListener longClickListener = new OnLongClickListener() {
             /**
-             * We start the long click here but rely on the {@link NumberPickerButton}
+             * We start the long click here but rely on the {@link AncientNumberPickerButton}
              * to inform us when the long click has ended.
              */
             public boolean onLongClick(View v) {
@@ -193,12 +193,12 @@ public class NumberPicker extends LinearLayout {
 
         InputFilter inputFilter = new NumberPickerInputFilter();
         mNumberInputFilter = new NumberRangeKeyListener();
-        mIncrementButton = (NumberPickerButton) findViewById(R.id.increment);
+        mIncrementButton = (AncientNumberPickerButton) findViewById(R.id.increment);
         mIncrementButton.setOnClickListener(clickListener);
         mIncrementButton.setOnLongClickListener(longClickListener);
         mIncrementButton.setNumberPicker(this);
 
-        mDecrementButton = (NumberPickerButton) findViewById(R.id.decrement);
+        mDecrementButton = (AncientNumberPickerButton) findViewById(R.id.decrement);
         mDecrementButton.setOnClickListener(clickListener);
         mDecrementButton.setOnLongClickListener(longClickListener);
         mDecrementButton.setNumberPicker(this);
@@ -399,8 +399,8 @@ public class NumberPicker extends LinearLayout {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
     };
 
-    private NumberPickerButton mIncrementButton;
-    private NumberPickerButton mDecrementButton;
+    private AncientNumberPickerButton mIncrementButton;
+    private AncientNumberPickerButton mDecrementButton;
 
     private class NumberPickerInputFilter implements InputFilter {
         public CharSequence filter(CharSequence source, int start, int end,

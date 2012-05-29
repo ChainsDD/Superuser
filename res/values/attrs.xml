@@ -37,4 +37,5 @@
         <attr name="openOverlap" format="dimension" />
         <attr name="closedLimit" format="dimension" />
     </declare-styleable>
+
 </resources>

@@ -29,24 +29,24 @@ import com.noshufou.android.su.R;
  * This class exists purely to cancel long click events, that got
  * started in NumberPicker
  */
-class NumberPickerButton extends ImageButton {
+class AncientNumberPickerButton extends ImageButton {
 
-    private NumberPicker mNumberPicker;
+    private AncientNumberPicker mNumberPicker;
 
-    public NumberPickerButton(Context context, AttributeSet attrs,
+    public AncientNumberPickerButton(Context context, AttributeSet attrs,
             int defStyle) {
         super(context, attrs, defStyle);
     }
 
-    public NumberPickerButton(Context context, AttributeSet attrs) {
+    public AncientNumberPickerButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public NumberPickerButton(Context context) {
+    public AncientNumberPickerButton(Context context) {
         super(context);
     }
 
-    public void setNumberPicker(NumberPicker picker) {
+    public void setNumberPicker(AncientNumberPicker picker) {
         mNumberPicker = picker;
     }
 

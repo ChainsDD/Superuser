@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright (c) 2011 Adam Shanks (ChainsDD)
-  
+  Copyright (c) 2012 Adam Shanks (ChainsDD)
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
     http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<resources>
-    <color name="title_background">#ff5e5e5e</color>
-    <color name="window_background">#ffe8e8e8</color>
-    <color name="title_split_background">#ff919191</color>
-    
-    <color name="dim_foreground_light">#323232</color>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <color name="console_background">#222222</color>
-    
-    <color name="pager_header_background_color">#ff919191</color>
-    <color name="pager_header_active_text_color">#ffa4c639</color>
-    <color name="pager_header_inactive_text_color">#ff000000</color>
-</resources>
+    <Preference
+        android:key="pref_backup"
+        android:title="@string/pref_backup_title" />
+
+    <Preference
+        android:key="pref_restore"
+        android:title="@string/pref_restore_title" />
+
+</PreferenceScreen>

@@ -21,8 +21,6 @@
         <CheckBoxPreference
             android:key="pref_pin"
             android:title="@string/pref_pin_title"
-            android:summaryOn="@string/pref_pin_summary_on"
-            android:summaryOff="@string/pref_pin_summary_off"
             android:defaultValue="false" />
         <Preference
             android:key="pref_change_pin"
@@ -31,7 +29,7 @@
         <Preference
             android:key="pref_timeout"
             android:title="@string/pref_timeout_title"
-            android:summary="@string/pref_timeout_summary" />
+            android:inputType="number" />
         <ListPreference
             android:key="pref_automatic_action"
             android:title="@string/pref_automatic_action_title"
@@ -42,8 +40,6 @@
         <CheckBoxPreference
             android:key="pref_ghost_mode"
             android:title="@string/pref_ghost_mode_title"
-            android:summaryOn="@string/pref_ghost_mode_summary_on"
-            android:summaryOff="@string/pref_ghost_mode_summary_off"
             android:defaultValue="false" />
         <Preference
             android:key="pref_secret_code"
@@ -57,8 +53,6 @@
         <CheckBoxPreference
             android:key="pref_show_status_icons"
             android:title="@string/pref_show_status_icons_title"
-            android:summaryOn="@string/pref_show_status_icons_summary_on"
-            android:summaryOff="@string/pref_show_status_icons_summary_off"
             android:defaultValue="true" />
         <ListPreference
             android:key="pref_status_icon_type"
@@ -71,8 +65,6 @@
         <CheckBoxPreference
             android:key="pref_applist_show_log_data"
             android:title="@string/pref_applist_show_log_data_title"
-            android:summaryOn="@string/pref_applist_show_log_data_summary_on"
-            android:summaryOff="@string/pref_applist_show_log_data_summary_off"
             android:defaultValue="true"
             android:dependency="pref_logging" />
     </PreferenceCategory>
@@ -82,33 +74,25 @@
         <CheckBoxPreference
             android:key="pref_logging"
             android:title="@string/pref_enable_logging_title"
-            android:summaryOn="@string/pref_enable_logging_summary_on"
-            android:summaryOff="@string/pref_enable_logging_summary_off"
             android:defaultValue="true" />
         <CheckBoxPreference
             android:key="pref_delete_old_logs"
             android:title="@string/pref_delete_old_logs_title"
-            android:summaryOn="@string/pref_delete_old_logs_summary_on"
-            android:summaryOff="@string/pref_delete_old_logs_summary_off"
             android:dependency="pref_logging"
             android:defaultValue="true" />
         <Preference
             android:key="pref_log_entry_limit"
             android:title="@string/pref_log_entry_limit_title"
-            android:summary="@string/pref_log_entry_limit_summary"
-            android:dependency="pref_delete_old_logs" />
+            android:dependency="pref_delete_old_logs"
+            android:inputType="number" />
         <CheckBoxPreference
             android:key="pref_24_hour_format"
             android:title="@string/pref_24_hour_title"
-            android:summaryOn="@string/pref_24_hour_summary_on"
-            android:summaryOff="@string/pref_24_hour_summary_off"
             android:dependency="pref_logging"
             android:defaultValue="true" />
         <CheckBoxPreference
             android:key="pref_show_seconds"
             android:title="@string/pref_show_seconds_title"
-            android:summaryOn="@string/pref_show_seconds_summary_on"
-            android:summaryOff="@string/pref_show_seconds_summary_off"
             android:dependency="pref_logging"
             android:defaultValue="false" />
         <ListPreference
@@ -130,8 +114,6 @@
         <CheckBoxPreference
             android:key="pref_notifications"
             android:title="@string/pref_notifications_title"
-            android:summaryOn="@string/pref_notifications_summary_on"
-            android:summaryOff="@string/pref_notifications_summary_off"
             android:defaultValue="true" />
         <ListPreference
             android:key="pref_notification_type"
@@ -156,8 +138,6 @@
         <CheckBoxPreference
             android:key="pref_use_allow_tag"
             android:title="@string/pref_use_allow_tag_title"
-            android:summaryOn="@string/pref_use_allow_tag_summary_on"
-            android:summaryOff="@string/pref_use_allow_tag_summary_off"
             android:dependency="pref_pin" />
         <Preference
             android:key="pref_write_allow_tag"
@@ -187,22 +167,19 @@
         <CheckBoxPreference
             android:key="pref_outdated_notification"
             android:title="@string/pref_outdated_notification_title"
-            android:summaryOn="@string/pref_outdated_notification_summary_on"
-            android:summaryOff="@string/pref_outdated_notification_summary_off"
             android:defaultValue="true" />
         <CheckBoxPreference
             android:key="pref_advanced_prompt"
             android:title="@string/pref_advanced_prompt_title"
-            android:summaryOn="@string/pref_advanced_prompt_summary_on"
-            android:summaryOff="@string/pref_advanced_prompt_summary_off"
+            android:summary="@string/pref_advanced_prompt_summary"
             android:defaultValue="false" />
         <Preference
             android:key="pref_changelog"
             android:title="@string/pref_changelog_title"
             android:summary="@string/pref_changelog_summary" />
         <Preference
-        	android:key="pref_get_elite"
-        	android:title="@string/pref_get_elite_title"
-        	android:summary="@string/pref_get_elite_summary" />
+            android:key="pref_get_elite"
+            android:title="@string/pref_get_elite_title"
+            android:summary="@string/pref_get_elite_summary" />
     </PreferenceCategory>
 </PreferenceScreen>

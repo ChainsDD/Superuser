@@ -107,6 +107,7 @@
     <string name="pref_change_pin_title">Change PIN</string>
     <string name="pref_timeout_title">Access timeout</string>
     <string name="pref_timeout_summary">Apps that are not remembered will have access for %1$d seconds after the prompt</string>
+    <string name="pref_timeout_unit">seconds</string>
     <string name="pref_automatic_action_title">Automatic response</string>
     <string name="pref_automatic_action_summary">Set the way Superuser handles new requests</string>
     <string name="pref_ghost_mode_title">Ghost mode</string>
@@ -170,21 +171,23 @@
     </plurals>
     <string name="restore_complete_prefs_only">Preferences restored</string>
     <string name="pref_category_info_title">General</string>
+    <string name="pref_version_title_loading">Loading Superuser version</string>
     <string name="pref_version_title">Superuser v%1$s (%2$d)</string>
     <string name="pref_version_summary">Database version %1$s</string>
     <string name="pref_bin_version_title_loading">Loading su binary version</string>
-    <string name="pref_bin_version_title">Su binary v%1$s</string>
+    <string name="pref_bin_version_title">Su binary v%1$s (%2$d)</string>
+    <string name="pref_bin_version_not_found">Current su binary not found</string>
     <string name="pref_bin_version_summary">Tap to check for updates</string>
     <string name="pref_outdated_notification_title">Outdated binary notification</string>
     <string name="pref_outdated_notification_summary_on">Show notification when binary is outdated</string>
     <string name="pref_outdated_notification_summary_off">Do not show notification when binary is outdated</string>
     <string name="pref_advanced_prompt_title">Use advanced prompt</string>
-    <string name="pref_advanced_prompt_summary_on">Do not show warning on request prompts</string>
-    <string name="pref_advanced_prompt_summary_off">Show warning on request prompts</string>
+    <string name="pref_advanced_prompt_summary">Show warning on request prompts</string>
     <string name="pref_changelog_title">Changelog</string>
     <string name="pref_changelog_summary">Display the changelog</string>
     <string name="pref_get_elite_title">Go Elite!</string>
     <string name="pref_get_elite_summary">Buy Elite to unlock all the options</string>
+    <string name="pref_elite_only">Only available to Elite users</string>
     <plurals name="pref_logs_deleted">
         <item quantity="one">One log deleted</item>
         <item quantity="other">%1$d logs deleted</item>
