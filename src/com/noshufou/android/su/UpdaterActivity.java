@@ -25,10 +25,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.noshufou.android.su.service.UpdaterService;
 import com.noshufou.android.su.service.UpdaterService.Step;
 import com.noshufou.android.su.service.UpdaterService.UpdaterBinder;
+import com.noshufou.android.su.util.Util;
 import com.noshufou.android.su.widget.ConsoleAdapter;
 
 public class UpdaterActivity extends SherlockListActivity
@@ -100,6 +102,15 @@ public class UpdaterActivity extends SherlockListActivity
             unbindService(mConnection);
             mBound = false;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Util.goHome(this);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

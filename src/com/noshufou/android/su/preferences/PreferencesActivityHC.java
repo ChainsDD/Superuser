@@ -19,7 +19,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.noshufou.android.su.R;
+import com.noshufou.android.su.util.Util;
 
 public class PreferencesActivityHC extends SherlockPreferenceActivity {
     
@@ -38,7 +40,7 @@ public class PreferencesActivityHC extends SherlockPreferenceActivity {
         
         mHeaders = target;
     }
-    
+
     private void updateHeaderList(List<Header> target) {
         int i = 0;
         while (i < target.size()) {
@@ -52,7 +54,7 @@ public class PreferencesActivityHC extends SherlockPreferenceActivity {
                 i++;
         }
     }
-    
+
     @Override
     public void onResume() {
         super.onResume();
@@ -62,7 +64,7 @@ public class PreferencesActivityHC extends SherlockPreferenceActivity {
             ((HeaderAdapter) listAdapter).resume();
         }
     }
-    
+
     @Override
     public void onPause() {
         super.onPause();
@@ -72,7 +74,16 @@ public class PreferencesActivityHC extends SherlockPreferenceActivity {
             ((HeaderAdapter) listAdapter).pause();
         }
     }
-    
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Util.goHome(this);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private static class HeaderAdapter extends ArrayAdapter<Header> {
         static final int HEADER_TYPE_NORMAL = 0;
         static final int HEADER_TYPE_SWITCH = 2;
