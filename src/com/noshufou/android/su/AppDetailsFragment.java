@@ -56,7 +56,7 @@ import com.noshufou.android.su.widget.PinnedHeaderListView;
 
 public class AppDetailsFragment extends SherlockListFragment
     implements LoaderManager.LoaderCallbacks<Cursor>, FragmentWithLog {
-//    private static final String TAG = "Su.AppDetailsFragment";
+    private static final String TAG = "Su.AppDetailsFragment";
 
     private TextView mAppName = null;
     private ImageView mAppIcon = null;
@@ -68,6 +68,7 @@ public class AppDetailsFragment extends SherlockListFragment
     private TextView mCommandText = null;
     private TextView mStatusText = null;
 
+    private boolean mElitePresent = false;
     private boolean mUseAppSettings = true;
     private boolean mNotificationsEnabled = true;
     private boolean mLoggingEnabled = true;
@@ -171,6 +172,10 @@ public class AppDetailsFragment extends SherlockListFragment
         setupListView();
         getLoaderManager().initLoader(DETAILS_LOADER, null, this);
         getLoaderManager().initLoader(LOG_LOADER, null, this);
+        
+        Log.d(TAG, "Before elite check, time is " + System.currentTimeMillis());
+        mElitePresent = Util.elitePresent(getActivity(), true, 2);
+        Log.d(TAG, "After elite check, time is " + System.currentTimeMillis());
     }
     
     private void setupListView() {
@@ -209,22 +214,18 @@ public class AppDetailsFragment extends SherlockListFragment
             .setIcon(R.drawable.ic_action_clear_log)
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        menu.add(Menu.NONE, MenuId.USE_APP_SETTINGS, MenuId.USE_APP_SETTINGS, R.string.use_global_settings)
-                .setCheckable(true).setChecked(mUseAppSettings)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        if (mElitePresent) {
+            menu.add(Menu.NONE, MenuId.USE_APP_SETTINGS, MenuId.USE_APP_SETTINGS, R.string.use_global_settings)
+            .setCheckable(true).setChecked(mUseAppSettings)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
-        menu.add(MENU_GROUP_OPTIONS, MenuId.NOTIFICATIONS, MenuId.NOTIFICATIONS, R.string.notifications_enabled)
-                .setCheckable(true).setChecked(mNotificationsEnabled);
-        menu.add(MENU_GROUP_OPTIONS, MenuId.LOGGING, MenuId.LOGGING, R.string.logging_enabled)
+            menu.add(MENU_GROUP_OPTIONS, MenuId.NOTIFICATIONS, MenuId.NOTIFICATIONS, R.string.notifications_enabled)
+            .setCheckable(true).setChecked(mNotificationsEnabled);
+            menu.add(MENU_GROUP_OPTIONS, MenuId.LOGGING, MenuId.LOGGING, R.string.logging_enabled)
             .setCheckable(true).setChecked(mLoggingEnabled);
 
-        menu.setGroupEnabled(MENU_GROUP_OPTIONS, !mUseAppSettings);
-        
-        if (menu.findItem(MenuId.PREFERENCES) == null) {
-            menu.add(Menu.NONE, MenuId.PREFERENCES, MenuId.PREFERENCES, R.string.menu_preferences)
-                    .setIcon(R.drawable.ic_menu_preferences);
+            menu.setGroupEnabled(MENU_GROUP_OPTIONS, !mUseAppSettings);
         }
-
     }
 
     @Override
@@ -292,7 +293,7 @@ public class AppDetailsFragment extends SherlockListFragment
         }
         cr.update(ContentUris.withAppendedId(Apps.CONTENT_URI, mShownIndex),
                 values, null, null);
-        getActivity().invalidateOptionsMenu();
+        getSherlockActivity().invalidateOptionsMenu();
     }
     
     public void toggle(View view) {
