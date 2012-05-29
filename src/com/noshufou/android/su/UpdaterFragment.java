@@ -115,59 +115,6 @@ public class UpdaterFragment extends ListFragment
                 mButton.setEnabled(true);
                 break;
         }
-
-        @Override
-        protected void onCancelled() {
-            Log.d(TAG, "UpdaterTask cancelled");
-        }
-
-        private boolean downloadFile(String urlStr, String localName) {
-            BufferedInputStream bis = null;
-            
-            try {
-                URL url = new URL(urlStr);
-                
-                URLConnection urlCon = url.openConnection();
-                bis = new BufferedInputStream(urlCon.getInputStream());
-
-                ByteArrayBuffer baf = new ByteArrayBuffer(50);
-                int current = 0;
-                while (((current = bis.read()) != -1)) {
-                    baf.append((byte) current);
-                    if (isCancelled()) {
-                        return false;
-                    }
-                }
-                bis.close();
-                
-                if (isCancelled()) {
-                    return false;
-                } else if (localName.equals("manifest")) {
-                    try {
-                        mManifest = new Manifest();
-                        return mManifest.populate(new JSONArray(new String(baf.toByteArray())));
-                    } catch (JSONException e) {
-                        Log.e(TAG, "Malformed manifest file", e);
-                        return false;
-                    }
-                } else {
-                    FileOutputStream outFileStream = getActivity().openFileOutput(localName, 0);
-                    outFileStream.write(baf.toByteArray());
-                    outFileStream.close();
-                    if (localName.equals("busybox")) {
-                        mBusyboxPath = getActivity().getFilesDir().getAbsolutePath().concat("/busybox");
-                    }
-                }
-
-            } catch (MalformedURLException e) {
-                Log.e(TAG, "Bad URL: " + urlStr, e);
-                return false;
-            } catch (IOException e) {
-                Log.e(TAG, "Problem downloading file: " + localName, e);
-                return false;
-            }
-            return true;
-        }
     }
 
     @Override
