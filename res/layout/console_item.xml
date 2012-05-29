@@ -19,5 +19,5 @@
     android:layout_height="wrap_content"
     android:typeface="monospace"
     android:textSize="@dimen/text_size_console"
-    android:textColor="@color/console_grey"
+    android:textColor="#eeeeec"
     android:bufferType="spannable" />

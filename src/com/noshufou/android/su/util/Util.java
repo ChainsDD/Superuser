@@ -39,6 +39,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -47,10 +48,11 @@ import android.util.SparseArray;
 import com.noshufou.android.su.HomeActivity;
 import com.noshufou.android.su.R;
 import com.noshufou.android.su.UpdaterActivity;
-import com.noshufou.android.su.UpdaterFragment;
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.preferences.PreferencesActivity;
+import com.noshufou.android.su.preferences.PreferencesActivityHC;
 import com.noshufou.android.su.service.PermissionsDbService;
+import com.noshufou.android.su.service.UpdaterService;
 
 public class Util {
     private static final String TAG = "Su.Util";
@@ -105,6 +107,11 @@ public class Util {
         public static final int NOTIFICATIONS = 5;
         public static final int LOGGING = 6;
         public static final int PREFERENCES = 7;
+    }
+    
+    public static class VersionInfo {
+        public String version = "";
+        public int versionCode = 0;
     }
 
     public static String getAppName(Context c, int uid, boolean withUid) {
@@ -343,6 +350,99 @@ public class Util {
         }
         return 0;
     }
+    
+    public static VersionInfo getSuVersionInfo() {
+        VersionInfo info = new VersionInfo();
+        Process process = null;
+        String inLine = null;
+
+        try {
+            process = Runtime.getRuntime().exec("sh");
+            DataOutputStream os = new DataOutputStream(process.getOutputStream());
+            BufferedReader is = new BufferedReader(new InputStreamReader(
+                    new DataInputStream(process.getInputStream())), 64);
+            os.writeBytes("su -v\n");
+
+            // We have to hold up the thread to make sure that we're ready to read
+            // the stream, using increments of 5ms makes it return as quick as
+            // possible, and limiting to 1000ms makes sure that it doesn't hang for
+            // too long if there's a problem.
+            for (int i = 0; i < 400; i++) {
+                if (is.ready()) {
+                    break;
+                }
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    Log.w(TAG, "Sleep timer got interrupted...");
+                }
+            }
+            if (is.ready()) {
+                inLine = is.readLine();
+                if (inLine != null) {
+                    info.version = inLine;
+                }
+            } else {
+                // If 'su -v' isn't supported, neither is 'su -V'. return legacy info
+                os.writeBytes("exit\n");
+                info.version = "legacy";
+                info.versionCode = 0;
+                return info;
+            }
+
+            os.writeBytes("su -v\n");
+
+            // We have to hold up the thread to make sure that we're ready to read
+            // the stream, using increments of 5ms makes it return as quick as
+            // possible, and limiting to 1000ms makes sure that it doesn't hang for
+            // too long if there's a problem.
+            for (int i = 0; i < 400; i++) {
+                if (is.ready()) {
+                    break;
+                }
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    Log.w(TAG, "Sleep timer got interrupted...");
+                }
+            }
+            if (is.ready()) {
+                inLine = is.readLine();
+                if (inLine != null && Integer.parseInt(inLine.substring(0, 1)) > 2) {
+                    inLine = null;
+                    os.writeBytes("su -V\n");
+                    inLine = is.readLine();
+                    if (inLine != null) {
+                        info.versionCode = Integer.parseInt(inLine);
+                    }
+                } else {
+                    info.versionCode = 0;
+                }
+            } else {
+                os.writeBytes("exit\n");
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Problems reading current version.", e);
+        } finally {
+            if (process != null) {
+                process.destroy();
+            }
+        }
+        return info;
+    }
+
+    public static VersionInfo getSuperuserVersionInfo(Context context) {
+        VersionInfo info = new VersionInfo();
+        PackageManager pm = context.getPackageManager();
+        try {
+            PackageInfo pInfo = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            info.version = pInfo.versionName;
+            info.versionCode = pInfo.versionCode;
+        } catch (NameNotFoundException e) {
+            Log.e(TAG, "Superuser is not installed?", e);
+        }
+        return info;
+    }
 
     public static boolean isSuCurrent() {
         if (getSuVersionCode() < 10) {
@@ -516,7 +616,7 @@ public class Util {
             notification.setLatestEventInfo(context, context.getString(R.string.notif_outdated_title),
                     context.getString(R.string.notif_outdated_text), contentIntent);
             notification.flags |= Notification.FLAG_AUTO_CANCEL;
-            nm.notify(UpdaterFragment.NOTIFICATION_ID, notification);
+            nm.notify(UpdaterService.NOTIFICATION_ID, notification);
         }
     }
 

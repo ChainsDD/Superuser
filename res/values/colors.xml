@@ -21,9 +21,6 @@
     <color name="dim_foreground_light">#323232</color>
 
     <color name="console_background">#222222</color>
-    <color name="console_grey">#eeeeec</color>
-    <color name="console_red">#ef2929</color>
-    <color name="console_green">#8ae234</color>
     
     <color name="pager_header_background_color">#ff919191</color>
     <color name="pager_header_active_text_color">#ffa4c639</color>

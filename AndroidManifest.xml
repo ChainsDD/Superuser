@@ -77,7 +77,7 @@
             android:theme="@style/Theme.Superuser.Preferences"
             android:label="Preferences" />
         <activity android:name="UpdaterActivity"
-            android:theme="@style/Theme.Superuser"
+            android:theme="@style/Theme.Superuser.Preferences"
             android:label="Updater"
             android:screenOrientation="nosensor" />
         <activity android:name="SuRequestActivity"
