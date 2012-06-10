@@ -109,7 +109,9 @@ public class Util {
         public static final int USE_APP_SETTINGS = 4;
         public static final int NOTIFICATIONS = 5;
         public static final int LOGGING = 6;
-        public static final int PREFERENCES = 7;
+        public static final int TEMP_UNROOT = 7;
+        public static final int OTA_SURVIVE = 8;
+        public static final int PREFERENCES = 9;
     }
     
     public static class VersionInfo {
@@ -629,6 +631,83 @@ public class Util {
         Log.d(TAG, "Start PermissionsDbService");
         Intent intent = new Intent(context, PermissionsDbService.class);
         context.startService(intent);
+    }
+
+    public static boolean backupSu(Context context, boolean removeOriginal) {
+        String suTools = ensureSuTools(context);
+        String installedSu = whichSu();
+
+        try {
+            Process process = Runtime.getRuntime().exec("su");
+            DataOutputStream os = new DataOutputStream(process.getOutputStream());
+            BufferedReader is = new BufferedReader(new InputStreamReader(
+                    new DataInputStream(process.getInputStream())));
+
+            os.writeBytes(suTools + " mount -o remount,rw /system\n");
+            String inLine = is.readLine();
+            if (!inLine.equals("0")) return false;
+
+            os.writeBytes(suTools + " cp " + installedSu + " /system/bacon\n");
+            inLine = is.readLine();
+            if (!inLine.equals("0")) return false;
+
+            os.writeBytes(suTools + " chmod 06755 /system/bacon\n");
+            inLine = is.readLine();
+            if (!inLine.equals("0")) return false;
+
+            if (removeOriginal) {
+                os.writeBytes(suTools + " rm " + installedSu + "\n");
+            }
+
+            os.writeBytes(suTools + " mount -o remount,ro /system\n");
+
+            os.writeBytes("exit\n");
+        } catch (IOException e) {
+            Log.e(TAG, "Falied to backup su");
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean restoreSu(Context context, boolean removeBackup, String key) {
+        String suTools = ensureSuTools(context);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if ((prefs.getBoolean(Preferences.TEMP_UNROOT, false) && key.equals(Preferences.OTA_SURVIVE))
+                || (prefs.getBoolean(Preferences.OTA_SURVIVE, false) && key.equals(Preferences.TEMP_UNROOT)))
+            removeBackup = false;
+
+        try {
+            Process process = Runtime.getRuntime().exec("/system/bacon");
+            DataOutputStream os = new DataOutputStream(process.getOutputStream());
+            BufferedReader is = new BufferedReader(new InputStreamReader(
+                    new DataInputStream(process.getInputStream())));
+
+            os.writeBytes(suTools + " mount -o remount,rw /system\n");
+            String inLine = is.readLine();
+            if (!inLine.equals("0")) return false;
+
+            os.writeBytes(suTools + " cp /system/bacon /system/xbin/su\n");
+            inLine = is.readLine();
+            if (!inLine.equals("0")) return false;
+
+            os.writeBytes(suTools + " chmod 06755 /system/xbin/su\n");
+            inLine = is.readLine();
+            if (!inLine.equals("0")) return false;
+
+            if (removeBackup) {
+                os.writeBytes(suTools + " rm /system/bacon\n");
+            }
+
+            os.writeBytes(suTools + " mount -o remount,ro /system\n");
+
+            os.writeBytes("exit\n");
+        } catch (IOException e) {
+            Log.e(TAG, "Falied to backup su");
+            return false;
+        }
+        
+        return true;
     }
 
     public static String whichSu() {
