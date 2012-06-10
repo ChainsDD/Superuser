@@ -83,7 +83,7 @@ public class UpdaterActivity extends SherlockListActivity
     protected void onResume() {
         super.onResume();
         if (mBound) {
-            mService.registerComponentCallbacks(this);
+            mService.registerUpdaterListener(this);
         }
     }
 
