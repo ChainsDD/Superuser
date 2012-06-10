@@ -119,22 +119,27 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         }
 
         try {
-            mSocket = new LocalSocket();
-            mSocket.connect(new LocalSocketAddress(socketPath,
-                    LocalSocketAddress.Namespace.FILESYSTEM));
-            Credentials creds= mSocket.getPeerCredentials();
-            ApplicationInfo appInfo;
-            try {
-                appInfo = getPackageManager().getApplicationInfo(getPackageName(), 0);
-            } catch (NameNotFoundException e) {
-                Log.e(TAG, "Divided by zero...");
-                return;
+            if (socketPath != null) {
+                mSocket = new LocalSocket();
+                mSocket.connect(new LocalSocketAddress(socketPath,
+                        LocalSocketAddress.Namespace.FILESYSTEM));
+                Credentials creds= mSocket.getPeerCredentials();
+                ApplicationInfo appInfo;
+                try {
+                    appInfo = getPackageManager().getApplicationInfo(getPackageName(), 0);
+                } catch (NameNotFoundException e) {
+                    Log.e(TAG, "Divided by zero...");
+                    return;
+                }
+                if ((creds.getUid() != appInfo.uid || creds.getGid() != appInfo.uid) &&
+                        (creds.getUid() != 0 || creds.getGid() != 0)) {
+                    throw new SecurityException("Potential forged socket, socket uid=" + creds.getUid() + ", gid=" + creds.getGid());
+                }
+                readRequestDetails(suVersionCode, intent);
+            } else {
+                Log.w(TAG, "Recieved null socket path, aborting");
+                finish();
             }
-            if ((creds.getUid() != appInfo.uid || creds.getGid() != appInfo.uid) &&
-                    (creds.getUid() != 0 || creds.getGid() != 0)) {
-                throw new SecurityException("Potential forged socket, socket uid=" + creds.getUid() + ", gid=" + creds.getGid());
-            }
-            readRequestDetails(suVersionCode, intent);
         } catch (IOException e) {
             // If we can't connect to the socket, there's no point in
             // being here. Log it and quit
