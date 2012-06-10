@@ -11,6 +11,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import org.apache.http.util.ByteArrayBuffer;
@@ -144,19 +147,15 @@ public class UpdaterService extends Service {
     
     private static final int[] UPDATER_STEPS = new int[] {
         R.string.updater_step_fix_db,
-        R.string.updater_step_find_busybox,
-        R.string.updater_step_download_busybox,
-        R.string.updater_step_check_md5sum,
+        R.string.updater_step_unpack_sutools,
         R.string.updater_step_check_installed_path,
         R.string.updater_step_download_su,
-        R.string.updater_step_check_md5sum,
         R.string.updater_step_get_root,
         R.string.updater_step_remount_rw,
         R.string.updater_step_cp,
-        R.string.updater_step_check_md5sum,
         R.string.updater_step_chmod,
+        R.string.updater_step_ops_check,
         R.string.updater_step_mv,
-        R.string.updater_step_check_md5sum,
         R.string.updater_step_remount_ro,
         R.string.updater_step_check_installed_version,
         R.string.updater_step_clean_up
@@ -167,7 +166,7 @@ public class UpdaterService extends Service {
     private UpdaterListener mListener;
     private Manifest mManifest;
     private VersionInfo mSuVersionInfo;
-    private String mBusyboxPath;
+    private String mSuToolsPath;
     private ArrayList<Step> mSteps = new ArrayList<Step>();
     private boolean mCancelled = false;
     private boolean mRunning = false;
@@ -240,7 +239,7 @@ public class UpdaterService extends Service {
             currentStep = new Step(0, totalSteps, DOWNLOAD_MANIFEST_STEPS);
             mSteps.add(currentStep);
             notifyListener(currentStep);
-            stepSuccess = downloadFile(MANIFEST_URL, "manifest");
+            stepSuccess = downloadFile(MANIFEST_URL, "manifest", null);
             currentStep.finish(stepSuccess);
 
             // Ensure the manifest was created
@@ -276,6 +275,7 @@ public class UpdaterService extends Service {
     private class UpdaterRunnable implements Runnable {
         @Override
         public void run() {
+            mRunning = true;
             int totalSteps = UPDATER_STEPS.length;
             Step currentStep = new Step(0, totalSteps, UPDATER_STEPS);
             boolean stepSuccess = false;
@@ -309,44 +309,16 @@ public class UpdaterService extends Service {
                 currentStep.finish(true);
             }
 
-            // Check for busybox
-            if (mCancelled) return;
+            // Unpack sutools
             currentStep = currentStep.increment(UPDATER_STEPS);
-            stepSuccess = findBusybox();
+            mSuToolsPath = Util.ensureSuTools(UpdaterService.this);
+            stepSuccess = mSuToolsPath != null;
             currentStep.finish(stepSuccess);
-            if (!stepSuccess) {
-                currentStep = currentStep.increment(UPDATER_STEPS);
-                if (mCancelled) return;
-                if (downloadFile(mManifest.busyboxUrl, "busybox")) {
-                    try {
-                        Process process = new ProcessBuilder()
-                                .command("chmod", "755", mBusyboxPath)
-                                .redirectErrorStream(true).start();
-                        process.waitFor();
-                        process.destroy();
-                    } catch (IOException e) {
-                        Log.e(TAG, "Failed to set busybox to executable", e);
-                        currentStep.finish(false);
-                        return;
-                    } catch (InterruptedException e) {
-                        Log.w(TAG, "Process interrupted", e);
-                    }
-                    currentStep.finish(true);
-
-                    // verify md5sum of busybox
-                    if (mCancelled) return;
-                    currentStep = currentStep.increment(UPDATER_STEPS);
-                    stepSuccess = verifyFile(mBusyboxPath, mManifest.busyboxMd5);
-                    currentStep.finish(stepSuccess);
-                }
-            }
 
             // Check where current su binary is installed
             if (mCancelled || !stepSuccess) return;
-            currentStep = new Step(4, totalSteps, UPDATER_STEPS);
-            mSteps.add(currentStep);
-            notifyListener(currentStep);
-            String installedSu = whichSu();
+            currentStep = currentStep.increment(UPDATER_STEPS);
+            String installedSu = Util.whichSu();
             if (installedSu == null) {
                 currentStep.finish(false);
                 return;
@@ -360,19 +332,13 @@ public class UpdaterService extends Service {
             if (mCancelled) return;
             currentStep = currentStep.increment(UPDATER_STEPS);
             String suPath;
-            if (downloadFile(mManifest.binaryUrl, "su")) {
+            if (downloadFile(mManifest.binaryUrl, "su", mManifest.binaryMd5)) {
                 suPath = getFileStreamPath("su").toString();
                 currentStep.finish(true);
             } else {
                 currentStep.finish(false);
                 return;
             }
-
-            // verify md5sum of su
-            if (mCancelled) return;
-            currentStep = currentStep.increment(UPDATER_STEPS);
-            stepSuccess = verifyFile(suPath, mManifest.binaryMd5);
-            currentStep.finish(stepSuccess);
 
             Process process = null;
             try {
@@ -386,70 +352,50 @@ public class UpdaterService extends Service {
                 BufferedReader is = new BufferedReader(new InputStreamReader(
                         new DataInputStream(process.getInputStream())));
 
-                String inLine = executeCommand(os, is, mBusyboxPath, "touch /data/sutest", "&&",
-                        mBusyboxPath, "echo YEAH");
-                stepSuccess = inLine != null && inLine.equals("YEAH");
+                stepSuccess = executeCommand(os, is, mSuToolsPath, "touch /data/sutest");
                 currentStep.finish(stepSuccess);
 
                 // remount system partition
                 if (mCancelled || !stepSuccess) return;
                 currentStep = currentStep.increment(UPDATER_STEPS);
-                executeCommand(os, is, mBusyboxPath, "mount -o remount,rw /system");
-                inLine = executeCommand(os, is, mBusyboxPath, "touch /system/su", "&&",
-                        mBusyboxPath, "echo YEAH");
-                stepSuccess = inLine != null && inLine.equals("YEAH");
+                executeCommand(os, is, mSuToolsPath, "mount -o remount,rw /system");
+                stepSuccess = executeCommand(os, is, mSuToolsPath, "touch /system/su");
+                executeCommand(os, is, mSuToolsPath, "rm /system/sutest");
                 currentStep.finish(stepSuccess);
 
                 // Copy su to /system
                 if (mCancelled || !stepSuccess) return;
                 currentStep = currentStep.increment(UPDATER_STEPS);
-                inLine = executeCommand(os, is, mBusyboxPath, "cp", suPath, "/system", "&&",
-                        mBusyboxPath, "echo YEAH");
-                stepSuccess = inLine != null && inLine.equals("YEAH");
-                currentStep.finish(stepSuccess);
-
-                // verify md5sum of su
-                if (mCancelled || !stepSuccess) return;
-                currentStep = currentStep.increment(UPDATER_STEPS);
-                stepSuccess = verifyFile(suPath, mManifest.binaryMd5);
+                stepSuccess = executeCommand(os, is, mSuToolsPath, "cp", suPath, "/system/su");
                 currentStep.finish(stepSuccess);
 
                 // Change su filemode
                 if (mCancelled || !stepSuccess) return;
                 currentStep = currentStep.increment(UPDATER_STEPS);
-                inLine = executeCommand(os, is, mBusyboxPath, "chmod 06755 /system/su", "&&",
-                        mBusyboxPath, "echo YEAH");
-                stepSuccess = inLine != null && inLine.equals("YEAH");
+                stepSuccess = executeCommand(os, is, mSuToolsPath, "chmod 06755 /system/su");
                 currentStep.finish(stepSuccess);
+
+                // Ops check
+                if (mCancelled || !stepSuccess) return;
+                os.writeBytes("/system/su\n");
+                stepSuccess = executeCommand(os, is, mSuToolsPath, "id");
+                if (stepSuccess) os.writeBytes("exit\n");
 
                 // Move su to where it belongs
                 if (mCancelled || !stepSuccess) return;
                 currentStep = currentStep.increment(UPDATER_STEPS);
-                inLine = executeCommand(os, is, mBusyboxPath, "mv /system/su", installedSu,
-                        "&&", mBusyboxPath, "echo YEAH");
-                stepSuccess = inLine != null && inLine.equals("YEAH");
-                currentStep.finish(stepSuccess);
-
-                // verify md5sum of su
-                if (mCancelled || !stepSuccess) return;
-                currentStep = currentStep.increment(UPDATER_STEPS);
-                stepSuccess = verifyFile(suPath, mManifest.binaryMd5);
+                stepSuccess = executeCommand(os, is, mSuToolsPath, "mv /system/su", installedSu);
                 currentStep.finish(stepSuccess);
 
                 // remount system partition
                 if (mCancelled || !stepSuccess) return;
                 currentStep = currentStep.increment(UPDATER_STEPS);
-                executeCommand(os, is, mBusyboxPath, "mount -o remount,ro /system");
-                inLine = executeCommand(os, is, mBusyboxPath, "touch /system/su", "||",
-                        mBusyboxPath, "echo YEAH");
-                stepSuccess = inLine != null && inLine.equals("YEAH");
+                stepSuccess = executeCommand(os, is, mSuToolsPath, "mount -o remount,ro /system");
                 currentStep.finish(stepSuccess);
 
                 os.writeBytes("exit\n");
             } catch (IOException e) {
                 Log.e(TAG, "Failed to execute root commands", e);
-            } finally {
-                process.destroy();
             }
 
             // Check currently installed version
@@ -461,7 +407,6 @@ public class UpdaterService extends Service {
 
             // Cleanup
             currentStep = currentStep.increment(UPDATER_STEPS);
-            deleteFile("busybox");
             deleteFile("su");
             if (fixDb) {
                 deleteDatabase("permissions.sqlite");
@@ -477,17 +422,19 @@ public class UpdaterService extends Service {
                 }
                 
             });
+            mRunning = false;
         }
 
     }
-    private boolean downloadFile(String urlStr, String localName) {
-        BufferedInputStream bis = null;
+    private boolean downloadFile(String urlStr, String localName, String md5) {
+        DigestInputStream bis = null;
         
         try {
             URL url = new URL(urlStr);
             
             URLConnection urlCon = url.openConnection();
-            bis = new BufferedInputStream(urlCon.getInputStream());
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            bis = new DigestInputStream(urlCon.getInputStream(), md);
 
             ByteArrayBuffer baf = new ByteArrayBuffer(50);
             int current = 0;
@@ -513,9 +460,13 @@ public class UpdaterService extends Service {
                 FileOutputStream outFileStream = openFileOutput(localName, 0);
                 outFileStream.write(baf.toByteArray());
                 outFileStream.close();
-                if (localName.equals("busybox")) {
-                    mBusyboxPath = getFilesDir().getAbsolutePath().concat("/busybox");
-                }
+            }
+            
+            if (md5 != null) {
+                byte[] digest = md.digest();
+                Log.d(TAG, "download md5 = " + convertToHex(digest));
+                Log.d(TAG, "target md5   = " + md5);
+                if (!convertToHex(digest).equals(md5)) return false;
             }
 
         } catch (MalformedURLException e) {
@@ -524,80 +475,21 @@ public class UpdaterService extends Service {
         } catch (IOException e) {
             Log.e(TAG, "Problem downloading file: " + localName, e);
             return false;
-        }
-        return true;
-    }
-
-    private boolean verifyFile(String path, String md5sum) {
-        if (mBusyboxPath == null) {
-            Log.e(TAG, "Busybox not present");
-            return false;
-        }
-        
-        Process process = null;
-        try {
-            process = Runtime.getRuntime().exec(
-                    new String[] { mBusyboxPath, "md5sum", path});
-            BufferedReader is = new BufferedReader(new InputStreamReader(
-                    new DataInputStream(process.getInputStream())), 64);
-            BufferedReader es = new BufferedReader(new InputStreamReader(
-                    new DataInputStream(process.getErrorStream())), 64);
-            for (int i = 0; i < 200; i++) {
-                if (is.ready()) break;
-                try {
-                    Thread.sleep(5);
-                } catch (InterruptedException e) {
-                    Log.w(TAG, "Sleep timer got interrupted...");
-                }
-            }
-            String inLine = null;
-            if (es.ready()) {
-                inLine = es.readLine();
-            }
-            if (is.ready()) {
-                inLine = is.readLine();
-            } else {
-                Log.e(TAG, "Could not check md5sum");
-                return false;
-            }
-//            process.destroy();
-            if (!inLine.split(" ")[0].equals(md5sum)) {
-                Log.e(TAG, "Checksum mismatch");
-                return false;
-            }
-        } catch (IOException e) {
-            Log.e(TAG, "Checking of md5sum failed", e);
+        } catch (NoSuchAlgorithmException e) {
+            Log.d(TAG, "MD5 algorithm not available");
             return false;
         }
         return true;
     }
 
-    private String whichSu() {
-        for (String s : System.getenv("PATH").split(":")) {
-            File su = new File(s + "/su");
-            if (su.exists() && su.isFile()) {
-                try {
-                    if (su.getAbsolutePath().equals(su.getCanonicalPath())) {
-                        return su.getAbsolutePath();
-                    }
-                } catch (IOException e) {
-                    // If we get an exception here, it's probably not the right file,
-                    // Log it and move on
-                    Log.w(TAG, "IOException while finding canonical path of " + su.getAbsolutePath(), e);
-                }
-            }
-        }
-        return null;
-    }
-    
-    private String executeCommand(DataOutputStream os, BufferedReader is, String... commands)
+    private boolean executeCommand(DataOutputStream os, BufferedReader is, String... commands)
             throws IOException {
         return executeCommand(os, is, 200, commands);
     }
     
-    private String executeCommand(DataOutputStream os, BufferedReader is, int timeout,
+    private boolean executeCommand(DataOutputStream os, BufferedReader is, int timeout,
             String... commands) throws IOException {
-        if (commands.length == 0) return null;
+        if (commands.length == 0) return false;
         StringBuilder command = new StringBuilder();
         for (String s : commands) {
             command.append(s).append(" ");
@@ -614,24 +506,27 @@ public class UpdaterService extends Service {
                 }
             }
             if (is.ready()) {
-                return is.readLine();
+                return is.readLine().equals("0");
             } else {
-                return null;
+                return false;
             }
         } else {
-            return null;
+            return false;
         }
     }
-    
-    private boolean findBusybox() {
-        String path = System.getenv("PATH");
-        for (String s : path.split(":")) {
-            File file = new File(s, "busybox");
-            if (file.exists()) {
-                mBusyboxPath = file.getAbsolutePath();
-                return true;
+
+    private static String convertToHex(byte[] data) {
+        StringBuffer buf = new StringBuffer();
+        for (int i = 0; i < data.length; i++) {
+            int halfbyte = (data[i] >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do {
+                if ((0 <= halfbyte) && (halfbyte <= 9))
+                    buf.append((char) ('0' + halfbyte));
+                else
+                    buf.append((char) ('a' + (halfbyte - 10)));
+                    halfbyte = data[i] & 0x0F;
+                } while(two_halfs++ < 1);
             }
-        }
-        return false;
-    }
-}
+        return buf.toString();
+    }}

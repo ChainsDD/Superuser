@@ -18,13 +18,16 @@ package com.noshufou.android.su.util;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import android.app.Notification;
@@ -626,5 +629,62 @@ public class Util {
         Log.d(TAG, "Start PermissionsDbService");
         Intent intent = new Intent(context, PermissionsDbService.class);
         context.startService(intent);
+    }
+
+    public static String whichSu() {
+        for (String s : System.getenv("PATH").split(":")) {
+            File su = new File(s + "/su");
+            if (su.exists() && su.isFile()) {
+                try {
+                    if (su.getAbsolutePath().equals(su.getCanonicalPath())) {
+                        return su.getAbsolutePath();
+                    }
+                } catch (IOException e) {
+                    // If we get an exception here, it's probably not the right file,
+                    // Log it and move on
+                    Log.w(TAG, "IOException while finding canonical path of " + su.getAbsolutePath(), e);
+                }
+            }
+        }
+        return null;
+    }
+
+    public static String ensureSuTools(Context context) {
+        File suTools = context.getFileStreamPath("sutools");
+        if (suTools.exists()) return suTools.getAbsolutePath();
+
+        try {
+            InputStream in = context.getAssets().open("sutools-" + Build.CPU_ABI.split("-")[0]);
+            OutputStream out = new FileOutputStream(suTools);
+            byte[] buffer = new byte[1024];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+            in.close();
+            in = null;
+            out.flush();
+            out.close();
+            out = null;
+        } catch (IOException e) {
+            Log.e(TAG, "Could not extract sutools");
+            return null;
+        }
+        
+        Process process;
+        try {
+            process = new ProcessBuilder()
+                    .command("chmod", "700", suTools.getAbsolutePath())
+                    .redirectErrorStream(true).start();
+            process.waitFor();
+            process.destroy();
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to set filemode of sutools");
+            return null;
+        } catch (InterruptedException e) {
+            Log.w(TAG, "process interrupted");
+        }
+        
+        return suTools.getAbsolutePath();
     }
 }
