@@ -33,6 +33,8 @@ public class Preferences {
     public static final String ADVANCED_PROMPT = "pref_advanced_prompt";
     public static final String CHANGELOG = "pref_changelog";
     public static final String GET_ELITE = "pref_get_elite";
+    public static final String TEMP_UNROOT = "pref_temp_unroot";
+    public static final String OTA_SURVIVE = "pref_ota_survive";
     
     public static final String CATEGORY_SECURITY = "pref_category_security";
     public static final String CATEGORY_APPLIST = "pref_category_applist";
