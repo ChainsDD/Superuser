@@ -519,11 +519,11 @@ public class Util {
     }
 
     public static void launchPreferences(Context context) {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             context.startActivity(new Intent(context, PreferencesActivity.class));
-//        } else {
-//            context.startActivity(new Intent(context, PreferencesActivityHC.class));
-//        }
+        } else {
+            context.startActivity(new Intent(context, PreferencesActivityHC.class));
+        }
     }
 
     public static String getHash(String pin) {
