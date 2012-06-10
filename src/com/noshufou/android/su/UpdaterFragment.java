@@ -1,5 +1,6 @@
 package com.noshufou.android.su;
 
+import android.annotation.TargetApi;
 import android.app.ListFragment;
 import android.content.ComponentName;
 import android.content.Context;
@@ -17,6 +18,7 @@ import com.noshufou.android.su.service.UpdaterService.Step;
 import com.noshufou.android.su.service.UpdaterService.UpdaterBinder;
 import com.noshufou.android.su.widget.ConsoleAdapter;
 
+@TargetApi(11)
 public class UpdaterFragment extends ListFragment 
         implements UpdaterService.UpdaterListener, View.OnClickListener {
     private static final String TAG = "UpdaterFragment";
