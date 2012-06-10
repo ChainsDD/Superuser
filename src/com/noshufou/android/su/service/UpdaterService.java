@@ -170,6 +170,7 @@ public class UpdaterService extends Service {
     private ArrayList<Step> mSteps = new ArrayList<Step>();
     private boolean mCancelled = false;
     private boolean mRunning = false;
+    private boolean mSilent = false;
 
     private Thread mWorkerThread;
     private Handler mHandler;
@@ -204,6 +205,10 @@ public class UpdaterService extends Service {
     
     public boolean isRunning() {
         return mRunning;
+    }
+    
+    public void setSilent(boolean silent) {
+        mSilent = silent;
     }
 
     public void registerUpdaterListener(UpdaterListener listener) {
@@ -269,6 +274,13 @@ public class UpdaterService extends Service {
                 }
                 
             });
+            
+            if (mSilent && mSuVersionInfo.versionCode < mManifest.versionCode) {
+                mWorkerThread = new Thread(new UpdaterRunnable());
+                mWorkerThread.start();
+            } else {
+                mRunning = false;
+            }
         }
     }
 
