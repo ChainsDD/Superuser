@@ -1,10 +1,8 @@
 package com.noshufou.android.su.service;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,6 +26,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
@@ -50,9 +49,7 @@ public class UpdaterService extends Service {
         public int versionCode;
         public String binaryUrl;
         public String binaryMd5;
-        public String busyboxUrl;
-        public String busyboxMd5;
-        
+
         public boolean populate(JSONArray jsonArray) {
             try {
                 int myVersionCode = getPackageManager()
@@ -69,10 +66,11 @@ public class UpdaterService extends Service {
 
                 version = manifest.getString("version");
                 versionCode = manifest.getInt("version-code");
-                binaryUrl = manifest.getString("binary");
-                binaryMd5 = manifest.getString("binary-md5sum");
-                busyboxUrl = manifest.getString("busybox");
-                busyboxMd5 = manifest.getString("busybox-md5sum");
+
+                String abi = Build.CPU_ABI.split("-")[0];
+                JSONObject binaryInfo = manifest.getJSONObject(abi);
+                binaryUrl = binaryInfo.getString("binary");
+                binaryMd5 = binaryInfo.getString("binary-md5sum");
             } catch (JSONException e) {
                 return false;
             } catch (NameNotFoundException e) {
@@ -83,8 +81,7 @@ public class UpdaterService extends Service {
 
             // verify that all values have been properly initialized
             if (version == null || versionCode == 0 ||
-                    binaryUrl == null || binaryMd5 == null ||
-                    busyboxUrl == null || busyboxMd5 == null) {
+                    binaryUrl == null || binaryMd5 == null) {
                 return false;
             }
             return true;
