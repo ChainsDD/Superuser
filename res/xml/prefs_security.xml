@@ -50,4 +50,10 @@
         android:summary="@string/pref_secret_code_summary"
         android:title="@string/pref_secret_code_title" />
 
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_advanced_prompt"
+        android:title="@string/pref_advanced_prompt_title"
+        android:summary="@string/pref_advanced_prompt_summary" />
+
 </PreferenceScreen>

@@ -1,13 +1,12 @@
 package com.noshufou.android.su;
 
-import android.annotation.TargetApi;
-import android.app.ListFragment;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.noshufou.android.su.service.UpdaterService.Step;
 import com.noshufou.android.su.service.UpdaterService.UpdaterBinder;
 import com.noshufou.android.su.widget.ConsoleAdapter;
 
-@TargetApi(11)
 public class UpdaterFragment extends ListFragment 
         implements UpdaterService.UpdaterListener, View.OnClickListener {
     private static final String TAG = "UpdaterFragment";
@@ -49,7 +47,7 @@ public class UpdaterFragment extends ListFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.updater, container, false);
+        View view = inflater.inflate(R.layout.fragment_updater, container, false);
         mButton = (Button) view.findViewById(R.id.action_button);
         mButton.setOnClickListener(this);
 

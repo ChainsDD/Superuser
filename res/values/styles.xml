@@ -120,6 +120,27 @@
         <item name="android:textStyle">bold</item>
     </style>
     
+    <style name="AppInfoRow" parent="AppDetailsRow">
+        <item name="android:background">@drawable/app_list_selector</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingRight">20dp</item>
+    </style>
+    
+    <style name="InfoLabel" parent="DetailsLabel">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="InfoDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@drawable/app_list_divider</item>
+    </style>
+    
+    <style name="InfoInfo" parent="DetailsInfo">
+        <item name="android:textStyle">normal</item>
+    </style>
+    
     <style name="PinButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

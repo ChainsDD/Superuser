@@ -148,7 +148,6 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
         super.onResume();
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
-        new UpdateVersions().execute();
     }
 
     @Override
@@ -186,10 +185,6 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
                     R.string.pref_log_entry_limit_title, 0).show();
         } else if (pref.equals(Preferences.CLEAR_LOG)) {
             new ClearLog().execute();
-        } else if (pref.equals(Preferences.BIN_VERSION)) {
-            final Intent intent = new Intent(this, UpdaterActivity.class);
-            startActivity(intent);
-            return true;
         } else if (pref.equals(Preferences.PIN)) {
             Intent intent = new Intent(this, PinActivity.class);
             if (preferenceScreen.getSharedPreferences().getBoolean(Preferences.PIN, false)) {
@@ -228,13 +223,6 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
                 startActivityForResult(intent, REQUEST_WRITE_TAG);
                 return true;
             }
-        } else if (pref.equals(Preferences.CHANGELOG)) {
-            ChangeLog cl = new ChangeLog(this);
-            cl.getFullLogDialog().show();
-        } else if (pref.equals(Preferences.GET_ELITE)) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://details?id=com.noshufou.android.su.elite"));
-            startActivity(intent);
         } else if (pref.equals(Preferences.BACKUP)) {
             new BackupApps().execute();
         } else if (pref.equals(Preferences.RESTORE)) {
@@ -395,33 +383,6 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
                     Toast.LENGTH_SHORT).show();
         }
         
-    }
-
-    private class UpdateVersions extends AsyncTask<Void, Integer, VersionInfo[]> {
-
-        @Override
-        protected VersionInfo[] doInBackground(Void... params) {
-            VersionInfo infos[] = new VersionInfo[2];
-            Log.d(TAG, "Before getSuperuserVersionInfo() = " + System.currentTimeMillis());
-            infos[0] = Util.getSuperuserVersionInfo(getApplicationContext());
-            Log.d(TAG, "Before getSuVersionInfo() = " + System.currentTimeMillis());
-            infos[1] = Util.getSuVersionInfo();
-            Log.d(TAG, "After getSuVersionInfo() = " + System.currentTimeMillis());
-            return infos;
-        }
-
-        @Override
-        protected void onPostExecute(VersionInfo[] result) {
-            if (result[0].version != null) {
-                mApkVersion.setTitle(getString(R.string.pref_version_title, result[0].version, result[0].versionCode));
-            }
-            if (result[1] != null) {
-                mBinVersion.setTitle(getString(R.string.pref_bin_version_title, result[1].version, result[1].versionCode));
-            } else {
-                mBinVersion.setTitle(R.string.pref_bin_version_not_found);
-            }
-        }
-
     }
 
     private class BackupApps extends AsyncTask<Void, Void, Boolean> {
