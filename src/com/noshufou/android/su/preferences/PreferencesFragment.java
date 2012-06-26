@@ -1,15 +1,13 @@
 package com.noshufou.android.su.preferences;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +16,6 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
-import android.util.Log;
 import android.view.Gravity;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -28,23 +25,16 @@ import com.noshufou.android.su.R;
 import com.noshufou.android.su.TagWriterActivity;
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
 import com.noshufou.android.su.service.ResultService;
-import com.noshufou.android.su.service.UpdaterService;
 import com.noshufou.android.su.util.BackupUtil;
 import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.util.Util.VersionInfo;
-import com.noshufou.android.su.widget.ChangeLog;
 import com.noshufou.android.su.widget.NumberPickerDialog;
 import com.noshufou.android.su.widget.NumberPickerDialog.OnNumberSetListener;
 
+@TargetApi(11)
 public class PreferencesFragment extends PreferenceFragment
         implements OnSharedPreferenceChangeListener, OnNumberSetListener {
     private static final String TAG = "Su.PreferenceFragment";
 
-//    private Preference mClearLog = null;
-//    private Preference mToastLocation = null;
-    private Preference mApkVersion = null;
-    private Preference mBinVersion = null;
-//    private CheckBoxPreference mOutdatedNotification = null;
     private CheckBoxPreference mPin = null;
     private CheckBoxPreference mGhostMode = null;
     private Preference mSecretCode = null;
@@ -54,6 +44,7 @@ public class PreferencesFragment extends PreferenceFragment
     private boolean mElite = false;
     private int mScreen;
 
+    @TargetApi(14)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,8 +103,6 @@ public class PreferencesFragment extends PreferenceFragment
             }
         }
 
-        mApkVersion = findPreference(Preferences.VERSION);
-        mBinVersion = findPreference(Preferences.BIN_VERSION);
         mPin = (CheckBoxPreference) findPreference(Preferences.PIN);
         mGhostMode = (CheckBoxPreference) findPreference(Preferences.GHOST_MODE);
         mSecretCode = (Preference) findPreference(Preferences.SECRET_CODE);
@@ -132,8 +121,6 @@ public class PreferencesFragment extends PreferenceFragment
     @Override
     public void onResume() {
         super.onResume();
-        if (mScreen == R.xml.prefs_about)
-            new UpdateVersions().execute();
         if (mEnabler != null)
             mEnabler.resume();
         mPrefs.registerOnSharedPreferenceChangeListener(this);
@@ -151,24 +138,8 @@ public class PreferencesFragment extends PreferenceFragment
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         String key = preference.getKey();
 
-        // General
-        if (key.equals(Preferences.CHANGELOG)) {
-            ChangeLog cl = new ChangeLog(getActivity());
-            cl.getFullLogDialog().show();
-            return true;
-        } else if (key.equals(Preferences.OUTDATED_NOTIFICATION)) {
-            if (!((CheckBoxPreference)preference).isChecked()) {
-                ((NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE))
-                    .cancel(UpdaterService.NOTIFICATION_ID);
-            }
-        } else if (key.equals(Preferences.GET_ELITE)) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://details?id=com.noshufou.android.su.elite"));
-            startActivity(intent);
-            return true;
-
         // Security
-        } else if (key.equals(Preferences.PIN)) {
+        if (key.equals(Preferences.PIN)) {
             Intent intent = new Intent(getActivity(), PinActivity.class);
             if (preferenceScreen.getSharedPreferences().getBoolean(Preferences.PIN, false)) {
                 intent.putExtra(PinActivity.EXTRA_MODE, PinActivity.MODE_NEW);
@@ -372,33 +343,6 @@ public class PreferencesFragment extends PreferenceFragment
         if (mScreen == R.xml.prefs_log)
             findPreference(Preferences.LOG_ENTRY_LIMIT)
                     .setSummary(getString(R.string.pref_log_entry_limit_summary, limit));
-    }
-
-    private class UpdateVersions extends AsyncTask<Void, Integer, VersionInfo[]> {
-
-        @Override
-        protected VersionInfo[] doInBackground(Void... params) {
-            VersionInfo infos[] = new VersionInfo[2];
-            Log.d(TAG, "Before getSuperuserVersionInfo() = " + System.currentTimeMillis());
-            infos[0] = Util.getSuperuserVersionInfo(getActivity());
-            Log.d(TAG, "Before getSuVersionInfo() = " + System.currentTimeMillis());
-            infos[1] = Util.getSuVersionInfo();
-            Log.d(TAG, "After getSuVersionInfo() = " + System.currentTimeMillis());
-            return infos;
-        }
-
-        @Override
-        protected void onPostExecute(VersionInfo[] result) {
-            if (result[0].version != null) {
-                mApkVersion.setTitle(getString(R.string.pref_version_title, result[0].version, result[0].versionCode));
-            }
-            if (result[1] != null) {
-                mBinVersion.setTitle(getString(R.string.pref_bin_version_title, result[1].version, result[1].versionCode));
-            } else {
-                mBinVersion.setTitle(R.string.pref_bin_version_not_found);
-            }
-        }
-
     }
 
     private class ClearLog extends AsyncTask<Void, Void, Integer> {

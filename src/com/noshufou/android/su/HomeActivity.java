@@ -82,19 +82,12 @@ public class HomeActivity extends SherlockFragmentActivity {
             PagerHeader pagerHeader = (PagerHeader) findViewById(R.id.pager_header);
             PagerAdapter pagerAdapter = new PagerAdapter(this, mPager, pagerHeader);
 
+            pagerAdapter.addPage(InfoFragment.class, R.string.page_label_info);
             pagerAdapter.addPage(AppListFragment.class, R.string.page_label_apps);
             if (mLoggingEnabled) {
                 pagerAdapter.addPage(LogFragment.class, R.string.page_label_log);
-            } else {
-                pagerHeader.setVisibility(View.GONE);
             }
-
-            // DEBUG
-//            pagerAdapter.addPage(AppListFragment.class, null, "APPS");
-//            pagerAdapter.addPage(LogFragment.class, null, "LOGS");
-//            pagerAdapter.addPage(AppListFragment.class, null, "more apps");
-//            pagerAdapter.addPage(LogFragment.class, null, "more logs");
-            // END DEBUG
+            mPager.setCurrentItem(1);
         }
 
         new EliteCheck().execute();
@@ -113,21 +106,10 @@ public class HomeActivity extends SherlockFragmentActivity {
                 .setIcon(R.drawable.ic_action_extras)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mTempUnrootItem = menu.add(Menu.NONE, MenuId.TEMP_UNROOT,
-                MenuId.TEMP_UNROOT, R.string.menu_temp_unroot)
-                .setCheckable(true).setChecked(prefs.getBoolean(Preferences.TEMP_UNROOT, false));
-        mTempUnrootItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-        mOtaSurviveItem = menu.add(Menu.NONE, MenuId.OTA_SURVIVE,
-                MenuId.OTA_SURVIVE, R.string.menu_ota_survival)
-                .setCheckable(true).setChecked(prefs.getBoolean(Preferences.OTA_SURVIVE, false))
-                .setEnabled(!mTempUnrootItem.isChecked());
-        mOtaSurviveItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-
         menu.add(Menu.NONE, MenuId.PREFERENCES,
                 MenuId.PREFERENCES, R.string.menu_preferences)
                 .setIcon(R.drawable.ic_action_settings)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         return true;
     }
@@ -148,12 +130,6 @@ public class HomeActivity extends SherlockFragmentActivity {
             break;
         case MenuId.PREFERENCES:
             Util.launchPreferences(this);
-            break;
-        case MenuId.TEMP_UNROOT:
-            new ToggleSuOption().execute(true);
-            break;
-        case MenuId.OTA_SURVIVE:
-            new ToggleSuOption().execute(false);
             break;
         }
         return super.onOptionsItemSelected(item);
@@ -304,41 +280,6 @@ public class HomeActivity extends SherlockFragmentActivity {
             if (result instanceof TransitionDrawable) {
                 ((TransitionDrawable)result).startTransition(1000);
             }
-        }
-    }
-
-    private class ToggleSuOption extends AsyncTask<Boolean, Void, MenuItem> {
-
-        @Override
-        protected void onPreExecute() {
-            setProgressBarIndeterminateVisibility(true);
-        }
-
-        @Override
-        protected MenuItem doInBackground(Boolean... params) {
-            boolean status = false;
-            SharedPreferences prefs =
-                    PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-            String key = params[0] ? Preferences.TEMP_UNROOT : Preferences.OTA_SURVIVE;
-            boolean startState = prefs.getBoolean(key, false);
-            if (startState) {
-                status = Util.restoreSu(HomeActivity.this, true, key);
-            } else {
-                status = Util.backupSu(HomeActivity.this, params[0]);
-            }
-
-            if (status) {
-                prefs.edit().putBoolean(key, !startState).commit();
-            }
-            return params[0] ? mTempUnrootItem : mOtaSurviveItem;
-        }
-
-        @Override
-        protected void onPostExecute(MenuItem menuItem) {
-            setProgressBarIndeterminateVisibility(false);
-            menuItem.setChecked(!menuItem.isChecked());
-            if (menuItem.equals(mTempUnrootItem))
-                mOtaSurviveItem.setEnabled(!menuItem.isChecked());
         }
     }
 

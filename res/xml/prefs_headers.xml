@@ -17,14 +17,6 @@
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <header
-        android:id="@+id/general_settings"
-        android:fragment="com.noshufou.android.su.preferences.PreferencesFragment"
-        android:title="@string/pref_category_info_title" >
-        <extra
-            android:name="resource"
-            android:value="prefs_about" />
-    </header>
-    <header
         android:id="@+id/security_settings"
         android:fragment="com.noshufou.android.su.preferences.PreferencesFragment"
         android:title="@string/pref_category_security" >

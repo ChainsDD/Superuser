@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/AppDetailsLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <View style="@style/InfoDivider" />
+    <LinearLayout style="@style/AppInfoRow"
+        android:id="@+id/display_changelog"
+        android:clickable="true">
+        <TextView style="@style/InfoLabel"
+            android:id="@+id/superuser_version"
+            android:text="@string/info_version_loading" />
+        <TextView style="@style/InfoInfo"
+            android:text="@string/info_display_changelog" />
+    </LinearLayout>
+
+    <View style="@style/InfoDivider" />
+    <LinearLayout style="@style/AppInfoRow"
+        android:id="@+id/get_elite"
+        android:clickable="true">
+        <TextView style="@style/InfoLabel"
+            android:id="@+id/elite_installed"
+            android:text="@string/info_elite_not_installed" />
+        <TextView style="@style/InfoInfo"
+            android:id="@+id/get_elite_label"
+            android:text="@string/info_get_elite" />
+    </LinearLayout>
+    
+    <View style="@style/InfoDivider" />
+    <LinearLayout style="@style/AppInfoRow"
+        android:id="@+id/binary_updater"
+        android:clickable="true">
+        <TextView style="@style/InfoLabel"
+            android:id="@+id/su_version"
+            android:text="@string/pref_bin_version_title_loading" />
+        <LinearLayout style="@style/InfoInfo"
+            android:id="@+id/su_details_row"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/su_details_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/su_details_owner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/su_details_file"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView style="@style/InfoInfo"
+            android:id="@+id/su_warning"
+            android:text="@string/info_check_updates" />
+        <CheckBox
+            android:id="@+id/outdated_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/info_outdated_binary_notification" />
+    </LinearLayout>
+    
+    <View style="@style/InfoDivider" />
+    <LinearLayout style="@style/AppInfoRow">
+        <CheckBox
+            android:id="@+id/temp_unroot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/info_temp_unroot" />
+        <TextView style="@style/InfoInfo"
+            android:id="@+id/temp_unroot_warning"
+            android:visibility="gone"
+            android:text="@string/info_temp_unroot_unsuccessful" />
+        <CheckBox
+            android:id="@+id/ota_survival"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/info_ota_survival" />
+        <TextView style="@style/InfoInfo"
+            android:id="@+id/ota_survival_warning"
+            android:text="@string/info_ota_survival_warning" />
+    </LinearLayout>
+    
+    <View style="@style/InfoDivider" />
+    
+</LinearLayout>

@@ -46,6 +46,11 @@
             android:title="@string/pref_secret_code_title"
             android:summary="@string/pref_secret_code_summary"
             android:dependency="pref_ghost_mode" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_advanced_prompt"
+            android:title="@string/pref_advanced_prompt_title"
+            android:summary="@string/pref_advanced_prompt_summary" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_category_applist"
@@ -153,33 +158,5 @@
         <Preference
             android:key="pref_restore"
             android:title="@string/pref_restore_title" />
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:key="pref_category_info"
-        android:title="@string/pref_category_info_title">
-        <Preference
-            android:key="pref_version"
-            android:title="@string/pref_version_title" />
-        <Preference
-            android:key="pref_bin_version"
-            android:title="@string/pref_bin_version_title_loading"
-            android:summary="@string/pref_bin_version_summary" />
-        <CheckBoxPreference
-            android:key="pref_outdated_notification"
-            android:title="@string/pref_outdated_notification_title"
-            android:defaultValue="true" />
-        <CheckBoxPreference
-            android:key="pref_advanced_prompt"
-            android:title="@string/pref_advanced_prompt_title"
-            android:summary="@string/pref_advanced_prompt_summary"
-            android:defaultValue="false" />
-        <Preference
-            android:key="pref_changelog"
-            android:title="@string/pref_changelog_title"
-            android:summary="@string/pref_changelog_summary" />
-        <Preference
-            android:key="pref_get_elite"
-            android:title="@string/pref_get_elite_title"
-            android:summary="@string/pref_get_elite_summary" />
     </PreferenceCategory>
 </PreferenceScreen>
