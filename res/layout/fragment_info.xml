@@ -34,7 +34,7 @@
         android:clickable="true">
         <TextView style="@style/InfoLabel"
             android:id="@+id/su_version"
-            android:text="@string/pref_bin_version_title_loading" />
+            android:text="@string/info_bin_version_loading" />
         <LinearLayout style="@style/InfoInfo"
             android:id="@+id/su_details_row"
             android:orientation="horizontal">
