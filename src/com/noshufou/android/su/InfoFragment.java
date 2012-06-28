@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -126,7 +125,7 @@ public class InfoFragment extends SherlockFragment
 
         @Override
         protected void onPreExecute() {
-            getSherlockActivity().setProgressBarIndeterminateVisibility(true);
+            getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
         }
 
         @Override
@@ -228,7 +227,7 @@ public class InfoFragment extends SherlockFragment
 
         @Override
         protected void onPostExecute(Void result) {
-            getSherlockActivity().setProgressBarIndeterminateVisibility(false);
+            getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
         }
     }
 
@@ -241,7 +240,7 @@ public class InfoFragment extends SherlockFragment
 
         @Override
         protected void onPreExecute() {
-            getSherlockActivity().setProgressBarIndeterminateVisibility(true);
+            getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
             mTempUnroot.setEnabled(false);
             mOtaSurvival.setEnabled(false);
         }
@@ -265,7 +264,7 @@ public class InfoFragment extends SherlockFragment
 
         @Override
         protected void onPostExecute(Boolean result) {
-            getSherlockActivity().setProgressBarIndeterminateVisibility(false);
+            getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
             new UpdateInfo().execute();
         }
     }

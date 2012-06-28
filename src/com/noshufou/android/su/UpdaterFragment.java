@@ -6,18 +6,18 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.actionbarsherlock.app.SherlockListFragment;
 import com.noshufou.android.su.service.UpdaterService;
 import com.noshufou.android.su.service.UpdaterService.Step;
 import com.noshufou.android.su.service.UpdaterService.UpdaterBinder;
 import com.noshufou.android.su.widget.ConsoleAdapter;
 
-public class UpdaterFragment extends ListFragment 
+public class UpdaterFragment extends SherlockListFragment 
         implements UpdaterService.UpdaterListener, View.OnClickListener {
     private static final String TAG = "UpdaterFragment";
 
@@ -64,7 +64,7 @@ public class UpdaterFragment extends ListFragment
             getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         }
         
-        getActivity().getActionBar().setTitle(R.string.updater_title);
+        getSherlockActivity().getSupportActionBar().setTitle(R.string.updater_title);
     }
 
     @Override
