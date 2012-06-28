@@ -28,6 +28,7 @@
     <string name="page_label_log">log</string>
     
     <string name="menu_extras">Extras</string>
+    <string name="menu_get_elite">Get Elite</string>
     <string name="menu_preferences">Preferences</string>
     <string name="menu_clear">Clear</string>
     <string name="menu_clear_log">Clear log</string>
@@ -240,7 +241,7 @@
     	<item quantity="one">The following package was found to be malicious:</item>
     	<item quantity="other">The following packages were found to be malicious:</item>
     </plurals>
-    <string name="malicious_apps_message2">Apps are market as malicious because they contain elements that indicate they are attempting to grant root access, possibly without your consent. It is highly recommended you uninstall them immediately.</string>
+    <string name="malicious_apps_message2">Apps are marked as malicious because they contain elements that indicate they are attempting to grant root access, possibly without your consent. It is highly recommended you uninstall them immediately.</string>
     <string name="malicious_apps_uninstall">Uninstall</string>
     <string name="malicious_apps_ignore">Ignore</string>
     <string name="malicious_app_notification_ticker">Potentially malicious app detected</string>
