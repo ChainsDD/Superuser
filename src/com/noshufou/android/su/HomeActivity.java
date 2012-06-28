@@ -53,7 +53,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_home);
-        setProgressBarIndeterminateVisibility(false);
+        setSupportProgressBarIndeterminateVisibility(false);
         Log.d(TAG, "after setContentView()");
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -102,7 +102,7 @@ public class HomeActivity extends SherlockFragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         mElite = Util.elitePresent(this, false, 0);
         menu.add(Menu.NONE, MenuId.ELITE,
-                MenuId.ELITE, mElite?R.string.menu_extras:R.string.pref_get_elite_title)
+                MenuId.ELITE, mElite?R.string.menu_extras:R.string.menu_get_elite)
                 .setIcon(R.drawable.ic_action_extras)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
