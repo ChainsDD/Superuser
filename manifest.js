@@ -4,28 +4,28 @@
     "donate": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DNKPJ3PX44ZU8",
     "roms": [
         {
-            "name": "Superuser 3.0.7 efghi",
-            "summary": "Eclair, Froyo, Gingerbread, Honeycomb, and Ice Cream Sandwich",
+            "name": "Superuser 3.1, arm",
+            "summary": "Android 2.0+, arm devices",
             "device": "all",
-            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/Superuser-3.0.7-efghi-signed.zip"
+            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/Superuser-3.1-arm-signed.zip"
         },
         {
-            "name": "su binary-only 3.0.3.2 efghi",
-            "summary": "Eclair, Froyo, Gingerbread, Honeycomb, and Ice Cream Sandwich",
+            "name": "su binary-only 3.1, arm",
+            "summary": "Requires Superuser 3.1+, x86 devices",
             "device": "all",
-            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/su-bin-3.0.3.2-efghi-signed.zip"
+            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/su-bin-3.1-arm-signed.zip"
         },
         {
-            "name": "Superuser 3.0.7 d",
-            "summary": "Donut",
+            "name": "Superuser 3.1 x86",
+            "summary": "Android 2.0+, x86 devices",
             "device": "all",
-            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/Superuser-3.0.7-d-signed.zip"
+            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/Superuser-3.1-x86-signed.zip"
         },
         {
-            "name": "su binary-only 3.0.3.2 d",
-            "summary": "Donut",
+            "name": "su binary-only 3.1, x86",
+            "summary": "Requires Superuser 3.1+, x86 devices",
             "device": "all",
-            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/su-bin-3.0.3.2-d-signed.zip"
+            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/su-bin-3.1-x86-signed.zip"
         },
         {
             "name": "Superuser 2.3.6.3 efgh",
