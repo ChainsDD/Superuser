@@ -11,7 +11,7 @@
         },
         {
             "name": "su binary-only 3.1, arm",
-            "summary": "Requires Superuser 3.1+, x86 devices",
+            "summary": "Requires Superuser 3.1+, arm devices",
             "device": "all",
             "url": "http://downloads.noshufou.netdna-cdn.com/superuser/su-bin-3.1-arm-signed.zip"
         },
