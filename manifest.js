@@ -4,10 +4,10 @@
     "donate": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DNKPJ3PX44ZU8",
     "roms": [
         {
-            "name": "Superuser 3.1, arm",
+            "name": "Superuser 3.1.1, arm",
             "summary": "Android 2.0+, arm devices",
             "device": "all",
-            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/Superuser-3.1-arm-signed.zip"
+            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/Superuser-3.1.1-arm-signed.zip"
         },
         {
             "name": "su binary-only 3.1, arm",
@@ -16,10 +16,10 @@
             "url": "http://downloads.noshufou.netdna-cdn.com/superuser/su-bin-3.1-arm-signed.zip"
         },
         {
-            "name": "Superuser 3.1 x86",
+            "name": "Superuser 3.1.1, x86",
             "summary": "Android 2.0+, x86 devices",
             "device": "all",
-            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/Superuser-3.1-x86-signed.zip"
+            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/Superuser-3.1.1-x86-signed.zip"
         },
         {
             "name": "su binary-only 3.1, x86",
