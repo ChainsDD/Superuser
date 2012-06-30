@@ -23,7 +23,7 @@
   <string-array name="pref_toast_location_entries">
     <item>Standard</item>
     <item>Topp</item>
-    <item>Senter</item>
+    <item>Midtstilt</item>
     <item>Bunn</item>
   </string-array>
 </resources>
