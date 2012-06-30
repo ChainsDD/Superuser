@@ -24,6 +24,24 @@
   </head>
 
   <body>
+% 44
+  % 3.1.2
+  _2012-06-30
+  * Fix FC when entering preferences on pre-HC devices for elite users
+$ 43
+  % 3.1.1
+  _2012-06-30
+    * Fix FC when entering preferences on pre-HC devices
+    * Improve binary updater on pre-HC devices
+    * Add button to action bar on tablets to access info page
+$ 42
+  %3.1
+  _2012-06-29
+    * All new communication between su binary and apk to improve security, stability and performance
+    * New info page
+    * Temp unroot and OTA survival options added
+    * New preferences screen for Honeycomb and up
+    * Using ActionBarSherlock for maximum compatibility with pre-honeycomb devices
 $ 41
   %3.0.7
   _2011-11-20
