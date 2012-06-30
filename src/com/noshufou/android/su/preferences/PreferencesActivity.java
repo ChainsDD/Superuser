@@ -67,9 +67,6 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
     private Preference mLogLimit = null;
     private Preference mClearLog = null;
     private Preference mToastLocation = null;
-    private Preference mApkVersion = null;
-    private Preference mBinVersion = null;
-    private CheckBoxPreference mOutdatedNotification = null;
     private Preference mTimeoutPreference = null;
     private CheckBoxPreference mPin = null;
     private CheckBoxPreference mGhostMode = null;
@@ -130,9 +127,6 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
                     prefScreen.removePreference(findPreference(Preferences.CATEGORY_NFC));
                 }
             }
-
-            ((PreferenceCategory)findPreference(Preferences.CATEGORY_INFO))
-                    .removePreference(findPreference(Preferences.GET_ELITE));
         }
         
         mClearLog = prefScreen.findPreference(Preferences.CLEAR_LOG);
