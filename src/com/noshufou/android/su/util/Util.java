@@ -105,13 +105,15 @@ public class Util {
         public static final int ELITE = 0;
         public static final int TOGGLE = 1;
         public static final int FORGET = 2;
-        public static final int CLEAR_LOG = 3;
-        public static final int USE_APP_SETTINGS = 4;
-        public static final int NOTIFICATIONS = 5;
-        public static final int LOGGING = 6;
-        public static final int TEMP_UNROOT = 7;
-        public static final int OTA_SURVIVE = 8;
-        public static final int PREFERENCES = 9;
+        public static final int INFO = 3;
+        public static final int LOG = 4;
+        public static final int CLEAR_LOG = 5;
+        public static final int USE_APP_SETTINGS = 6;
+        public static final int NOTIFICATIONS = 7;
+        public static final int LOGGING = 8;
+        public static final int TEMP_UNROOT = 9;
+        public static final int OTA_SURVIVE = 10;
+        public static final int PREFERENCES = 11;
     }
     
     public static class VersionInfo {
