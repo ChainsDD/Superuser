@@ -386,9 +386,15 @@ public class UpdaterService extends Service {
 
                 // Ops check
                 if (mCancelled || !stepSuccess) return;
+                currentStep = currentStep.increment(UPDATER_STEPS);
                 os.writeBytes("/system/su\n");
-                stepSuccess = executeCommand(os, is, mSuToolsPath, "id");
-                if (stepSuccess) os.writeBytes("exit\n");
+                Process process2 = Runtime.getRuntime().exec("/system/su");
+                DataOutputStream os2 = new DataOutputStream(process2.getOutputStream());
+                BufferedReader is2 = new BufferedReader(new InputStreamReader(
+                        new DataInputStream(process2.getInputStream())));
+                stepSuccess = executeCommand(os2, is2, mSuToolsPath, "id");
+                currentStep.finish(stepSuccess);
+                if (stepSuccess) os2.writeBytes("exit\n");
 
                 // Move su to where it belongs
                 if (mCancelled || !stepSuccess) return;
