@@ -7,7 +7,7 @@
     <item>허가</item>
   </string-array>
   <string-array name="pref_status_icon_type_entries">
-    <item>도트</item>
+    <item>점</item>
     <item>이모티콘</item>
   </string-array>
   <string-array name="pref_date_format_entries">
@@ -22,8 +22,8 @@
   </string-array>
   <string-array name="pref_toast_location_entries">
     <item>기본값</item>
-    <item>위</item>
-    <item>가운데</item>
-    <item>아래</item>
+    <item>상단</item>
+    <item>중앙</item>
+    <item>하단</item>
   </string-array>
 </resources>
