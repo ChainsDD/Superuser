@@ -136,11 +136,6 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
         }
         
         mClearLog = prefScreen.findPreference(Preferences.CLEAR_LOG);
-        mApkVersion = prefScreen.findPreference(Preferences.VERSION);
-        mBinVersion = prefScreen.findPreference(Preferences.BIN_VERSION);
-        mOutdatedNotification = (CheckBoxPreference) 
-                prefScreen.findPreference(Preferences.OUTDATED_NOTIFICATION);
-        mOutdatedNotification.setOnPreferenceChangeListener(this);
     }
 
     @Override
