@@ -67,12 +67,7 @@ public class HomeActivity extends SherlockFragmentActivity {
                 if (mLoggingEnabled) {
                     showLog();
                 } else {
-                    Fragment detailsFragment =
-                            Fragment.instantiate(this, AppDetailsFragment.class.getName());
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                    transaction.replace(R.id.fragment_container, detailsFragment);
-                    transaction.commit();
+                    showInfo();
                 }
             }
         } else {
@@ -174,6 +169,20 @@ public class HomeActivity extends SherlockFragmentActivity {
             transaction.replace(R.id.fragment_container, logFragment);
             transaction.commit();
         }
+    }
+    
+    public void showInfo() {
+        if (mDualPane) {
+            Fragment infoFragment = Fragment.instantiate(this, InfoFragment.class.getName());
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            transaction.replace(R.id.fragment_container, infoFragment);
+            transaction.commit();
+        }
+    }
+
+    public boolean isDualPane() {
+        return mDualPane;
     }
 
     public static class PagerAdapter extends FragmentPagerAdapter

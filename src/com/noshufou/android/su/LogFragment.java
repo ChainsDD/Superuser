@@ -28,6 +28,7 @@ public class LogFragment extends SherlockListFragment
     
     private LogAdapter mAdapter = null;
     private TextView mLogCountTextView = null;
+    private boolean mDualPane;
 
     public static LogFragment newInstance() {
         return new LogFragment();
@@ -36,6 +37,7 @@ public class LogFragment extends SherlockListFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDualPane = ((HomeActivity)getActivity()).isDualPane();
         setHasOptionsMenu(true);
     }
 
@@ -54,9 +56,10 @@ public class LogFragment extends SherlockListFragment
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated()");
 
-        ListFragment appList = (ListFragment) getActivity().getSupportFragmentManager()
-                .findFragmentById(R.id.app_list);
-        if (appList != null) {
+        if (mDualPane) {
+            Log.d(TAG, "is dual pane");
+            ListFragment appList = (ListFragment) getActivity().getSupportFragmentManager()
+                    .findFragmentById(R.id.app_list);
             appList.getListView().clearChoices();
             appList.getListView().invalidateViews();
         }
@@ -87,6 +90,14 @@ public class LogFragment extends SherlockListFragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Log.d(TAG, "onCreateOptionsMenu()");
+        if (mDualPane) {
+            Log.d(TAG, "is dual pane");
+            menu.add(Menu.NONE, MenuId.INFO, MenuId.INFO,
+                    R.string.page_label_info)
+                    .setIcon(R.drawable.ic_action_info)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
         menu.add(Menu.NONE, MenuId.CLEAR_LOG, MenuId.CLEAR_LOG, R.string.menu_clear_log)
                 .setIcon(R.drawable.ic_action_clear_log)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
@@ -97,6 +108,9 @@ public class LogFragment extends SherlockListFragment
         switch (item.getItemId()) {
             case MenuId.CLEAR_LOG:
                 getActivity().getContentResolver().delete(Logs.CONTENT_URI, null, null);
+                return true;
+            case MenuId.INFO:
+                ((HomeActivity)getActivity()).showInfo();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

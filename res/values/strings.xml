@@ -91,7 +91,7 @@
     <string name="info_temp_unroot">temp unroot</string>
     <string name="info_temp_unroot_unsuccessful">temp unroot unsuccessful</string>
     <string name="info_ota_survival">ota survival</string>
-    <string name="info_ota_survival_warning">note: these options are not guatanteed and will not work for all devices</string>
+    <string name="info_ota_survival_warning">note: these options are not guaranteed and will not work for all devices</string>
     <string name="info_version_loading">loading Superuser version</string>
     <string name="info_version">superuser v%1$s (%2$d)</string>
     <string name="info_bin_version_loading">Loading su binary version</string>
