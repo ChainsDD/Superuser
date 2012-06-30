@@ -23,8 +23,12 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.util.Util.MenuId;
 import com.noshufou.android.su.util.Util.VersionInfo;
 import com.noshufou.android.su.widget.ChangeLog;
 
@@ -49,12 +53,14 @@ public class InfoFragment extends SherlockFragment
     private View mBinaryUpdater;
     
     private SharedPreferences mPrefs;
+    private boolean mDualPane = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity());
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -86,6 +92,34 @@ public class InfoFragment extends SherlockFragment
         new UpdateInfo().execute();
         
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        
+        mDualPane = ((HomeActivity)getActivity()).isDualPane();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (mDualPane) {
+            menu.add(Menu.NONE, MenuId.LOG, MenuId.LOG,
+                    R.string.page_label_log)
+                    .setIcon(R.drawable.ic_action_log)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case MenuId.LOG:
+                ((HomeActivity)getActivity()).showLog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
