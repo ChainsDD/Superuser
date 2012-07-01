@@ -100,6 +100,10 @@ public class UpdaterFragment extends SherlockListFragment
         } else if (step.state != Step.STATE_IN_PROGRESS) {
             getListAdapter().addStatusToLastEntry(step.result,
                     (step.state == Step.STATE_SUCCESSFUL) ? ConsoleAdapter.CONSOLE_GREEN : ConsoleAdapter.CONSOLE_RED );
+            if (step.state == Step.STATE_FAILED) {
+                mButton.setEnabled(true);
+                mButton.setText(R.string.updater_try_again);
+            }
         }
     }
 
