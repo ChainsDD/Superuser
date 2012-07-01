@@ -361,15 +361,14 @@ public class UpdaterService extends Service {
                 BufferedReader is = new BufferedReader(new InputStreamReader(
                         new DataInputStream(process.getInputStream())));
 
-                stepSuccess = executeCommand(os, is, mSuToolsPath, "touch /data/sutest");
+                // Long timeout here in case the user has to respond to the prompt
+                stepSuccess = executeCommand(os, is, 2000, mSuToolsPath, "id");
                 currentStep.finish(stepSuccess);
 
                 // remount system partition
                 if (mCancelled || !stepSuccess) return;
                 currentStep = currentStep.increment(UPDATER_STEPS);
-                executeCommand(os, is, mSuToolsPath, "mount -o remount,rw /system");
-                stepSuccess = executeCommand(os, is, mSuToolsPath, "touch /system/su");
-                executeCommand(os, is, mSuToolsPath, "rm /system/sutest");
+                stepSuccess = executeCommand(os, is, mSuToolsPath, "mount -o remount,rw /system");
                 currentStep.finish(stepSuccess);
 
                 // Copy su to /system
@@ -387,12 +386,12 @@ public class UpdaterService extends Service {
                 // Ops check
                 if (mCancelled || !stepSuccess) return;
                 currentStep = currentStep.increment(UPDATER_STEPS);
-                os.writeBytes("/system/su\n");
                 Process process2 = Runtime.getRuntime().exec("/system/su");
                 DataOutputStream os2 = new DataOutputStream(process2.getOutputStream());
                 BufferedReader is2 = new BufferedReader(new InputStreamReader(
                         new DataInputStream(process2.getInputStream())));
-                stepSuccess = executeCommand(os2, is2, mSuToolsPath, "id");
+                // Another long timeout since there may be a prompt again
+                stepSuccess = executeCommand(os2, is2, 2000, mSuToolsPath, "id");
                 currentStep.finish(stepSuccess);
                 if (stepSuccess) os2.writeBytes("exit\n");
 
@@ -499,7 +498,7 @@ public class UpdaterService extends Service {
 
     private boolean executeCommand(DataOutputStream os, BufferedReader is, String... commands)
             throws IOException {
-        return executeCommand(os, is, 200, commands);
+        return executeCommand(os, is, 400, commands);
     }
     
     private boolean executeCommand(DataOutputStream os, BufferedReader is, int timeout,
@@ -511,6 +510,8 @@ public class UpdaterService extends Service {
         }
         command.append("\n");
         os.writeBytes(command.toString());
+        os.flush();
+        Log.d(TAG, command.toString());
         if (is != null) {
             for (int i = 0; i < timeout; i++) {
                 if (is.ready()) break;
@@ -521,11 +522,15 @@ public class UpdaterService extends Service {
                 }
             }
             if (is.ready()) {
-                return is.readLine().equals("0");
+                String result = is.readLine();
+                Log.d(TAG, result);
+                return result.equals("0");
             } else {
+                Log.d(TAG, "timeout");
                 return false;
             }
         } else {
+            Log.d(TAG, "null input stream");
             return false;
         }
     }
