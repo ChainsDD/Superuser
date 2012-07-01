@@ -131,10 +131,10 @@ public class SuRequestActivity extends Activity implements OnClickListener {
                     Log.e(TAG, "Divided by zero...");
                     return;
                 }
-                if ((creds.getUid() != appInfo.uid || creds.getGid() != appInfo.uid) &&
-                        (creds.getUid() != 0 || creds.getGid() != 0)) {
-                    throw new SecurityException("Potential forged socket, socket uid=" + creds.getUid() + ", gid=" + creds.getGid());
-                }
+//                if ((creds.getUid() != appInfo.uid || creds.getGid() != appInfo.uid) &&
+//                        (creds.getUid() != 0 || creds.getGid() != 0)) {
+//                    throw new SecurityException("Potential forged socket, socket uid=" + creds.getUid() + ", gid=" + creds.getGid());
+//                }
                 readRequestDetails(suVersionCode, intent);
             } else {
                 Log.w(TAG, "Recieved null socket path, aborting");
