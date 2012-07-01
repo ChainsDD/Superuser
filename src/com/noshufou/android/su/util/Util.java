@@ -647,15 +647,15 @@ public class Util {
 
             os.writeBytes(suTools + " mount -o remount,rw /system\n");
             String inLine = is.readLine();
-            if (!inLine.equals("0")) return false;
+            if (inLine == null || !inLine.equals("0")) return false;
 
             os.writeBytes(suTools + " cp " + installedSu + " /system/bacon\n");
             inLine = is.readLine();
-            if (!inLine.equals("0")) return false;
+            if (inLine == null || !inLine.equals("0")) return false;
 
             os.writeBytes(suTools + " chmod 06755 /system/bacon\n");
             inLine = is.readLine();
-            if (!inLine.equals("0")) return false;
+            if (inLine == null || !inLine.equals("0")) return false;
 
             if (removeOriginal) {
                 os.writeBytes(suTools + " rm " + installedSu + "\n");
@@ -687,15 +687,15 @@ public class Util {
 
             os.writeBytes(suTools + " mount -o remount,rw /system\n");
             String inLine = is.readLine();
-            if (!inLine.equals("0")) return false;
+            if (inLine == null || !inLine.equals("0")) return false;
 
             os.writeBytes(suTools + " cp /system/bacon /system/xbin/su\n");
             inLine = is.readLine();
-            if (!inLine.equals("0")) return false;
+            if (inLine == null || !inLine.equals("0")) return false;
 
             os.writeBytes(suTools + " chmod 06755 /system/xbin/su\n");
             inLine = is.readLine();
-            if (!inLine.equals("0")) return false;
+            if (inLine == null || !inLine.equals("0")) return false;
 
             if (removeBackup) {
                 os.writeBytes(suTools + " rm /system/bacon\n");
