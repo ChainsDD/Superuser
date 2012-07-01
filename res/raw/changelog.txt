@@ -24,12 +24,24 @@
   </head>
 
   <body>
-% 44
-  % 3.1.2
+$ 46
+  %3.1.3
+  _2012-07-01
+  * Prevent security exceptions that may occur on some devices
+  * Longer timeouts to prevent premature failures in the binary updater on slower devices
+  * Make the info page scrollable for smaller devices
+$ 45
+  %3.1.2.1
+  _2012-07-01
+  * Add enhanced logging to the binary updater to track down update issues
+  * Add try again button to binary updater
+  * Fix for binary updater being launched when selecting get elite from the info page
+$ 44
+  %3.1.2
   _2012-06-30
   * Fix FC when entering preferences on pre-HC devices for elite users
 $ 43
-  % 3.1.1
+  %3.1.1
   _2012-06-30
     * Fix FC when entering preferences on pre-HC devices
     * Improve binary updater on pre-HC devices
