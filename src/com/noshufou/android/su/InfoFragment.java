@@ -133,6 +133,7 @@ public class InfoFragment extends SherlockFragment
                 final Intent eliteIntent = new Intent(Intent.ACTION_VIEW);
                 eliteIntent.setData(Uri.parse("market://details?id=com.noshufou.android.su.elite"));
                 startActivity(eliteIntent);
+                break;
             case R.id.binary_updater:
                 final Intent updaterIntent = new Intent(getSherlockActivity(), UpdaterActivity.class);
                 startActivity(updaterIntent);
