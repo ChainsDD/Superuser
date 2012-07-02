@@ -2,8 +2,10 @@ package com.noshufou.android.su;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -11,6 +13,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemProperties;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,7 +22,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
 import android.widget.AbsListView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -32,7 +34,7 @@ import com.noshufou.android.su.util.Util.MenuId;
 import com.noshufou.android.su.widget.ChangeLog;
 import com.noshufou.android.su.widget.PagerHeader;
 
-public class HomeActivity extends SherlockFragmentActivity {
+public class HomeActivity extends SherlockFragmentActivity implements DialogInterface.OnClickListener {
     private static final String TAG = "Su.HomeActivity";
 
     private static final String STATE_SHOW_DETAILS = "show_details";
@@ -45,6 +47,9 @@ public class HomeActivity extends SherlockFragmentActivity {
     private MenuItem mOtaSurviveItem = null;
 
     private ViewPager mPager;
+    
+    private static final String CM_VERSION = SystemProperties.get("ro.cm.version", "");
+    private static final String ROOT_ACCESS_PROPERTY = "persist.sys.root_access";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +95,30 @@ public class HomeActivity extends SherlockFragmentActivity {
         ChangeLog cl = new ChangeLog(this);
         if (cl.firstRun()) {
             cl.getLogDialog().show();
+        }
+        
+        // Check for root enabled on CyanogenMod 9
+        if (CM_VERSION.length() > 0) {
+            String root = SystemProperties.get(ROOT_ACCESS_PROPERTY, "1");
+            // 0: off, 1: apps, 2:adb, 3:both
+            if ("0".equals(root) || "2".equals(root)) {
+                new AlertDialog.Builder(this).setMessage(R.string.root_disabled_summary)
+                        .setTitle(R.string.root_disabled_title)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, this)
+                        .setNegativeButton(android.R.string.no, this)
+                        .show();
+            }
+        }
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        if (which == DialogInterface.BUTTON_POSITIVE) {
+            Intent settings = new Intent("android.settings.APPLICATION_DEVELOPMENT_SETTINGS");
+            settings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(settings);
+            finish();
         }
     }
 
