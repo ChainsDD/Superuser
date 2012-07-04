@@ -3,6 +3,7 @@ package com.noshufou.android.su.service;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -374,19 +375,21 @@ public class UpdaterService extends Service {
                 // Copy su to /system
                 if (mCancelled || !stepSuccess) return;
                 currentStep = currentStep.increment(UPDATER_STEPS);
-                stepSuccess = executeCommand(os, is, mSuToolsPath, "cp", suPath, "/system/su");
+                File newSu = new File(installedSu + "-new");
+                executeCommand(os, is, mSuToolsPath, "cat", suPath, ">", newSu.getAbsolutePath());
+                stepSuccess = newSu.exists();
                 currentStep.finish(stepSuccess);
 
                 // Change su filemode
                 if (mCancelled || !stepSuccess) return;
                 currentStep = currentStep.increment(UPDATER_STEPS);
-                stepSuccess = executeCommand(os, is, mSuToolsPath, "chmod 06755 /system/su");
+                stepSuccess = executeCommand(os, is, mSuToolsPath, "chmod 06755", newSu.getAbsolutePath());
                 currentStep.finish(stepSuccess);
 
                 // Ops check
                 if (mCancelled || !stepSuccess) return;
                 currentStep = currentStep.increment(UPDATER_STEPS);
-                Process process2 = Runtime.getRuntime().exec("/system/su");
+                Process process2 = Runtime.getRuntime().exec(newSu.getAbsolutePath());
                 DataOutputStream os2 = new DataOutputStream(process2.getOutputStream());
                 BufferedReader is2 = new BufferedReader(new InputStreamReader(
                         new DataInputStream(process2.getInputStream())));
@@ -398,7 +401,7 @@ public class UpdaterService extends Service {
                 // Move su to where it belongs
                 if (mCancelled || !stepSuccess) return;
                 currentStep = currentStep.increment(UPDATER_STEPS);
-                stepSuccess = executeCommand(os, is, mSuToolsPath, "mv /system/su", installedSu);
+                stepSuccess = executeCommand(os, is, mSuToolsPath, "mv", newSu.getAbsolutePath(), installedSu);
                 currentStep.finish(stepSuccess);
 
                 // remount system partition
