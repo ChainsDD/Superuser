@@ -1,7 +1,6 @@
 package com.noshufou.android.su;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -27,6 +26,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.util.Device;
+import com.noshufou.android.su.util.Device.FileSystem;
 import com.noshufou.android.su.util.Util;
 import com.noshufou.android.su.util.Util.MenuId;
 import com.noshufou.android.su.util.Util.VersionInfo;
@@ -46,13 +47,18 @@ public class InfoFragment extends SherlockFragment
     private TextView mSuDetailsFile;
     private TextView mSuWarning;
     private CheckBox mOutdatedNotification;
+    private View mSuOptionsRow;
     private CheckBox mTempUnroot;
     private CheckBox mOtaSurvival;
 
     private View mGetElite;
     private View mBinaryUpdater;
-    
+
     private SharedPreferences mPrefs;
+
+    private Device mDevice = null;
+    private boolean mModal = false;
+
     private boolean mDualPane = false;
 
     @Override
@@ -78,10 +84,11 @@ public class InfoFragment extends SherlockFragment
         mSuWarning = (TextView) view.findViewById(R.id.su_warning);
         mOutdatedNotification = (CheckBox) view.findViewById(R.id.outdated_notification);
         mOutdatedNotification.setOnCheckedChangeListener(this);
+        mSuOptionsRow = view.findViewById(R.id.su_options_row);
         mTempUnroot = (CheckBox) view.findViewById(R.id.temp_unroot);
-        mTempUnroot.setOnClickListener(this);
+        mTempUnroot.setOnCheckedChangeListener(this);
         mOtaSurvival = (CheckBox) view.findViewById(R.id.ota_survival);
-        mOtaSurvival.setOnClickListener(this);
+        mOtaSurvival.setOnCheckedChangeListener(this);
         
         view.findViewById(R.id.display_changelog).setOnClickListener(this);
         mGetElite = view.findViewById(R.id.get_elite);
@@ -138,20 +145,22 @@ public class InfoFragment extends SherlockFragment
                 final Intent updaterIntent = new Intent(getSherlockActivity(), UpdaterActivity.class);
                 startActivity(updaterIntent);
                 break;
-            case R.id.temp_unroot:
-                new ToggleSuOption(Preferences.TEMP_UNROOT).execute();
-                break;
-            case R.id.ota_survival:
-                new ToggleSuOption(Preferences.OTA_SURVIVE).execute();
-                break;
         }
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (mModal) return;
+
         switch (buttonView.getId()) {
             case R.id.outdated_notification:
                 mPrefs.edit().putBoolean(Preferences.OUTDATED_NOTIFICATION, isChecked).commit();
+                break;
+            case R.id.temp_unroot:
+                new ToggleSuOption(Preferences.TEMP_UNROOT).execute();
+                break;
+            case R.id.ota_survival:
+                new ToggleSuOption(Preferences.OTA_SURVIVE).execute();
                 break;
         }
     }
@@ -174,24 +183,34 @@ public class InfoFragment extends SherlockFragment
                 String suTools = Util.ensureSuTools(getSherlockActivity());
                 try {
                     Process process = new ProcessBuilder(suTools, "ls", "-l", suPath)
-                    .redirectErrorStream(true).start();
+                            .redirectErrorStream(true).start();
                     BufferedReader is = new BufferedReader(new InputStreamReader(
-                            new DataInputStream(process.getInputStream())), 64);
+                            process.getInputStream()));
+                    process.waitFor();
                     String inLine = is.readLine();
                     String bits[] = inLine.split("\\s+");
                     publishProgress(3, bits[0], String.format("%s %s", bits[1], bits[2]), suPath);
                 } catch (IOException e) {
                     Log.w(TAG, "Binary information could not be read");
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
             } else {
                 publishProgress(2, null);
             }
             
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity());
-            publishProgress(4,
-                    prefs.getBoolean(Preferences.OUTDATED_NOTIFICATION, true),
-                    prefs.getBoolean(Preferences.TEMP_UNROOT, false),
-                    prefs.getBoolean(Preferences.OTA_SURVIVE, false));
+            publishProgress(4, prefs.getBoolean(Preferences.OUTDATED_NOTIFICATION, true));
+
+            if (mDevice == null) mDevice = new Device(getSherlockActivity());
+            mDevice.analyzeSu();
+            boolean supported = mDevice.mFileSystem == FileSystem.EXTFS;
+            if (!supported) {
+                publishProgress(5, null);
+            } else {
+                publishProgress(5, mDevice.isRooted, mDevice.isSuProtected);
+            }
             return null;
         }
 
@@ -249,14 +268,22 @@ public class InfoFragment extends SherlockFragment
                     }
                     break;
                 case 4:
-                    boolean outdatedNotification = (Boolean) values[1];
-                    boolean tempUnroot = (Boolean) values[2];
-                    boolean otaSurvival = (Boolean) values[3];
-                    mOutdatedNotification.setChecked(outdatedNotification);
-                    mTempUnroot.setChecked(tempUnroot);
-                    mTempUnroot.setEnabled(true);
-                    mOtaSurvival.setChecked(otaSurvival);
-                    mOtaSurvival.setEnabled(!tempUnroot);
+                    mOutdatedNotification.setChecked((Boolean) values[1]);
+                    break;
+                case 5:
+                    if (values[0] == null) {
+                        mSuOptionsRow.setVisibility(View.GONE);
+                    } else {
+                        boolean rooted = (Boolean) values[1];
+                        boolean backupAvailable = (Boolean) values[2];
+                        mSuOptionsRow.setVisibility(View.VISIBLE);
+                        mModal = true;
+                        mTempUnroot.setChecked(!rooted && backupAvailable);
+                        mTempUnroot.setEnabled(rooted || backupAvailable);
+                        mOtaSurvival.setChecked(backupAvailable);
+                        mOtaSurvival.setEnabled(rooted);
+                        mModal = false;
+                    }
             }
         }
 
@@ -278,28 +305,31 @@ public class InfoFragment extends SherlockFragment
             getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
             mTempUnroot.setEnabled(false);
             mOtaSurvival.setEnabled(false);
+            if (mKey.equals(Preferences.TEMP_UNROOT)) mTempUnroot.setText(R.string.updater_working);
+            else mOtaSurvival.setText(R.string.updater_working);
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             boolean status = false;
-            boolean startState = mPrefs.getBoolean(mKey, false);
-            if (startState) {
-                status = Util.restoreSu(getSherlockActivity(), true, mKey);
+            mDevice.analyzeSu();
+            if (mKey.equals(Preferences.TEMP_UNROOT)) {
+                if (mDevice.isRooted) mDevice.mSuOps.unRoot();
+                else mDevice.mSuOps.restore();
             } else {
-                status = Util.backupSu(getSherlockActivity(), mKey.equals(Preferences.TEMP_UNROOT));
+                if (mDevice.isSuProtected) mDevice.mSuOps.deleteBackup();
+                else mDevice.mSuOps.backup();
             }
-
-            if (status) {
-                mPrefs.edit().putBoolean(mKey, !startState).commit();
-            }
-            
             return status;
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
+            mTempUnroot.setText(R.string.info_temp_unroot);
+            mOtaSurvival.setText(R.string.info_ota_survival);
+            mTempUnroot.setEnabled(true);
+            mOtaSurvival.setEnabled(true);
             new UpdateInfo().execute();
         }
     }

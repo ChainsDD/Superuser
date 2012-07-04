@@ -15,6 +15,7 @@
  ******************************************************************************/
 package com.noshufou.android.su.util;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -635,83 +636,6 @@ public class Util {
         context.startService(intent);
     }
 
-    public static boolean backupSu(Context context, boolean removeOriginal) {
-        String suTools = ensureSuTools(context);
-        String installedSu = whichSu();
-
-        try {
-            Process process = Runtime.getRuntime().exec("su");
-            DataOutputStream os = new DataOutputStream(process.getOutputStream());
-            BufferedReader is = new BufferedReader(new InputStreamReader(
-                    new DataInputStream(process.getInputStream())));
-
-            os.writeBytes(suTools + " mount -o remount,rw /system\n");
-            String inLine = is.readLine();
-            if (inLine == null || !inLine.equals("0")) return false;
-
-            os.writeBytes(suTools + " cp " + installedSu + " /system/bacon\n");
-            inLine = is.readLine();
-            if (inLine == null || !inLine.equals("0")) return false;
-
-            os.writeBytes(suTools + " chmod 06755 /system/bacon\n");
-            inLine = is.readLine();
-            if (inLine == null || !inLine.equals("0")) return false;
-
-            if (removeOriginal) {
-                os.writeBytes(suTools + " rm " + installedSu + "\n");
-            }
-
-            os.writeBytes(suTools + " mount -o remount,ro /system\n");
-
-            os.writeBytes("exit\n");
-        } catch (IOException e) {
-            Log.e(TAG, "Falied to backup su");
-            return false;
-        }
-
-        return true;
-    }
-
-    public static boolean restoreSu(Context context, boolean removeBackup, String key) {
-        String suTools = ensureSuTools(context);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if ((prefs.getBoolean(Preferences.TEMP_UNROOT, false) && key.equals(Preferences.OTA_SURVIVE))
-                || (prefs.getBoolean(Preferences.OTA_SURVIVE, false) && key.equals(Preferences.TEMP_UNROOT)))
-            removeBackup = false;
-
-        try {
-            Process process = Runtime.getRuntime().exec("/system/bacon");
-            DataOutputStream os = new DataOutputStream(process.getOutputStream());
-            BufferedReader is = new BufferedReader(new InputStreamReader(
-                    new DataInputStream(process.getInputStream())));
-
-            os.writeBytes(suTools + " mount -o remount,rw /system\n");
-            String inLine = is.readLine();
-            if (inLine == null || !inLine.equals("0")) return false;
-
-            os.writeBytes(suTools + " cp /system/bacon /system/xbin/su\n");
-            inLine = is.readLine();
-            if (inLine == null || !inLine.equals("0")) return false;
-
-            os.writeBytes(suTools + " chmod 06755 /system/xbin/su\n");
-            inLine = is.readLine();
-            if (inLine == null || !inLine.equals("0")) return false;
-
-            if (removeBackup) {
-                os.writeBytes(suTools + " rm /system/bacon\n");
-            }
-
-            os.writeBytes(suTools + " mount -o remount,ro /system\n");
-
-            os.writeBytes("exit\n");
-        } catch (IOException e) {
-            Log.e(TAG, "Falied to backup su");
-            return false;
-        }
-        
-        return true;
-    }
-
     public static String whichSu() {
         for (String s : System.getenv("PATH").split(":")) {
             File su = new File(s + "/su");
@@ -732,21 +656,25 @@ public class Util {
 
     public static String ensureSuTools(Context context) {
         File suTools = context.getFileStreamPath("sutools");
-        if (suTools.exists()) return suTools.getAbsolutePath();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        int sutoolsVersion = prefs.getInt("sutoolsVersion", 0);
+        
+        PackageManager pm = context.getPackageManager();
+        int appVersionCode;
+        try {
+            PackageInfo info = pm.getPackageInfo(context.getPackageName(), 0);
+            appVersionCode = info.versionCode;
+        } catch (NameNotFoundException e) {
+            appVersionCode = 0;
+        }
+
+        if (suTools.exists() && appVersionCode == sutoolsVersion) {
+            return suTools.getAbsolutePath();
+        }
+        Log.d(TAG, "extracting sutools");
 
         try {
-            InputStream in = context.getAssets().open("sutools-" + Build.CPU_ABI.split("-")[0]);
-            OutputStream out = new FileOutputStream(suTools);
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = in.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
-            }
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;
+            copyFromAssets(context, "sutools-" + Build.CPU_ABI.split("-")[0], "sutools");
         } catch (IOException e) {
             Log.e(TAG, "Could not extract sutools");
             return null;
@@ -765,7 +693,95 @@ public class Util {
         } catch (InterruptedException e) {
             Log.w(TAG, "process interrupted");
         }
-        
+
+        prefs.edit().putInt("sutoolsVersion", appVersionCode).commit();
         return suTools.getAbsolutePath();
+    }
+
+    public static final void copyFromAssets(Context context, String source, String destination)
+            throws IOException {
+
+        // read file from the apk
+        InputStream is = context.getAssets().open(source);
+        int size = is.available();
+        byte[] buffer = new byte[size];
+        is.read(buffer);
+        is.close();
+
+        // write files in app private storage
+        FileOutputStream output = context.openFileOutput(destination, Context.MODE_PRIVATE);
+        output.write(buffer);
+        output.close();
+
+        Log.d(TAG, source + " asset copied to " + destination);
+    }
+
+    public static final Boolean isSuid(Context context, String filename) {
+
+        try {
+
+            Process p = Runtime.getRuntime().exec(context.getFilesDir() + "/test -u " + filename);
+            p.waitFor();
+            if (p.exitValue() == 0) {
+                Log.d(TAG, filename + " is set-user-ID");
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, filename + " is not set-user-ID");
+        return false;
+
+    }
+
+    public static ArrayList<String> run(String command) {
+        return run("/system/bin/sh", command);
+    }
+
+    public static ArrayList<String> run(String shell, String command) {
+        return run(shell, new String[] {
+                command
+        });
+    }
+
+    public static ArrayList<String> run(String shell, ArrayList<String> commands) {
+        String[] commandsArray = new String[commands.size()];
+        commands.toArray(commandsArray);
+        return run(shell, commandsArray);
+    }
+
+    public static ArrayList<String> run(String shell, String[] commands) {
+        ArrayList<String> output = new ArrayList<String>();
+
+        try {
+            Process process = Runtime.getRuntime().exec(shell);
+
+            BufferedOutputStream shellInput =
+                    new BufferedOutputStream(process.getOutputStream());
+            BufferedReader shellOutput =
+                    new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+            for (String command : commands) {
+                Log.i(TAG, "command: " + command);
+                shellInput.write((command + " 2>&1\n").getBytes());
+            }
+
+            shellInput.write("exit\n".getBytes());
+            shellInput.flush();
+
+            String line;
+            while ((line = shellOutput.readLine()) != null) {
+                Log.d(TAG, "command output: " + line);
+                output.add(line);
+            }
+
+            process.waitFor();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return output;
     }
 }

@@ -67,7 +67,8 @@
     </LinearLayout>
     
     <View style="@style/InfoDivider" />
-    <LinearLayout style="@style/AppInfoRow">
+    <LinearLayout style="@style/AppInfoRow"
+        android:id="@+id/su_options_row">
         <CheckBox
             android:id="@+id/temp_unroot"
             android:layout_width="match_parent"

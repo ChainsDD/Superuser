@@ -90,7 +90,7 @@
     <string name="info_outdated_binary_notification">outdated binary notification</string>
     <string name="info_temp_unroot">temp unroot</string>
     <string name="info_temp_unroot_unsuccessful">temp unroot unsuccessful</string>
-    <string name="info_ota_survival">ota survival</string>
+    <string name="info_ota_survival">ota rootkeeper</string>
     <string name="info_ota_survival_warning">note: these options are not guaranteed and will not work for all devices</string>
     <string name="info_version_loading">loading Superuser version</string>
     <string name="info_version">superuser v%1$s (%2$d)</string>
@@ -100,6 +100,7 @@
     <string name="info_check_for_updates">tap to check for updates</string>
     <string name="info_outdated_notification">outdated binary notification</string>
     <string name="info_changelog_summary">Display the changelog</string>
+    <string name="info_working">working…</string>
 
     <string name="use_global_settings">Use global settings</string>
     <string name="notifications_enabled">\u0020\u0020\u0020\u0020Notifications enabled</string>
@@ -252,6 +253,9 @@
 
     <string name="changelog_full_title">Changelog</string>
     <string name="changelog_title">What\'s New</string>
+
+    <string name="root_disabled_title">Enable root access?</string>
+    <string name="root_disabled_summary">Root access is currently disabled for all applications by a system setting. Would you like to enable it?</string>
 
     <!-- Do not translate any strings below, they are here to prevent build errors -->
     <string name="before_secret_code">*#*#</string>
