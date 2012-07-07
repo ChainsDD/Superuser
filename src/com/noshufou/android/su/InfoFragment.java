@@ -57,7 +57,6 @@ public class InfoFragment extends SherlockFragment
     private SharedPreferences mPrefs;
 
     private Device mDevice = null;
-    private boolean mModal = false;
 
     private boolean mDualPane = false;
 
@@ -86,9 +85,9 @@ public class InfoFragment extends SherlockFragment
         mOutdatedNotification.setOnCheckedChangeListener(this);
         mSuOptionsRow = view.findViewById(R.id.su_options_row);
         mTempUnroot = (CheckBox) view.findViewById(R.id.temp_unroot);
-        mTempUnroot.setOnCheckedChangeListener(this);
+        mTempUnroot.setOnClickListener(this);
         mOtaSurvival = (CheckBox) view.findViewById(R.id.ota_survival);
-        mOtaSurvival.setOnCheckedChangeListener(this);
+        mOtaSurvival.setOnClickListener(this);
         
         view.findViewById(R.id.display_changelog).setOnClickListener(this);
         mGetElite = view.findViewById(R.id.get_elite);
@@ -145,22 +144,20 @@ public class InfoFragment extends SherlockFragment
                 final Intent updaterIntent = new Intent(getSherlockActivity(), UpdaterActivity.class);
                 startActivity(updaterIntent);
                 break;
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (mModal) return;
-
-        switch (buttonView.getId()) {
-            case R.id.outdated_notification:
-                mPrefs.edit().putBoolean(Preferences.OUTDATED_NOTIFICATION, isChecked).commit();
-                break;
             case R.id.temp_unroot:
                 new ToggleSuOption(Preferences.TEMP_UNROOT).execute();
                 break;
             case R.id.ota_survival:
                 new ToggleSuOption(Preferences.OTA_SURVIVE).execute();
+                break;
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.outdated_notification:
+                mPrefs.edit().putBoolean(Preferences.OUTDATED_NOTIFICATION, isChecked).commit();
                 break;
         }
     }
@@ -277,12 +274,10 @@ public class InfoFragment extends SherlockFragment
                         boolean rooted = (Boolean) values[1];
                         boolean backupAvailable = (Boolean) values[2];
                         mSuOptionsRow.setVisibility(View.VISIBLE);
-                        mModal = true;
                         mTempUnroot.setChecked(!rooted && backupAvailable);
                         mTempUnroot.setEnabled(rooted || backupAvailable);
                         mOtaSurvival.setChecked(backupAvailable);
                         mOtaSurvival.setEnabled(rooted);
-                        mModal = false;
                     }
             }
         }
@@ -305,8 +300,8 @@ public class InfoFragment extends SherlockFragment
             getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
             mTempUnroot.setEnabled(false);
             mOtaSurvival.setEnabled(false);
-            if (mKey.equals(Preferences.TEMP_UNROOT)) mTempUnroot.setText(R.string.updater_working);
-            else mOtaSurvival.setText(R.string.updater_working);
+            if (mKey.equals(Preferences.TEMP_UNROOT)) mTempUnroot.setText(R.string.info_working);
+            else mOtaSurvival.setText(R.string.info_working);
         }
 
         @Override
