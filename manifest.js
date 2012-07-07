@@ -28,6 +28,18 @@
             "url": "http://downloads.noshufou.netdna-cdn.com/superuser/su-bin-3.1-x86-signed.zip"
         },
         {
+            "name": "Superuser 3.2-RC1, arm",
+            "summary": "experimental, use at your own risk",
+            "device": "all",
+            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/Superuser-3.2-arm-signed.zip"
+        },
+        {
+            "name": "Superuser 3.2-RC1, x86,
+            "summary": "experimental, use at your own risk",
+            "device": "all",
+            "url": "http://downloads.noshufou.netdna-cdn.com/superuser/Superuser-3.2-x86-signed.zip"
+        },
+        {
             "name": "Superuser 2.3.6.3 efgh",
             "summary": "Eclair, Froyo, Gingerbread, and Honeycomb (no longer supported)",
             "device": "all",
