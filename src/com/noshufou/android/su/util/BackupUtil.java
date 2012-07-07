@@ -73,14 +73,16 @@ public class BackupUtil {
             serializer.startTag("", "apps");
             while (c.moveToNext()) {
                 serializer.startTag("", "app");
+                Log.d(TAG, c.getString(c.getColumnIndex(Apps.PACKAGE)));
                 serializer.attribute("", Apps.PACKAGE,
                         c.getString(c.getColumnIndex(Apps.PACKAGE)));
                 serializer.attribute("", Apps.NAME,
                         c.getString(c.getColumnIndex(Apps.NAME)));
                 serializer.attribute("", Apps.EXEC_UID,
                         c.getString(c.getColumnIndex(Apps.EXEC_UID)));
-                serializer.attribute("", Apps.EXEC_CMD,
-                        c.getString(c.getColumnIndex(Apps.EXEC_CMD)));
+                String cmd = c.getString(c.getColumnIndex(Apps.EXEC_CMD));
+                cmd = cmd == null ? "" : cmd;
+                serializer.attribute("", Apps.EXEC_CMD, cmd);
                 serializer.attribute("", Apps.ALLOW,
                         c.getString(c.getColumnIndex(Apps.ALLOW)));
                 String notifications = c.getString(c.getColumnIndex(Apps.NOTIFICATIONS));
