@@ -283,6 +283,8 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
         if (key.equals(Preferences.NOTIFICATION_TYPE) && mToastLocation != null) {
             mToastLocation.setEnabled(sharedPreferences
                     .getString(Preferences.NOTIFICATION_TYPE, "toast").equals("toast"));
+        } else if (key.equals(Preferences.AUTOMATIC_ACTION)) {
+            Util.writeDetaultStoreFile(this, sharedPreferences.getString(key, "prompt"));
         }
     }
 

@@ -245,6 +245,8 @@ public class PreferencesFragment extends PreferenceFragment
             updateSecretCode(sharedPreferences.getString(key, "787378737"));
         } else if (key.equals(Preferences.PIN)) {
             setDepsNfc(sharedPreferences.getBoolean(Preferences.PIN, false));
+        } else if (key.equals(Preferences.AUTOMATIC_ACTION)) {
+            Util.writeDetaultStoreFile(getActivity(), sharedPreferences.getString(key, "prompt"));
         }
     }
 

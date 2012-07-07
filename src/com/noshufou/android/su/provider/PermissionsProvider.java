@@ -15,6 +15,11 @@
  ******************************************************************************/
 package com.noshufou.android.su.provider;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 
 import android.content.ContentProvider;
@@ -63,10 +68,8 @@ public class PermissionsProvider extends ContentProvider {
         public static final String LAST_ACCESS_TYPE = Logs.TYPE;
         public static final String NOTIFICATIONS = "notifications";
         public static final String LOGGING = "logging";
-        public static final String DIRTY = "dirty";
 
         public static final class AllowType {
-            public static final int TO_DELETE = -2;
             public static final int ASK = -1;
             public static final int DENY = 0;
             public static final int ALLOW = 1;
@@ -154,7 +157,6 @@ public class PermissionsProvider extends ContentProvider {
         sAppsProjectionMap.put(Apps.LAST_ACCESS_TYPE, Logs.TABLE_NAME + "." + Logs.TYPE);
         sAppsProjectionMap.put(Apps.NOTIFICATIONS, Apps.TABLE_NAME + "." + Apps.NOTIFICATIONS);
         sAppsProjectionMap.put(Apps.LOGGING, Apps.TABLE_NAME + "." + Apps.LOGGING);
-        sAppsProjectionMap.put(Apps.DIRTY, Apps.TABLE_NAME + "." + Apps.DIRTY);
     }
 
     private static final HashMap<String, String> sLogsProjectionMap;
@@ -294,7 +296,6 @@ public class PermissionsProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
         case APPS:
             // TODO: Check validity of incoming data before inserting it
-            values.put(Apps.DIRTY, "1");
             try {
                 rowId = mDb.insertOrThrow(Apps.TABLE_NAME, null, values);
             } catch (SQLException e) {
@@ -322,9 +323,15 @@ public class PermissionsProvider extends ContentProvider {
                 logValues.put(Logs.DATE, System.currentTimeMillis());
                 logValues.put(Logs.TYPE, Logs.LogType.CREATE);
                 mDb.insert(Logs.TABLE_NAME, null, logValues);
+                
+                Util.writeStoreFile(mContext,
+                        values.getAsInteger(Apps.UID),
+                        values.getAsInteger(Apps.EXEC_UID),
+                        values.getAsString(Apps.EXEC_CMD),
+                        values.getAsInteger(Apps.ALLOW));
             }
-            Util.updatePermissionsDb(mContext);
             returnUri = ContentUris.withAppendedId(Apps.CONTENT_URI, rowId);
+
             break;
         case APP_ID_LOGS:
         case LOGS_APP_ID:
@@ -358,38 +365,33 @@ public class PermissionsProvider extends ContentProvider {
 
         int count = 0;
 
-        boolean updatePermissionsDb = false;
-        if (!values.containsKey(Apps.DIRTY)) {
-            Log.d(TAG, "Row dirty, update permissions.sqlite");
-            values.put(Apps.DIRTY, "1");
-            updatePermissionsDb = true;
-        } else {
-            Log.d(TAG, "Row not dirty, don't update permissions.sqlite");
-        }
         switch (sUriMatcher.match(uri)) {
-        case APPS:
-            count = mDb.update(Apps.TABLE_NAME, values, selection, selectionArgs);
-            break;
         case APP_ID:
             count = mDb.update(Apps.TABLE_NAME, values,
                     Apps._ID + "=" + uri.getPathSegments().get(1) +
                     (!TextUtils.isEmpty(selection)? " AND (" +
                             selection  + ")":""),
                     selectionArgs);
-            break;
-        case APP_UID:
-            count = mDb.update(Apps.TABLE_NAME, values,
-                    Apps.UID + "=" + uri.getPathSegments().get(2) +
+            Cursor c = mDb.query(Apps.TABLE_NAME,
+                    null,
+                    Apps._ID + "=" + uri.getPathSegments().get(1) +
                     (!TextUtils.isEmpty(selection)? " AND (" +
                             selection  + ")":""),
-                    selectionArgs);
+                    selectionArgs,
+                    null, null, null);
+            if (c.moveToFirst()) {
+                Util.writeStoreFile(mContext,
+                        c.getInt(c.getColumnIndex(Apps.UID)),
+                        c.getInt(c.getColumnIndex(Apps.EXEC_UID)),
+                        c.getString(c.getColumnIndex(Apps.EXEC_CMD)),
+                        c.getInt(c.getColumnIndex(Apps.ALLOW)));
+            }
+            c.close();
             break;
         default:
             throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
-        if (updatePermissionsDb) {
-            Util.updatePermissionsDb(mContext);
-        }
+
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
     }
@@ -400,25 +402,27 @@ public class PermissionsProvider extends ContentProvider {
 
         int count = 0;
 
-        ContentValues deleteAppValues = new ContentValues();
-        deleteAppValues.put(Apps.ALLOW, Apps.AllowType.TO_DELETE);
-        deleteAppValues.put(Apps.DIRTY, 1);
-
         switch (sUriMatcher.match(uri)) {
-        case APPS:
-            // Don't delete the app here, set it's allow column to -1 and
-            // mark it as dirty. The PermissionsDbService will delete it
-            count = mDb.update(Apps.TABLE_NAME, deleteAppValues, selection, selectionArgs);
-            // Delete from the other DB too
-            Util.updatePermissionsDb(mContext);
-            break;
         case APP_ID:
-            count = mDb.update(Apps.TABLE_NAME, deleteAppValues,
+            Cursor c = mDb.query(Apps.TABLE_NAME,
+                    new String[] { Apps.UID, Apps.EXEC_UID },
+                    Apps._ID + "=" + uri.getPathSegments().get(1) +
+                    (!TextUtils.isEmpty(selection)? " AND (" +
+                            selection  + ")":""),
+                    selectionArgs,
+                    null, null, null);
+            if (c.moveToFirst()) {
+                File file = new File(mContext.getFilesDir().getAbsolutePath() + "/stored/" +
+                        c.getInt(c.getColumnIndex(Apps.UID)) + "-" +
+                        c.getInt(c.getColumnIndex(Apps.EXEC_UID)));
+                file.delete();
+            }
+            c.close();
+            count = mDb.delete(Apps.TABLE_NAME,
                     Apps._ID + "=" + uri.getPathSegments().get(1) +
                     (!TextUtils.isEmpty(selection)? " AND (" +
                             selection  + ")":""),
                     selectionArgs);
-            Util.updatePermissionsDb(mContext);
             // No break here so we can fall through and delete associated logs
         case APP_ID_LOGS:
         case LOGS_APP_ID:
@@ -427,15 +431,6 @@ public class PermissionsProvider extends ContentProvider {
                     (!TextUtils.isEmpty(selection)? " AND (" +
                             selection  + ")":""),
                     selectionArgs);
-            break;
-        case APP_UID:
-            // May remove this, I don't think I'm going to want to use it
-            count = mDb.update(Apps.TABLE_NAME, deleteAppValues,
-                    Apps.UID + "=" + uri.getPathSegments().get(2) +
-                    (!TextUtils.isEmpty(selection)? " AND (" +
-                            selection  + ")":""),
-                    selectionArgs);
-            Util.updatePermissionsDb(mContext);
             break;
         case APP_CLEAN:
             count = mDb.delete(Apps.TABLE_NAME, selection, selectionArgs);
@@ -461,7 +456,7 @@ public class PermissionsProvider extends ContentProvider {
 
     private class SuDbOpenHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "su.db";
-        private static final int DATABASE_VERSION = 4;
+        private static final int DATABASE_VERSION = 5;
 
         SuDbOpenHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -498,10 +493,6 @@ public class PermissionsProvider extends ContentProvider {
                     Log.e(TAG, "dirty column already exists... wut?", e);
                 }
                 // Set everything to dirty
-                ContentValues values = new ContentValues();
-                values.put(Apps.DIRTY, "1");
-                db.update(Apps.TABLE_NAME, values, null, null);
-                Util.updatePermissionsDb(mContext);
                 upgradeVersion = 3;
             }
 
@@ -521,6 +512,26 @@ public class PermissionsProvider extends ContentProvider {
                 c.close();
                 upgradeVersion = 4;
             }
+
+            if (upgradeVersion == 4) {
+                Cursor c = db.query(Apps.TABLE_NAME, null, null, null, null, null, null);
+                while (c.moveToNext()) {
+                    Util.writeStoreFile(mContext,
+                            c.getInt(c.getColumnIndex(Apps.UID)),
+                            c.getInt(c.getColumnIndex(Apps.EXEC_UID)),
+                            c.getString(c.getColumnIndex(Apps.EXEC_CMD)),
+                            c.getInt(c.getColumnIndex(Apps.ALLOW)));
+                }
+                c.close();
+                mContext.deleteDatabase("permissions.sqlite");
+                upgradeVersion = 5;
+            }
+
+        }
+
+        @Override
+        public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            // TODO Auto-generated method stub
         }
     }
 
