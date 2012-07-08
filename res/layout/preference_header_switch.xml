@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2006 The Android Open Source Project
+<!--
+     Copyright (C) 2006 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -16,55 +17,59 @@
 
 <!-- Layout of a header item in PreferenceActivity. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="48dp"
     android:background="?android:attr/activatedBackgroundIndicator"
     android:gravity="center_vertical"
-    android:paddingRight="?android:attr/scrollbarSize">
+    android:minHeight="48dp"
+    android:paddingRight="?android:attr/scrollbarSize"
+    tools:ignore="NewApi" >
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
-        android:layout_gravity="center" />
+        android:layout_marginRight="6dip" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="6dip"
         android:layout_marginLeft="2dip"
         android:layout_marginRight="6dip"
         android:layout_marginTop="6dip"
-        android:layout_marginBottom="6dip"
-        android:layout_weight="1">
+        android:layout_weight="1" >
 
-        <TextView android:id="@+android:id/title"
+        <TextView
+            android:id="@+android:id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:ellipsize="marquee"
-            android:fadingEdge="horizontal" />
+            android:fadingEdge="horizontal"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView android:id="@+android:id/summary"
+        <TextView
+            android:id="@+android:id/summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@android:id/title"
             android:layout_alignLeft="@android:id/title"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_below="@android:id/title"
             android:ellipsize="end"
-            android:maxLines="2" />
-
+            android:maxLines="2"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>
 
-   <Switch android:id="@+id/switchWidget"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_gravity="center"
-       android:padding="8dip"
-       android:focusable="false"
-       android:clickable="true" />
+    <Switch
+        android:id="@+id/switchWidget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="false"
+        android:padding="8dip" />
 
 </LinearLayout>

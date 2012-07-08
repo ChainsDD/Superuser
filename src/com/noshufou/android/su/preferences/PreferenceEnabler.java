@@ -1,11 +1,13 @@
 package com.noshufou.android.su.preferences;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+@TargetApi(14)
 public class PreferenceEnabler implements CompoundButton.OnCheckedChangeListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "PreferencesEnabler";

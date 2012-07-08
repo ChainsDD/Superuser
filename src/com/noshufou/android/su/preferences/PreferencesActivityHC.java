@@ -3,6 +3,7 @@ package com.noshufou.android.su.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.nfc.NfcAdapter;
 import android.os.Build;
@@ -11,7 +12,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -23,6 +23,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.noshufou.android.su.R;
 import com.noshufou.android.su.util.Util;
 
+@TargetApi(11)
 public class PreferencesActivityHC extends SherlockPreferenceActivity {
     
     private List<Header> mHeaders;
@@ -135,6 +136,7 @@ public class PreferencesActivityHC extends SherlockPreferenceActivity {
             return true;
         }
         
+        @TargetApi(14)
         public HeaderAdapter(Context context, List<Header> objects) {
             super(context, 0, objects);
             mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

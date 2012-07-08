@@ -17,10 +17,12 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:gravity="center"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    tools:ignore="NewApi" >
 
     <NumberPicker
         android:id="@+id/number_picker"
@@ -28,7 +30,7 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true" />
-    
+
     <TextView
         android:id="@+id/unit"
         android:layout_width="wrap_content"

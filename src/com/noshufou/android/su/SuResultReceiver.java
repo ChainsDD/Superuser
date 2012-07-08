@@ -15,12 +15,12 @@
  ******************************************************************************/
 package com.noshufou.android.su;
 
-import com.noshufou.android.su.service.ResultService;
-import com.noshufou.android.su.util.Util;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.noshufou.android.su.service.ResultService;
+import com.noshufou.android.su.util.Util;
 
 public class SuResultReceiver extends BroadcastReceiver {
 

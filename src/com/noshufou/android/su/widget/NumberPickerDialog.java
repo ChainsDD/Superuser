@@ -17,6 +17,7 @@
 
 package com.noshufou.android.su.widget;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,6 +33,7 @@ import com.noshufou.android.su.R;
 /**
  * A dialog that prompts the user for the message deletion limits.
  */
+@TargetApi(11)
 public class NumberPickerDialog extends AlertDialog implements OnClickListener {
 
     private static final String NUMBER = "number";
