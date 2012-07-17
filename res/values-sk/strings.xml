@@ -55,7 +55,6 @@
   <string name="detail_request">Požadované UID</string>
   <string name="detail_command">Príkaz</string>
   <string name="detail_status">Stav</string>
-  <string name="info_elite_installed">Elite nainštalovaný</string>
   <string name="info_display_changelog">kliknite pre zobrazenie zmien</string>
   <string name="info_elite_installed">Elite nainštalovaný</string>
   <string name="info_elite_not_installed">Elit nie je nainštalovaný</string>

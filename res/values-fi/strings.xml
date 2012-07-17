@@ -55,7 +55,6 @@
   <string name="detail_request">Pyydetty UID</string>
   <string name="detail_command">Komento</string>
   <string name="detail_status">Tila</string>
-  <string name="info_elite_installed">elite on asennettu</string>
   <string name="info_display_changelog">napauta nähdäksesi muutoslokin</string>
   <string name="info_elite_installed">elite on asennettu</string>
   <string name="info_elite_not_installed">elite ei ole asennettu</string>

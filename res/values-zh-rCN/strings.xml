@@ -55,7 +55,6 @@
   <string name="detail_request">请求 UID</string>
   <string name="detail_command">命令</string>
   <string name="detail_status">状态</string>
-  <string name="info_elite_installed">精英版已安装</string>
   <string name="info_display_changelog">点击此处查看更新日志</string>
   <string name="info_elite_installed">精英版已安装</string>
   <string name="info_elite_not_installed">未安装精英版</string>
