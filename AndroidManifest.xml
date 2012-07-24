@@ -135,12 +135,6 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-        <receiver android:name="UpdatePermissionsReceiver">
-            <intent-filter>
-                <action android:name="com.noshufou.android.su.UPDATE_PERMISSIONS" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
         
         <service android:name=".service.ResultService" />
         <service android:name=".service.PermissionsDbService" />
