@@ -55,7 +55,6 @@
   <string name="detail_request">요청된 UID</string>
   <string name="detail_command">명령</string>
   <string name="detail_status">상태</string>
-  <string name="info_elite_installed">Elite 버전 설치됨</string>
   <string name="info_display_changelog">터치하여 변경 내역 표시</string>
   <string name="info_elite_installed">Elite 버전 설치됨</string>
   <string name="info_elite_not_installed">Elite 버전 미설치</string>

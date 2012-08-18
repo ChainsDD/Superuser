@@ -55,7 +55,6 @@
   <string name="detail_request">Żądane UID</string>
   <string name="detail_command">Polecenie</string>
   <string name="detail_status">Status</string>
-  <string name="info_elite_installed">Wersja Elite zainstalowana</string>
   <string name="info_display_changelog">Puknij aby wyświetlić listę zmian</string>
   <string name="info_elite_installed">Wersja Elite zainstalowana</string>
   <string name="info_elite_not_installed">Wersja Elite nie jest zainstalowana</string>

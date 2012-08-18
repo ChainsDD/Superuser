@@ -55,7 +55,6 @@
   <string name="detail_request">UID solicitada</string>
   <string name="detail_command">Comando</string>
   <string name="detail_status">Estado</string>
-  <string name="info_elite_installed">elite instalado</string>
   <string name="info_display_changelog">pulse para mostrar el registro de cambios</string>
   <string name="info_elite_installed">elite instalado</string>
   <string name="info_elite_not_installed">elite no instalado</string>

@@ -55,7 +55,6 @@
   <string name="detail_request">Angeforderte UID</string>
   <string name="detail_command">Befehl</string>
   <string name="detail_status">Status</string>
-  <string name="info_elite_installed">Elite installiert</string>
   <string name="info_display_changelog">Drücken um Changelog anzuzeigen</string>
   <string name="info_elite_installed">Elite installiert</string>
   <string name="info_elite_not_installed">Elite nicht installiert</string>
