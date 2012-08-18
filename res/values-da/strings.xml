@@ -55,7 +55,6 @@
   <string name="detail_request">Anmodet UID</string>
   <string name="detail_command">Kommando</string>
   <string name="detail_status">Status</string>
-  <string name="info_elite_installed">elite er installeret</string>
   <string name="info_display_changelog">Tryk for at vise changelog</string>
   <string name="info_elite_installed">elite er installeret</string>
   <string name="info_elite_not_installed">elite er ikke installeret</string>

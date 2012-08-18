@@ -268,7 +268,7 @@ public class InfoFragment extends SherlockFragment
                     mOutdatedNotification.setChecked((Boolean) values[1]);
                     break;
                 case 5:
-                    if (values[0] == null) {
+                    if (values[1] == null) {
                         mSuOptionsRow.setVisibility(View.GONE);
                     } else {
                         boolean rooted = (Boolean) values[1];
