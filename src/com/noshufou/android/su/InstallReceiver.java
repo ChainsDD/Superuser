@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.noshufou.android.su.util.Util;
@@ -48,17 +49,19 @@ public class InstallReceiver extends BroadcastReceiver {
         if (Util.isPackageMalicious(context, packageInfo) != 0) {
             NotificationManager nm = 
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            Notification notification = new Notification(R.drawable.stat_su,
-                    context.getString(R.string.malicious_app_notification_ticker),
-                    System.currentTimeMillis());
-            CharSequence contentTitle = context.getString(R.string.app_name);
-            CharSequence contentText = context.getString(R.string.malicious_app_notification_text,
-                    pm.getApplicationLabel(packageInfo.applicationInfo));
             Intent notificationIntent = new Intent(Intent.ACTION_DELETE, intent.getData());
             PendingIntent contentIntent =
                 PendingIntent.getActivity(context, 0, notificationIntent, 0);
-            notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-            notification.flags |= Notification.FLAG_AUTO_CANCEL;
+            Notification notification = new NotificationCompat.Builder(context)
+                    .setSmallIcon(R.drawable.stat_su)
+                    .setTicker(context.getText(R.string.malicious_app_notification_ticker))
+                    .setWhen(System.currentTimeMillis())
+                    .setContentTitle(context.getText(R.string.app_name))
+                    .setContentText(context.getString(R.string.malicious_app_notification_text,
+                            pm.getApplicationLabel(packageInfo.applicationInfo)))
+                    .setContentIntent(contentIntent)
+                    .setAutoCancel(true)
+                    .getNotification();
             nm.notify(0, notification);
         }
     }

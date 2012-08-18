@@ -46,6 +46,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.SparseArray;
@@ -617,13 +618,18 @@ public class Util {
                 .getBoolean(Preferences.OUTDATED_NOTIFICATION, true)) {
             NotificationManager nm = 
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            Notification notification = new Notification(R.drawable.stat_su,
-                    context.getString(R.string.notif_outdated_ticker), System.currentTimeMillis());
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
                     new Intent(context, UpdaterActivity.class), 0);
-            notification.setLatestEventInfo(context, context.getString(R.string.notif_outdated_title),
-                    context.getString(R.string.notif_outdated_text), contentIntent);
-            notification.flags |= Notification.FLAG_AUTO_CANCEL;
+            Notification notification = new NotificationCompat.Builder(context)
+                    .setSmallIcon(R.drawable.stat_su)
+                    .setTicker(context.getText(R.string.notif_outdated_ticker))
+                    .setWhen(System.currentTimeMillis())
+                    .setContentTitle(context.getText(R.string.notif_outdated_title))
+                    .setContentText(context.getText(R.string.notif_outdated_text))
+                    .setContentIntent(contentIntent)
+                    .setAutoCancel(true)
+                    .setOnlyAlertOnce(true)
+                    .getNotification();
             nm.notify(UpdaterService.NOTIFICATION_ID, notification);
         }
     }

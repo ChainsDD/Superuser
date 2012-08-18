@@ -13,7 +13,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.noshufou.android.su.HomeActivity;
@@ -150,11 +150,16 @@ public class ResultService extends IntentService {
             // TODO: Include extras to tell HomeActivity what to do
             PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                     notificationIntent, 0);
-            Notification notification = new Notification(R.drawable.stat_su,
-                    notificationMessage, currentTime);
-            notification.setLatestEventInfo(this, getString(R.string.app_name),
-                    notificationMessage, contentIntent);
-            notification.flags |= Notification.FLAG_AUTO_CANCEL|Notification.FLAG_ONLY_ALERT_ONCE;
+            Notification notification = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.drawable.stat_su)
+                    .setTicker(notificationMessage)
+                    .setWhen(System.currentTimeMillis())
+                    .setContentTitle(getText(R.string.app_name))
+                    .setContentText(notificationMessage)
+                    .setContentIntent(contentIntent)
+                    .setAutoCancel(true)
+                    .setOnlyAlertOnce(true)
+                    .getNotification();
             nm.notify(callerUid, notification);
         }
     }
