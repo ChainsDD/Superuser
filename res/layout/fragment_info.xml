@@ -58,7 +58,8 @@
         </LinearLayout>
         <TextView style="@style/InfoInfo"
             android:id="@+id/su_warning"
-            android:text="@string/info_check_updates" />
+            android:text="@string/info_check_updates"
+            android:visibility="gone" />
         <CheckBox
             android:id="@+id/outdated_notification"
             android:layout_width="match_parent"

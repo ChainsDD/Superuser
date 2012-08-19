@@ -140,10 +140,10 @@ public class InfoFragment extends SherlockFragment
                 eliteIntent.setData(Uri.parse("market://details?id=com.noshufou.android.su.elite"));
                 startActivity(eliteIntent);
                 break;
-            case R.id.binary_updater:
-                final Intent updaterIntent = new Intent(getSherlockActivity(), UpdaterActivity.class);
-                startActivity(updaterIntent);
-                break;
+//            case R.id.binary_updater:
+//                final Intent updaterIntent = new Intent(getSherlockActivity(), UpdaterActivity.class);
+//                startActivity(updaterIntent);
+//                break;
             case R.id.temp_unroot:
                 new ToggleSuOption(Preferences.TEMP_UNROOT).execute();
                 break;
