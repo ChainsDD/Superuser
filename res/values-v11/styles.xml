@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <resources>
-    <style name="Dialog" parent="android:style/Theme.Holo.Light.Dialog" />
+    <style name="Dialog" parent="android:style/Theme.Holo.Dialog" />
     
     <style name="TitleBar">
         <item name="android:id">@id/title_container</item>
