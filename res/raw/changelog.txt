@@ -24,6 +24,19 @@
   </head>
 
   <body>
+$ 47
+  %3.2
+  _2012-07
+  * Use supercurio's OTA rootkeeper for temp unroot and ota survival
+  * Use cat instead of cp in binary updater
+  * Add support for CyanogenMod's root system setting
+  * Use flat files instead of the database for allowing/denying of apps
+  * Fix automatic response
+  * Fix FC when backing up apps/preferences
+  * Temporarily disable the binary updater for security concerns
+  * Close several security vulnerabilities
+  * Fix white prompt on some devices
+  
 $ 46
   %3.1.3
   _2012-07-01
