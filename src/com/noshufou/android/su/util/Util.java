@@ -795,9 +795,17 @@ public class Util {
         try {
             OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(
                     new File(storedDir.getAbsolutePath() + File.separator + fileName)));
+            switch (allow) {
+                case AllowType.ALLOW:
+                    out.write("allow\n");
+                    break;
+                case AllowType.DENY:
+                    out.write("deny\n");
+                    break;
+                default:
+                    out.write("prompt\n");
+            }
             out.write(cmd);
-            out.write('\n');
-            out.write(String.valueOf(allow));
             out.write('\n');
             out.flush();
             out.close();
@@ -819,14 +827,8 @@ public class Util {
         String action = prefs.getString(Preferences.AUTOMATIC_ACTION, "prompt");
         try {
             OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(defFile.getAbsolutePath()));
-            out.write("default\n");
-            if (action.equals("allow")) {
-                out.write("1");
-            } else if (action.equals("deny")) {
-                out.write("0");
-            } else {
-                out.write("-1");
-            }
+            out.write(action);
+            out.write("\n");
             out.flush();
             out.close();
         } catch (FileNotFoundException e) {
