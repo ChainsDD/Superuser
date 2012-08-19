@@ -811,7 +811,7 @@ public class Util {
         return true;
     }
     
-    public static boolean writeDetaultStoreFile(Context context) {
+    public static boolean writeDefaultStoreFile(Context context) {
         File storedDir = new File(context.getFilesDir().getAbsolutePath() + File.separator + "stored");
         storedDir.mkdirs();
         File defFile = new File(storedDir.getAbsolutePath() + File.separator + "default");

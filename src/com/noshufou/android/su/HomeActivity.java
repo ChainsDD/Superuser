@@ -95,7 +95,7 @@ public class HomeActivity extends SherlockFragmentActivity implements DialogInte
         ChangeLog cl = new ChangeLog(this);
         if (cl.firstRun()) {
             cl.getLogDialog().show();
-            Util.writeDetaultStoreFile(this);
+            Util.writeDefaultStoreFile(this);
         }
         
         // Check for root enabled on CyanogenMod 9
