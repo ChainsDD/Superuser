@@ -246,7 +246,7 @@ public class PreferencesFragment extends PreferenceFragment
         } else if (key.equals(Preferences.PIN)) {
             setDepsNfc(sharedPreferences.getBoolean(Preferences.PIN, false));
         } else if (key.equals(Preferences.AUTOMATIC_ACTION)) {
-            Util.writeDetaultStoreFile(getActivity(), sharedPreferences.getString(key, "prompt"));
+            Util.writeDetaultStoreFile(getActivity());
         }
     }
 

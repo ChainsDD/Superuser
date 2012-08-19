@@ -57,6 +57,7 @@ import com.noshufou.android.su.UpdaterActivity;
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.preferences.PreferencesActivity;
 import com.noshufou.android.su.preferences.PreferencesActivityHC;
+import com.noshufou.android.su.provider.PermissionsProvider.Apps.AllowType;
 import com.noshufou.android.su.service.UpdaterService;
 
 public class Util {
@@ -810,28 +811,31 @@ public class Util {
         return true;
     }
     
-    public static boolean writeDetaultStoreFile(Context context, String action) {
-       File storedDir = new File(context.getFilesDir().getAbsolutePath() + File.separator + "stored");
-       storedDir.mkdirs();
-       File defFile = new File(storedDir.getAbsolutePath() + File.separator + "default");
-       try {
-           OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(defFile.getAbsolutePath()));
-           if (action.equals("allow")) {
-               out.write("1");
-           } else if (action.equals("deny")) {
-               out.write("0");
-           } else {
-               out.write("-1");
-           }
-           out.flush();
-           out.close();
-       } catch (FileNotFoundException e) {
-           Log.w(TAG, "Default file not written", e);
-           return false;
-       } catch (IOException e) {
-           Log.w(TAG, "Default file not written", e);
-           return false;
-       }
-       return true;
+    public static boolean writeDetaultStoreFile(Context context) {
+        File storedDir = new File(context.getFilesDir().getAbsolutePath() + File.separator + "stored");
+        storedDir.mkdirs();
+        File defFile = new File(storedDir.getAbsolutePath() + File.separator + "default");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String action = prefs.getString(Preferences.AUTOMATIC_ACTION, "prompt");
+        try {
+            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(defFile.getAbsolutePath()));
+            out.write("default\n");
+            if (action.equals("allow")) {
+                out.write("1");
+            } else if (action.equals("deny")) {
+                out.write("0");
+            } else {
+                out.write("-1");
+            }
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            Log.w(TAG, "Default file not written", e);
+            return false;
+        } catch (IOException e) {
+            Log.w(TAG, "Default file not written", e);
+            return false;
+        }
+        return true;
     }
 }

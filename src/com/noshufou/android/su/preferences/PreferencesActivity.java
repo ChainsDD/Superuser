@@ -284,7 +284,7 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
             mToastLocation.setEnabled(sharedPreferences
                     .getString(Preferences.NOTIFICATION_TYPE, "toast").equals("toast"));
         } else if (key.equals(Preferences.AUTOMATIC_ACTION)) {
-            Util.writeDetaultStoreFile(this, sharedPreferences.getString(key, "prompt"));
+            Util.writeDetaultStoreFile(this);
         }
     }
 
