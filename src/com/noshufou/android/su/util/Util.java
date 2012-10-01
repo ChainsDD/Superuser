@@ -36,6 +36,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,7 +44,9 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -57,6 +60,7 @@ import com.noshufou.android.su.UpdaterActivity;
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.preferences.PreferencesActivity;
 import com.noshufou.android.su.preferences.PreferencesActivityHC;
+import com.noshufou.android.su.provider.PermissionsProvider.Apps;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps.AllowType;
 import com.noshufou.android.su.service.UpdaterService;
 
@@ -784,29 +788,42 @@ public class Util {
         return output;
     }
 
-    public static boolean writeStoreFile(Context context, int uid, int execUid, String cmd, int allow) {
+    public static boolean writeStoreFile(Context context, int uid, int execUid) {
         File storedDir = new File(context.getFilesDir().getAbsolutePath() + File.separator + "stored");
         storedDir.mkdirs();
-        if (cmd == null) {
-            Log.d(TAG, "App stored for logging purposes, file not required");
-            return false;
-        }
         String fileName = uid + "-" + execUid;
+        ContentResolver cr = context.getContentResolver();
+        Cursor c = cr.query(Uri.withAppendedPath(Apps.CONTENT_URI, "uid/" + uid),
+        		new String[] { Apps.EXEC_CMD, Apps.ALLOW },
+        		Apps.EXEC_UID + "=?",
+        		new String[] { String.valueOf(execUid) },
+        		null);
         try {
             OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(
                     new File(storedDir.getAbsolutePath() + File.separator + fileName)));
-            switch (allow) {
-                case AllowType.ALLOW:
-                    out.write("allow\n");
-                    break;
-                case AllowType.DENY:
-                    out.write("deny\n");
-                    break;
-                default:
-                    out.write("prompt\n");
+            if (c.getCount() != 0) {
+            	while (c.moveToNext()) {
+            		String cmd = c.getString(c.getColumnIndex(Apps.EXEC_CMD));
+            		if (cmd == null) break;
+            		switch (c.getInt(c.getColumnIndex(Apps.ALLOW))) {
+            		case AllowType.ALLOW:
+            			out.write("allow\n");
+            			break;
+            		case AllowType.DENY:
+            			out.write("deny\n");
+            			break;
+            		default:
+            			out.write("prompt\n");
+            		}
+            		cmd = cmd.replaceAll("\\n", "; ");
+            		out.write(c.getString(c.getColumnIndex(Apps.EXEC_CMD)));
+            		out.write('\n');
+            	}
+            } else {
+                File file = new File(context.getFilesDir().getAbsolutePath() + "/stored/" +
+                        uid + "-" + execUid);
+                file.delete();
             }
-            out.write(cmd);
-            out.write('\n');
             out.flush();
             out.close();
         } catch (FileNotFoundException e) {
@@ -815,6 +832,8 @@ public class Util {
         } catch (IOException e) {
             Log.w(TAG, "Store file not written", e);
             return false;
+        } finally {
+        	c.close();
         }
         return true;
     }

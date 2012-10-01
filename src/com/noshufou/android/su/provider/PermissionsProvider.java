@@ -326,9 +326,7 @@ public class PermissionsProvider extends ContentProvider {
                 
                 Util.writeStoreFile(mContext,
                         values.getAsInteger(Apps.UID),
-                        values.getAsInteger(Apps.EXEC_UID),
-                        values.getAsString(Apps.EXEC_CMD),
-                        values.getAsInteger(Apps.ALLOW));
+                        values.getAsInteger(Apps.EXEC_UID));
             }
             returnUri = ContentUris.withAppendedId(Apps.CONTENT_URI, rowId);
 
@@ -382,9 +380,7 @@ public class PermissionsProvider extends ContentProvider {
             if (c.moveToFirst()) {
                 Util.writeStoreFile(mContext,
                         c.getInt(c.getColumnIndex(Apps.UID)),
-                        c.getInt(c.getColumnIndex(Apps.EXEC_UID)),
-                        c.getString(c.getColumnIndex(Apps.EXEC_CMD)),
-                        c.getInt(c.getColumnIndex(Apps.ALLOW)));
+                        c.getInt(c.getColumnIndex(Apps.EXEC_UID)));
             }
             c.close();
             break;
@@ -404,6 +400,7 @@ public class PermissionsProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
         case APP_ID:
+        	int uid = 0, execUid = 0;
             Cursor c = mDb.query(Apps.TABLE_NAME,
                     new String[] { Apps.UID, Apps.EXEC_UID },
                     Apps._ID + "=" + uri.getPathSegments().get(1) +
@@ -412,10 +409,8 @@ public class PermissionsProvider extends ContentProvider {
                     selectionArgs,
                     null, null, null);
             if (c.moveToFirst()) {
-                File file = new File(mContext.getFilesDir().getAbsolutePath() + "/stored/" +
-                        c.getInt(c.getColumnIndex(Apps.UID)) + "-" +
-                        c.getInt(c.getColumnIndex(Apps.EXEC_UID)));
-                file.delete();
+            	uid = c.getInt(c.getColumnIndex(Apps.UID));
+            	execUid = c.getInt(c.getColumnIndex(Apps.EXEC_UID));
             }
             c.close();
             count = mDb.delete(Apps.TABLE_NAME,
@@ -423,6 +418,7 @@ public class PermissionsProvider extends ContentProvider {
                     (!TextUtils.isEmpty(selection)? " AND (" +
                             selection  + ")":""),
                     selectionArgs);
+            Util.writeStoreFile(mContext, uid, execUid);
             // No break here so we can fall through and delete associated logs
         case APP_ID_LOGS:
         case LOGS_APP_ID:
@@ -518,9 +514,7 @@ public class PermissionsProvider extends ContentProvider {
                 while (c.moveToNext()) {
                     Util.writeStoreFile(mContext,
                             c.getInt(c.getColumnIndex(Apps.UID)),
-                            c.getInt(c.getColumnIndex(Apps.EXEC_UID)),
-                            c.getString(c.getColumnIndex(Apps.EXEC_CMD)),
-                            c.getInt(c.getColumnIndex(Apps.ALLOW)));
+                            c.getInt(c.getColumnIndex(Apps.EXEC_UID)));
                 }
                 c.close();
                 mContext.deleteDatabase("permissions.sqlite");
