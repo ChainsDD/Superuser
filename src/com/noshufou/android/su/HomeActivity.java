@@ -160,15 +160,18 @@ public class HomeActivity extends SherlockFragmentActivity implements DialogInte
         return super.onOptionsItemSelected(item);
     }
 
-    public void showDetails(long id) {
+    public void showDetails(long id, int uid, int allow) {
         if (mDualPane) {
             Fragment fragment = getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_container);
             if (fragment instanceof AppDetailsFragment) {
-                ((AppDetailsFragment)fragment).setShownIndex(id);
+//                ((AppDetailsFragment)fragment).setShownIndex(id);
+                ((AppDetailsFragment)fragment).setShownItem(id, uid, allow);
             } else {
                 Bundle bundle = new Bundle();
                 bundle.putLong("index", id);
+                bundle.putInt("uid", uid);
+                bundle.putInt("allow", allow);
                 Fragment detailsFragment = 
                         Fragment.instantiate(this, AppDetailsFragment.class.getName(), bundle);
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -180,6 +183,8 @@ public class HomeActivity extends SherlockFragmentActivity implements DialogInte
         } else {
             Intent intent = new Intent(this, AppDetailsActivity.class);
             intent.putExtra("index", id);
+            intent.putExtra("uid", uid);
+            intent.putExtra("allow", allow);
             startActivity(intent);
         }
     }

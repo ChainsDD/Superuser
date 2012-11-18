@@ -15,11 +15,6 @@
  ******************************************************************************/
 package com.noshufou.android.su.provider;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.HashMap;
 
 import android.content.ContentProvider;
@@ -52,6 +47,12 @@ public class PermissionsProvider extends ContentProvider {
 
         public static final Uri CONTENT_URI =
             Uri.parse("content://com.noshufou.android.su.provider/apps");
+        public static final Uri CONTENT_URI_UID_GRP =
+        		Uri.parse("content://com.noshufou.android.su.provider/apps/uidgrp");
+        public static final Uri CONTENT_URI_UID =
+        		Uri.parse("content://com.noshufou.android.su.provider/apps/uid");
+        public static final Uri CONTENT_UID_LOGS =
+        		Uri.parse("content://com.noshufou.android.su.provider/apps/uid/logs");
         public static final Uri COUNT_CONTENT_URI = 
             Uri.parse("content://com.noshufou.android.su.provider/apps/count");
         public static final String TABLE_NAME = "apps";
@@ -99,6 +100,8 @@ public class PermissionsProvider extends ContentProvider {
         public static final String UID = Apps.UID;
         public static final String NAME = Apps.NAME;
         public static final String PACKAGE = Apps.PACKAGE;
+        public static final String EXEC_CMD = Apps.EXEC_CMD;
+        public static final String ALLOW = Apps.ALLOW;
         public static final String DATE = "date";
         public static final String TYPE = "type";
 
@@ -117,6 +120,7 @@ public class PermissionsProvider extends ContentProvider {
     }
 
     private static final int APPS = 100;
+    private static final int APPS_UID_GRP = 108;
     private static final int APP_ID = 101;
     private static final int APP_CLEAN = 107;
     private static final int APP_ID_LOGS = 102;
@@ -131,11 +135,12 @@ public class PermissionsProvider extends ContentProvider {
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
         sUriMatcher.addURI(AUTHORITY, "apps", APPS);
+        sUriMatcher.addURI(AUTHORITY, "apps/uidgrp", APPS_UID_GRP);
         sUriMatcher.addURI(AUTHORITY, "apps/#", APP_ID);
         sUriMatcher.addURI(AUTHORITY, "apps/clean", APP_CLEAN);
-        sUriMatcher.addURI(AUTHORITY, "apps/#/logs", APP_ID_LOGS);
+        sUriMatcher.addURI(AUTHORITY, "apps/logs/#", APP_ID_LOGS);
         sUriMatcher.addURI(AUTHORITY, "apps/uid/#", APP_UID);
-        sUriMatcher.addURI(AUTHORITY, "apps/uid/#/logs", APP_UID_LOGS);
+        sUriMatcher.addURI(AUTHORITY, "apps/uid/logs/#", APP_UID_LOGS);
         sUriMatcher.addURI(AUTHORITY, "apps/count", APP_COUNT);
         sUriMatcher.addURI(AUTHORITY, "apps/count/#", APP_COUNT_TYPE);
         sUriMatcher.addURI(AUTHORITY, "logs", LOGS);
@@ -167,6 +172,8 @@ public class PermissionsProvider extends ContentProvider {
         sLogsProjectionMap.put(Logs.UID, Apps.TABLE_NAME + "." + Apps.UID);
         sLogsProjectionMap.put(Logs.NAME, Apps.TABLE_NAME + "." + Apps.NAME);
         sLogsProjectionMap.put(Logs.PACKAGE, Apps.TABLE_NAME + "." + Apps.PACKAGE);
+        sLogsProjectionMap.put(Logs.EXEC_CMD, Apps.TABLE_NAME + "." + Apps.EXEC_CMD);
+        sLogsProjectionMap.put(Logs.ALLOW, Apps.TABLE_NAME + "." + Apps.ALLOW);
         sLogsProjectionMap.put(Logs.DATE, Logs.TABLE_NAME + "." + Logs.DATE);
         sLogsProjectionMap.put(Logs.TYPE, Logs.TABLE_NAME + "." + Logs.TYPE);
     }
@@ -216,6 +223,7 @@ public class PermissionsProvider extends ContentProvider {
         // Set up table and default projection
         switch (uriMatch) {
         case APPS:
+        case APPS_UID_GRP:
         case APP_ID:
         case APP_UID:
             qBuilder.setTables(Apps.APPS_LOGS_JOIN);
@@ -259,7 +267,7 @@ public class PermissionsProvider extends ContentProvider {
             qBuilder.appendWhere(" apps.uid=" + uri.getPathSegments().get(2));
             break;
         case APP_UID_LOGS:
-            qBuilder.appendWhere("apps.uid=" + uri.getPathSegments().get(2));
+            qBuilder.appendWhere("apps.uid=" + uri.getPathSegments().get(3));
             break;
         case LOGS_TYPE:
             qBuilder.appendWhere("logs.type=" + uri.getPathSegments().get(2));
@@ -267,6 +275,9 @@ public class PermissionsProvider extends ContentProvider {
         case APP_COUNT_TYPE:
             qBuilder.appendWhere("apps.allow=" + uri.getPathSegments().get(2));
         }
+        
+        if (uriMatch == APPS_UID_GRP)
+        	groupBy = Apps.UID + ", " + Apps.ALLOW;
 
         // TODO: Check columns in incoming projection to make sure they're valid
         projection = projection==null?defaultProjection:projection;
@@ -326,7 +337,9 @@ public class PermissionsProvider extends ContentProvider {
                 
                 Util.writeStoreFile(mContext,
                         values.getAsInteger(Apps.UID),
-                        values.getAsInteger(Apps.EXEC_UID));
+                        values.getAsInteger(Apps.EXEC_UID),
+                        values.getAsString(Apps.EXEC_CMD),
+                        values.getAsInteger(Apps.ALLOW));
             }
             returnUri = ContentUris.withAppendedId(Apps.CONTENT_URI, rowId);
 
@@ -380,7 +393,9 @@ public class PermissionsProvider extends ContentProvider {
             if (c.moveToFirst()) {
                 Util.writeStoreFile(mContext,
                         c.getInt(c.getColumnIndex(Apps.UID)),
-                        c.getInt(c.getColumnIndex(Apps.EXEC_UID)));
+                        c.getInt(c.getColumnIndex(Apps.EXEC_UID)),
+                        c.getString(c.getColumnIndex(Apps.EXEC_CMD)),
+                        c.getInt(c.getColumnIndex(Apps.ALLOW)));
             }
             c.close();
             break;
@@ -401,8 +416,9 @@ public class PermissionsProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
         case APP_ID:
         	int uid = 0, execUid = 0;
+        	String cmd = null;
             Cursor c = mDb.query(Apps.TABLE_NAME,
-                    new String[] { Apps.UID, Apps.EXEC_UID },
+                    new String[] { Apps.UID, Apps.EXEC_UID, Apps.EXEC_CMD },
                     Apps._ID + "=" + uri.getPathSegments().get(1) +
                     (!TextUtils.isEmpty(selection)? " AND (" +
                             selection  + ")":""),
@@ -411,6 +427,7 @@ public class PermissionsProvider extends ContentProvider {
             if (c.moveToFirst()) {
             	uid = c.getInt(c.getColumnIndex(Apps.UID));
             	execUid = c.getInt(c.getColumnIndex(Apps.EXEC_UID));
+            	cmd = c.getString(c.getColumnIndex(Apps.EXEC_CMD));
             }
             c.close();
             count = mDb.delete(Apps.TABLE_NAME,
@@ -418,7 +435,7 @@ public class PermissionsProvider extends ContentProvider {
                     (!TextUtils.isEmpty(selection)? " AND (" +
                             selection  + ")":""),
                     selectionArgs);
-            Util.writeStoreFile(mContext, uid, execUid);
+            Util.deleteStoreFile(mContext, uid, execUid, cmd);
             // No break here so we can fall through and delete associated logs
         case APP_ID_LOGS:
         case LOGS_APP_ID:
@@ -452,7 +469,7 @@ public class PermissionsProvider extends ContentProvider {
 
     private class SuDbOpenHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "su.db";
-        private static final int DATABASE_VERSION = 6;
+        private static final int DATABASE_VERSION = 7;
 
         SuDbOpenHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -509,16 +526,18 @@ public class PermissionsProvider extends ContentProvider {
                 upgradeVersion = 4;
             }
 
-            if (upgradeVersion <= 5) {
+            if (upgradeVersion <= 6) {
                 Cursor c = db.query(Apps.TABLE_NAME, null, null, null, null, null, null);
                 while (c.moveToNext()) {
                     Util.writeStoreFile(mContext,
                             c.getInt(c.getColumnIndex(Apps.UID)),
-                            c.getInt(c.getColumnIndex(Apps.EXEC_UID)));
+                            c.getInt(c.getColumnIndex(Apps.EXEC_UID)),
+                            c.getString(c.getColumnIndex(Apps.EXEC_CMD)),
+                            c.getInt(c.getColumnIndex(Apps.ALLOW)));
                 }
                 c.close();
                 mContext.deleteDatabase("permissions.sqlite");
-                upgradeVersion = 6;
+                upgradeVersion = 7;
             }
 
         }

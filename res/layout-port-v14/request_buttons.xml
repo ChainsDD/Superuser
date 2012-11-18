@@ -33,10 +33,4 @@
             android:text="@string/allow" />
 
     </LinearLayout>
-
-    <CheckBox android:id="@+id/check_remember"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/remember" />
-
 </merge>

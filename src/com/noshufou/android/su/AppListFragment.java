@@ -108,7 +108,12 @@ public class AppListFragment extends SherlockListFragment implements LoaderCallb
     
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        ((HomeActivity)getActivity()).showDetails(id);
+    	Cursor c = mAdapter.getCursor();
+    	c.moveToPosition(position);
+        ((HomeActivity)getActivity()).showDetails(
+        		c.getLong(COLUMN_ID),
+        		c.getInt(COLUMN_UID),
+        		c.getInt(COLUMN_ALLOW));
     }
 
     private void setupListView() {
@@ -135,7 +140,7 @@ public class AppListFragment extends SherlockListFragment implements LoaderCallb
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), Apps.CONTENT_URI, PROJECTION,
+        return new CursorLoader(getActivity(), Apps.CONTENT_URI_UID_GRP, PROJECTION,
                 Apps.ALLOW + "!=?", new String[] { String.valueOf(Apps.AllowType.ASK) }, null);
     }
 

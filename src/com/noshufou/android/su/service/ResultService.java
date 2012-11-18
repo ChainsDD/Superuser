@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.noshufou.android.su.HomeActivity;
@@ -72,6 +73,7 @@ public class ResultService extends IntentService {
             ensurePrefs();
             int callerUid = intent.getIntExtra(SuRequestReceiver.EXTRA_CALLERUID, 0);
             int allow = intent.getIntExtra(SuRequestReceiver.EXTRA_ALLOW, -1);
+            String cmd = intent.getStringExtra(SuRequestReceiver.EXTRA_CMD);
             long currentTime = System.currentTimeMillis();
 
             long appId = -1;
@@ -83,7 +85,9 @@ public class ResultService extends IntentService {
                     Uri.withAppendedPath(Apps.CONTENT_URI,
                             "uid/" + callerUid),
                     PROJECTION,
-                    null, null, null);
+                    Apps.EXEC_CMD + "=?",
+                    new String[] { cmd },
+                    null);
             if (c != null && c.moveToFirst()) {
                 appId = c.getLong(COLUMN_ID);
                 appNotify = c.getString(COLUMN_NOTIFICATIONS);
@@ -97,8 +101,8 @@ public class ResultService extends IntentService {
 
             sendNotification(appId, callerUid, allow, currentTime, appNotify);
             addLog(appId, callerUid, intent.getIntExtra(SuRequestReceiver.EXTRA_UID, 0),
-                    intent.getStringExtra(SuRequestReceiver.EXTRA_CMD), allow, currentTime,
-                    appLog);
+                    cmd, allow, currentTime,
+                    appLog, intent.getIntExtra("all", 0));
             // No break statement here so that we can fall through and recycle the log
         case ACTION_RECYCLE:
             recycle();
@@ -165,7 +169,7 @@ public class ResultService extends IntentService {
     }
     
     private void addLog(long appId, int callerUid, int execUid, String execCmd, int allow,
-            long currentTime, String appLog) {
+            long currentTime, String appLog, int all) {
         // Check to see if we should log
         if ((appLog == null && !mLog) ||
                 (appLog != null && appLog.equals("0")) ||
@@ -181,7 +185,7 @@ public class ResultService extends IntentService {
             values.put(Apps.NAME, Util.getAppName(this, callerUid, false));
             values.put(Apps.EXEC_UID, execUid);
             values.put(Apps.EXEC_CMD, execCmd);
-            values.put(Apps.ALLOW, Apps.AllowType.ASK);
+            values.put(Apps.ALLOW, all == 0?Apps.AllowType.ASK:allow);
             appId = Long.parseLong(getContentResolver().insert(Apps.CONTENT_URI, values)
                     .getLastPathSegment());
         }

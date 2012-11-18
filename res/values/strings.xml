@@ -58,6 +58,7 @@
     <string name="set">Set</string>
     <string name="remember">Remember</string>
     <string name="remember_disabled">Remembering disabled until su is updated</string>
+    <string name="any">Apply to any commands from this app</string>
     <string name="request">%1$s as %2$s (uid: %3$d)</string>
     <string name="unknown">Unknown name</string>
 

@@ -16,9 +16,9 @@
 
 package com.noshufou.android.su;
 
-import com.noshufou.android.su.preferences.Preferences;
-import com.noshufou.android.su.provider.PermissionsProvider.Apps;
-import com.noshufou.android.su.util.Util;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -54,9 +54,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.provider.PermissionsProvider.Apps;
+import com.noshufou.android.su.util.Util;
 
 public class SuRequestActivity extends Activity implements OnClickListener {
     private static final String TAG = "Su.SuRequestActivity";
@@ -75,6 +75,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
     private NfcAdapter mNfcAdapter = null;
 
     private CheckBox mRememberCheckBox;
+    private CheckBox mAnyCheckBox;
     private EditText mPinText;
     private ViewFlipper mFlipper;
     private TextView mMoreInfo;
@@ -168,6 +169,9 @@ public class SuRequestActivity extends Activity implements OnClickListener {
 
         mRememberCheckBox = (CheckBox) findViewById(R.id.check_remember);
         mRememberCheckBox.setChecked(mPrefs.getBoolean("last_remember_value", true));
+        
+        mAnyCheckBox = (CheckBox) findViewById(R.id.check_any);
+        mAnyCheckBox.setChecked(mPrefs.getBoolean("last_any_value", true));
 
         mFlipper = (ViewFlipper) findViewById(R.id.flipper);
         mMoreInfo = (TextView)findViewById(R.id.more_info);
@@ -317,6 +321,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
     private void sendResult(boolean allow, boolean remember) {
         String resultCode = allow ? "ALLOW" : "DENY";
         resultCode = mFromSocket ? "socket:" + resultCode : resultCode;
+        int allowInt = allow?Apps.AllowType.ALLOW:Apps.AllowType.DENY;
 
         if (remember) {
             ContentValues values = new ContentValues();
@@ -325,12 +330,18 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             values.put(Apps.NAME, Util.getAppName(this, mCallerUid, false));
             values.put(Apps.EXEC_UID, mDesiredUid);
             values.put(Apps.EXEC_CMD, mDesiredCmd);
-            values.put(Apps.ALLOW, allow?Apps.AllowType.ALLOW:Apps.AllowType.DENY);
+            values.put(Apps.ALLOW, allowInt);
             getContentResolver().insert(Apps.CONTENT_URI, values);
+            
+            if (mAnyCheckBox.isChecked()) {
+            	Util.writeStoreFile(this, mCallerUid, mDesiredUid, "any",
+            			allowInt);
+            }
         }
 
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putBoolean("last_remember_value", mRememberCheckBox.isChecked());
+        editor.putBoolean("last_any_value", mAnyCheckBox.isChecked());
         
         int timeout = mPrefs.getInt(Preferences.TIMEOUT, 0);
         if (timeout > 0 && allow) {

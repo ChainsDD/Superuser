@@ -40,11 +40,16 @@
 
     <include layout="@layout/request_details" />
 
-    <include layout="@layout/pin_layout" />
-
+    <CheckBox android:id="@+id/check_any"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/any" />
+    
     <CheckBox android:id="@+id/check_remember"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/remember" />
+
+    <include layout="@layout/pin_layout" />
 
 </LinearLayout>

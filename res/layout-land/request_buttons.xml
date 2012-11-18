@@ -36,11 +36,5 @@
             android:ellipsize="none"
             android:text="@string/deny" />
 
-        <CheckBox android:id="@+id/check_remember"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/remember" />
-
     </LinearLayout>
 </merge>

@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,13 +31,14 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,9 +46,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -60,7 +60,6 @@ import com.noshufou.android.su.UpdaterActivity;
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.preferences.PreferencesActivity;
 import com.noshufou.android.su.preferences.PreferencesActivityHC;
-import com.noshufou.android.su.provider.PermissionsProvider.Apps;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps.AllowType;
 import com.noshufou.android.su.service.UpdaterService;
 
@@ -788,56 +787,99 @@ public class Util {
         return output;
     }
 
-    public static boolean writeStoreFile(Context context, int uid, int execUid) {
-        File storedDir = new File(context.getFilesDir().getAbsolutePath() + File.separator + "stored");
-        storedDir.mkdirs();
-        String fileName = uid + "-" + execUid;
-        ContentResolver cr = context.getContentResolver();
-        Cursor c = cr.query(Uri.withAppendedPath(Apps.CONTENT_URI, "uid/" + uid),
-        		new String[] { Apps.EXEC_CMD, Apps.ALLOW },
-        		Apps.EXEC_UID + "=?",
-        		new String[] { String.valueOf(execUid) },
-        		null);
-        try {
-            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(
-                    new File(storedDir.getAbsolutePath() + File.separator + fileName)));
-            if (c.getCount() != 0) {
-            	while (c.moveToNext()) {
-            		String cmd = c.getString(c.getColumnIndex(Apps.EXEC_CMD));
-            		if (cmd == null) break;
-            		switch (c.getInt(c.getColumnIndex(Apps.ALLOW))) {
-            		case AllowType.ALLOW:
-            			out.write("allow\n");
-            			break;
-            		case AllowType.DENY:
-            			out.write("deny\n");
-            			break;
-            		default:
-            			out.write("prompt\n");
-            		}
-            		cmd = cmd.replaceAll("\\n", "; ");
-            		out.write(c.getString(c.getColumnIndex(Apps.EXEC_CMD)));
-            		out.write('\n');
-            	}
-            } else {
-                File file = new File(context.getFilesDir().getAbsolutePath() + "/stored/" +
-                        uid + "-" + execUid);
-                file.delete();
-            }
-            out.flush();
-            out.close();
-        } catch (FileNotFoundException e) {
-            Log.w(TAG, "Store file not written", e);
-            return false;
-        } catch (IOException e) {
-            Log.w(TAG, "Store file not written", e);
-            return false;
-        } finally {
-        	c.close();
-        }
-        return true;
+    public static boolean writeStoreFile(Context context, int uid, int execUid, String cmd, int allow) {
+    	File storeFile = getStoreFile(context, uid, execUid);
+    	if (storeFile.exists()) {
+    		return appendStoreFile(storeFile, cmd, allow);
+    	} else {
+    		HashMap<String, String> cmds = new HashMap<String, String>(1);
+    		cmds.put(cmd, getAllowString(allow));
+    		return writeStoreFile(storeFile, cmds);
+    	}
     }
     
+    public static boolean deleteStoreFile(Context context, int uid, int execUid, String cmd) {
+    	File storeFile = getStoreFile(context, uid, execUid);
+    	if (!storeFile.exists()) return true;
+    	HashMap<String, String> cmds = readStoreFile(storeFile);
+    	cmds.remove(cmd);
+    	if (cmds.isEmpty() || cmds.containsKey("any")) {
+    		return storeFile.delete();
+    	} else {
+    		return writeStoreFile(storeFile, cmds);
+    	}
+    }
+    
+    private static String getAllowString(int allow) {
+    	switch (allow) {
+    	case AllowType.ALLOW:
+    		return "allow";
+    	case AllowType.DENY:
+    		return "deny";
+    	default:
+    		return "prompt";
+    	}
+    }
+    
+    private static File getStoreFile(Context context, int uid, int execUid) {
+    	File storedDir = new File(context.getFilesDir().getAbsolutePath() + File.separator + "stored");
+    	storedDir.mkdirs();
+    	String fileName = uid + "-" + execUid;
+    	return new File(storedDir, fileName);
+    }
+    
+    private static boolean writeStoreFile(File storeFile, HashMap<String, String> cmds) {
+    	try {
+			OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(storeFile));
+			if (cmds.containsKey("any")) {
+				out.write(cmds.get("any") + '\n');
+				out.write("any\n");
+			} else {
+				for (Map.Entry<String, String> entry : cmds.entrySet()) {
+					out.write(entry.getValue() + '\n');
+					out.write(entry.getKey() + '\n');
+				}
+			}
+			out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+    	return true;
+    }
+    
+    private static boolean appendStoreFile(File storeFile, String cmd, int allow) {
+    	HashMap<String, String> cmds = readStoreFile(storeFile);
+    	cmds.put(cmd, getAllowString(allow));
+    	writeStoreFile(storeFile, cmds);
+    	return true;
+    }
+    
+    private static HashMap<String, String> readStoreFile(File storeFile) {
+    	try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(new DataInputStream(
+					new FileInputStream(storeFile))));
+			HashMap<String, String> cmds = new HashMap<String, String>();
+			String allow, cmd;
+			while ((allow = br.readLine()) != null && (cmd = br.readLine()) != null) {
+				cmds.put(cmd, allow);
+			}
+			br.close();
+			return cmds;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
+    }
+
     public static boolean writeDefaultStoreFile(Context context) {
         File storedDir = new File(context.getFilesDir().getAbsolutePath() + File.separator + "stored");
         storedDir.mkdirs();
