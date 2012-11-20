@@ -73,4 +73,16 @@
         <item>17</item>
         <item>80</item>
     </string-array>
+    
+    <string-array name="pref_user_mode_entries">
+        <item>Owner only</item>
+        <item>Owner controlled</item>
+        <item>User controlled</item>
+    </string-array>
+    <!-- Do not translate -->
+    <string-array name="pref_user_mode_values">
+        <item>owner_only</item>
+        <item>owner</item>
+        <item>user</item>
+    </string-array>
 </resources>

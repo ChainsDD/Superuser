@@ -124,6 +124,7 @@
 
     <string name="pref_title">Preferences</string>
     <string name="pref_category_security">Security</string>
+    <string name="pref_user_mode_title">Multi-user mode</string>
     <string name="pref_pin_title">Use PIN</string>
     <string name="pref_change_pin_title">Change PIN</string>
     <string name="pref_timeout_title">Access timeout</string>

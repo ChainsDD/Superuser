@@ -3,7 +3,8 @@ package com.noshufou.android.su.preferences;
 
 public class Preferences {
     
-    public static final String PIN = "pref_pin";
+    public static final String USER_MODE = "pref_user_mode";
+	public static final String PIN = "pref_pin";
     public static final String CHANGE_PIN = "pref_change_pin";
     public static final String TIMEOUT = "pref_timeout";
     public static final String AUTOMATIC_ACTION = "pref_automatic_action";

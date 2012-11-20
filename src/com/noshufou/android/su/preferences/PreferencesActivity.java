@@ -23,7 +23,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -31,7 +30,6 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.widget.Toast;
@@ -42,15 +40,12 @@ import com.actionbarsherlock.view.Window;
 import com.noshufou.android.su.PinActivity;
 import com.noshufou.android.su.R;
 import com.noshufou.android.su.TagWriterActivity;
-import com.noshufou.android.su.UpdaterActivity;
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
 import com.noshufou.android.su.service.ResultService;
 import com.noshufou.android.su.service.UpdaterService;
 import com.noshufou.android.su.util.BackupUtil;
 import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.util.Util.VersionInfo;
 import com.noshufou.android.su.widget.AncientNumberPickerDialog;
-import com.noshufou.android.su.widget.ChangeLog;
 
 public class PreferencesActivity extends SherlockPreferenceActivity
 implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
@@ -71,6 +66,7 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
     private CheckBoxPreference mPin = null;
     private CheckBoxPreference mGhostMode = null;
     private Preference mSecretCode = null;
+    private Preference mUserMode = null;
     
     private Context mContext;
     private boolean mElite = false;
@@ -130,6 +126,11 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
         }
         
         mClearLog = prefScreen.findPreference(Preferences.CLEAR_LOG);
+        mUserMode = findPreference(Preferences.USER_MODE); 
+        if (!Util.isUserOwner(this) && mUserMode != null) {
+        	mUserMode.setEnabled(false);
+        }
+
     }
 
     @Override
@@ -285,6 +286,8 @@ implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
                     .getString(Preferences.NOTIFICATION_TYPE, "toast").equals("toast"));
         } else if (key.equals(Preferences.AUTOMATIC_ACTION)) {
             Util.writeDefaultStoreFile(this);
+        } else if (key.equals(Preferences.USER_MODE)) {
+        	Util.writeOptionsFile(this);
         }
     }
 

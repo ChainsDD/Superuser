@@ -901,4 +901,42 @@ public class Util {
         }
         return true;
     }
+    
+    public static boolean writeOptionsFile(Context context) {
+        File storedDir = new File(context.getFilesDir().getAbsolutePath() + File.separator + "stored");
+        storedDir.mkdirs();
+        File optFile = new File(storedDir.getAbsolutePath() + File.separator + "options");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String ownerMode = prefs.getString(Preferences.USER_MODE, "owner_only");
+        try {
+            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(optFile.getAbsolutePath()));
+            out.write(ownerMode);
+            out.write("\n");
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            Log.w(TAG, "Options file not written", e);
+            return false;
+        } catch (IOException e) {
+            Log.w(TAG, "Options file not written", e);
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean isUserOwner(Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+			ApplicationInfo ai = pm.getApplicationInfo(context.getPackageName(), 0);
+			if (ai.uid < 99999) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (NameNotFoundException e) {
+			Log.e(TAG, "Divided by zero...");
+			return false;
+		}
+    }
+    
 }

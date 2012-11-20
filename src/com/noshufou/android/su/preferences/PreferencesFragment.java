@@ -37,6 +37,7 @@ public class PreferencesFragment extends PreferenceFragment
 
     private CheckBoxPreference mPin = null;
     private CheckBoxPreference mGhostMode = null;
+    private Preference mUserMode = null;
     private Preference mSecretCode = null;
     private PreferenceEnabler mEnabler = null;
 
@@ -110,6 +111,11 @@ public class PreferencesFragment extends PreferenceFragment
             mSecretCode.setSummary(getString(R.string.pref_secret_code_summary,
                     mPrefs.getString(Preferences.SECRET_CODE, "787378737")));
 //        mToastLocation = findPreference(Preferences.TOAST_LOCATION);
+        
+        mUserMode = findPreference(Preferences.USER_MODE); 
+        if (!Util.isUserOwner(getActivity()) && mUserMode != null) {
+        	mUserMode.setEnabled(false);
+        }
 
         updateTimeout(mPrefs.getInt(Preferences.TIMEOUT, 0));
         updateLogLimit(mPrefs.getInt(Preferences.LOG_ENTRY_LIMIT, 200));
@@ -247,6 +253,8 @@ public class PreferencesFragment extends PreferenceFragment
             setDepsNfc(sharedPreferences.getBoolean(Preferences.PIN, false));
         } else if (key.equals(Preferences.AUTOMATIC_ACTION)) {
             Util.writeDefaultStoreFile(getActivity());
+        } else if (key.equals(Preferences.USER_MODE)) {
+        	Util.writeOptionsFile(getActivity());
         }
     }
 

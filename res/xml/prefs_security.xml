@@ -16,6 +16,13 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
+        <ListPreference
+            android:defaultValue="owner_only"
+            android:key="pref_user_mode"
+            android:title="@string/pref_user_mode_title"
+            android:entries="@array/pref_user_mode_entries"
+            android:entryValues="@array/pref_user_mode_values" />
+    
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="pref_pin"
