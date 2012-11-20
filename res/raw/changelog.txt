@@ -24,6 +24,14 @@
   </head>
 
   <body>
+$ 50
+  %3.3
+  _2012-11-20
+  * Multi-user support with 3 modes
+  * Support for apps that use multiple commands
+  * Fix for Android 4.2
+  * Other bugfixes
+
 $ 47
   %3.2
   _2012-07
